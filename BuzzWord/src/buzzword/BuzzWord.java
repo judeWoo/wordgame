@@ -2,7 +2,6 @@ package buzzword;
 
 import buzzwordui.Gameplay;
 import buzzwordui.Home;
-import buzzwordui.LoginPage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import wgtemplate.WGTemplate;
@@ -16,9 +15,11 @@ public class BuzzWord extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       // Gameplay ws = new Gameplay(primaryStage, "Godje",app, 800, 550);
+        //Gameplay ws = new Gameplay(primaryStage, "Godje",app, 800, 550);
        // LoginPage loginPage = new LoginPage();
         Home home = new Home(primaryStage, "Godje",app, 800, 550);
+
+
     }
 
     public static void main(String[] args) {

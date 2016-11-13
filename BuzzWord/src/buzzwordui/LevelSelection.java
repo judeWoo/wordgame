@@ -13,4 +13,9 @@ public class LevelSelection extends WGGUI{
     public LevelSelection(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
     }
+
+    public  void  layoutGUI(){
+        home.setVisible(true);
+
+    }
 }
