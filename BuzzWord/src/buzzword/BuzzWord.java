@@ -1,6 +1,5 @@
 package buzzword;
 
-import buzzwordui.Gameplay;
 import buzzwordui.Home;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,7 +17,6 @@ public class BuzzWord extends Application{
         //Gameplay ws = new Gameplay(primaryStage, "Godje",app, 800, 550);
        // LoginPage loginPage = new LoginPage();
         Home home = new Home(primaryStage, "Godje",app, 800, 550);
-
 
     }
 

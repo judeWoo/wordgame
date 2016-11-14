@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -23,17 +24,6 @@ import java.io.IOException;
 public class Gameplay extends WGGUI{
 
     WGTemplate wgTemplate;
-    Label   timerLabel;
-    Label   wordLabel;
-    TableView<String>   scoringTable;
-    ScrollPane  scroingTablePane;
-    VBox    scoreBox;
-    HBox    totalBox;
-    Label   totalLable;
-    Label   totalScoreLable;
-    VBox    targetBox;
-    Label   targetLable;
-    Label   targetPointsLable;
 
 
     private static final DropShadow highlight =
@@ -42,52 +32,37 @@ public class Gameplay extends WGGUI{
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         this.wgTemplate = appTemplate;
+    }
+
+    public Gameplay(){
         layoutGUI();
+        initGrid();
+        showLines();
     }
 
     public void layoutGUI(){
-        timerLabel = new Label("<u>Time Remaining</u>: 40 seconds");
         //  timerLabel.textProperty().bind(valueProperty);
-
-        topBottomBox.getChildren().add(timerLabel);
-
-        wordLabel = new Label("B U");
-        //  timerLabel.textProperty().bind(valueProperty);
-
-        scoringTable = new TableView<>();
-        scoringTable.setEditable(true);
-        TableColumn words = new TableColumn("Words");
-        TableColumn score = new TableColumn("Score");
-        scoringTable.getColumns().addAll(words, score);
-        scoringTable.setMaxSize(100, 300);
-        scoringTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        scroingTablePane = new ScrollPane();
-        scroingTablePane.setContent(scoringTable);
-        scroingTablePane.setMaxSize(110, 300);
-        scroingTablePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scroingTablePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        totalLable = new Label("TOTAL");
-
-        totalScoreLable = new Label("40");
-
-        totalBox = new HBox();
-        totalBox.getChildren().addAll(totalLable, totalScoreLable);
-
-        scoreBox = new VBox();
-        scoreBox.getChildren().addAll(scroingTablePane,totalBox);
-
-        targetLable = new Label("Target");
-
-        targetPointsLable = new Label("75 points");
-
-        targetBox = new VBox();
-        targetBox.getChildren().addAll(targetLable, targetPointsLable);
-
-
-        rightBox.getChildren().addAll(wordLabel,scoreBox,targetBox);
-
+        levelLabel.setVisible(true);
+        scroingTablePane.setVisible(true);
+        totalScoreLable.setVisible(true);
+        timeLabel.setVisible(true);
+        remainingLabel.setVisible(true);
+        totalLable.setVisible(true);
+        wordLabel.setVisible(true);
     }
+
+    public void showLines(){
+        for (int i = 0; i < 3; i++) {
+            for (int j=0; j <4; j++){
+                vLettersLines[i][j].setVisible(true);
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j=0; j <3; j++){
+                hLettersLines[i][j].setVisible(true);
+            }
+        }
+    }
+
 
 }

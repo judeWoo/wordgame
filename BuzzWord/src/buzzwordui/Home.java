@@ -12,11 +12,17 @@ import java.io.IOException;
  * Created by Jude Hokyoon Woo on 11/9/2016.
  */
 public class Home extends WGGUI{
-    WGTemplate wgTemplate;
+
+    Gameplay gameplay;
 
     public Home(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         layoutGUI();
+    }
+
+    public Home(){
+        layoutGUI();
+        initGamePlay();
     }
 
     public void layoutGUI(){
@@ -25,5 +31,9 @@ public class Home extends WGGUI{
         login.setOnMouseClicked(event -> {
             new LoginPage();
         });
+        start.setOnMouseClicked(event -> {
+            new LevelSelection();
+        });
     }
+
 }
