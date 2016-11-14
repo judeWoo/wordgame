@@ -25,10 +25,6 @@ public class Gameplay extends WGGUI{
 
     WGTemplate wgTemplate;
 
-
-    private static final DropShadow highlight =
-            new DropShadow(20, Color.GOLDENROD);
-
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         this.wgTemplate = appTemplate;
@@ -38,6 +34,7 @@ public class Gameplay extends WGGUI{
         layoutGUI();
         initGrid();
         showLines();
+        setHighlight();
     }
 
     public void layoutGUI(){
@@ -49,6 +46,17 @@ public class Gameplay extends WGGUI{
         remainingLabel.setVisible(true);
         totalLable.setVisible(true);
         wordLabel.setVisible(true);
+        bottomPlayButton.setVisible(true);
+        targetLable.setVisible(true);
+        targetPointsLable.setVisible(true);
+        bottomPlayButton.setOnMouseClicked(event -> {
+            pauseButtonPane.setVisible(true);
+            bottomPlayButton.setVisible(false);
+        });
+        pauseButtonPane.setOnMouseClicked(event -> {
+            pauseButtonPane.setVisible(false);
+            bottomPlayButton.setVisible(true);
+        });
     }
 
     public void showLines(){
@@ -64,5 +72,9 @@ public class Gameplay extends WGGUI{
         }
     }
 
+    public void setHighlight(){
+        gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        vLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
+    }
 
 }

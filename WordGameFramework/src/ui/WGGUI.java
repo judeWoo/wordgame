@@ -12,6 +12,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import wgcomponents.WGStyle;
@@ -43,6 +44,7 @@ public class WGGUI implements WGStyle {
     protected StackPane bottomPane;
     protected VBox    scoreBox;
     protected HBox    totalBox;
+    protected static Pane   arrowPane;
     protected static ScrollPane scroingTablePane;
     protected static Label remainingLabel;
     protected static Label timeLabel;
@@ -76,7 +78,7 @@ public class WGGUI implements WGStyle {
     private int appSpecificWindowHeight; // optional parameter for window height that can be set by the application
 
     private static final DropShadow highlight =
-            new DropShadow(20, Color.GOLDENROD);
+            new DropShadow(40, Color.LIMEGREEN);
 
     public WGGUI(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         this.appSpecificWindowWidth = appSpecificWindowWidth;
@@ -125,6 +127,7 @@ public class WGGUI implements WGStyle {
         bottomPane = new StackPane();
         bottomPane.setMaxSize(50, 50);
         bottomPane.getChildren().addAll(bottomPlayButton, pauseButtonPane);
+        bottomPlayButton.setVisible(false);
         pauseButtonPane.setVisible(false);
 
         topBottomBox = new HBox();
@@ -186,8 +189,13 @@ public class WGGUI implements WGStyle {
         timeLabel.setVisible(false);
         timeLabel.setId("timer");
 
-        topBottomBox.getChildren().addAll(modeLabel, remainingLabel, timeLabel);
+        Pane emptyBox = new Pane();
+        emptyBox.setMinWidth(150);
+
+        topBottomBox.getChildren().addAll(modeLabel, emptyBox, remainingLabel, timeLabel);
         topBottomBox.setSpacing(10);
+        topBottomBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        topBottomBox.setAlignment(Pos.TOP_RIGHT);
 
         topBox = new VBox();
         topBox.getChildren().addAll(exitPane, guiHeadingLabel, topBottomBox);
@@ -199,9 +207,13 @@ public class WGGUI implements WGStyle {
         createProfile = new Button("Create Profile");
         createProfile.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
+        arrowPane = new Pane();
+        arrowPane.setMaxSize(Double.MAX_VALUE, 30);
+        arrowPane.setStyle("-fx-background-color: #FFFFFF;");
+
         createProfilePane = new StackPane();
         createProfilePane.setMaxSize(Double.MAX_VALUE, 30);
-        createProfilePane.getChildren().add(createProfile);
+        createProfilePane.getChildren().addAll(createProfile, arrowPane);
 
         login = new Button("Login");
         login.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -229,7 +241,10 @@ public class WGGUI implements WGStyle {
         leftPane.setMaxSize(Double.MAX_VALUE, 30);
         leftPane.getChildren().addAll(login, selectMode, home);
 
-        leftBox.getChildren().addAll(createProfilePane, leftPane, start);
+        Pane emptyPane = new Pane();
+        emptyPane.setMinWidth(200);
+
+        leftBox.getChildren().addAll(createProfile, leftPane, start, emptyPane);
 
         primaryScene = appSpecificWindowWidth < 1 || appSpecificWindowHeight < 1 ? new Scene(basePane)
                 : new Scene(basePane,
@@ -259,20 +274,20 @@ public class WGGUI implements WGStyle {
         vLettersLines = new Line[3][4];
 
         int ySpacing = 40;
-        int initSpacing = 120;
+        int initSpacing = 40;
         int k = 0;
 
         for (int i = 0; i < 4; i++){
             int xRadius = 0;
             for (int j = 0; j < 4; j++) {
                 gameLetters[i][j] = new Circle();
-                gameLettersLabel[i][j] = new Label("7");
+                gameLettersLabel[i][j] = new Label();
                 gameLettersLabel[i][j].setPrefSize(30, 30);
                 gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing-4);
                 gameLettersLabel[i][j].setLayoutY(ySpacing-15);
                 gameLetters[i][j].setRadius(30);
                 gameLetters[i][j].setCenterX(xRadius + initSpacing);
-                gameLetters[i][j].setCenterY(ySpacing);;
+                gameLetters[i][j].setCenterY(ySpacing);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 )");
                 xRadius = xRadius +100;
@@ -375,6 +390,19 @@ public class WGGUI implements WGStyle {
         targetBox.getChildren().addAll(targetLable, targetPointsLable);
 
         rightBox.getChildren().addAll(wordLabel,scoreBox,targetBox);
+
+    }
+
+    public void drawArrow(){
+        Polygon polygon = new Polygon();
+        polygon.setFill(Paint.valueOf("#FFFFFF"));
+        polygon.getPoints().addAll(new Double[]{
+                arrowPane.getMaxWidth()-35, arrowPane.getMaxHeight()-5.0,
+                arrowPane.getMaxWidth()-45, 25.0,
+                arrowPane.getMaxWidth()-35, 45.0
+        });
+        arrowPane.getChildren().add(polygon);
+        Rectangle rectangle = new Rectangle();
 
     }
 

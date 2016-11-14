@@ -16,6 +16,7 @@ public class LevelSelection extends WGGUI{
     }
     public LevelSelection(){
         layoutGUI();
+        hideCircles();
     }
 
     public  void  layoutGUI(){
@@ -25,12 +26,6 @@ public class LevelSelection extends WGGUI{
         });
         int k = 1;
 
-        for (int i=2; i<4; i++){
-            for (int j=0; j<4; j++){
-                gameLetters[i][j].setVisible(false);
-                gameLettersLabel[i][j].setVisible(false);
-            }
-        }
         for (int i=0; i<2; i++){
             for (int j=0; j<4; j++){
                 gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
@@ -39,10 +34,22 @@ public class LevelSelection extends WGGUI{
                 });
                 gameLettersLabel[i][j].setText(""+k);
                 k++;
+                gameLettersLabel[i][j].setOnMouseClicked(event -> {
+                    new Gameplay();
+                });
             }
         }
         start.setVisible(false);
         selectMode.setVisible(false);
         modeLabel.setVisible(true);
+    }
+    public void hideCircles(){
+
+        for (int i=2; i<4; i++){
+            for (int j=0; j<4; j++){
+                gameLetters[i][j].setVisible(false);
+                gameLettersLabel[i][j].setVisible(false);
+            }
+        }
     }
 }

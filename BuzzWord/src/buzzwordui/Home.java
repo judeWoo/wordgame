@@ -1,6 +1,7 @@
 package buzzwordui;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -22,7 +23,18 @@ public class Home extends WGGUI{
 
     public Home(){
         layoutGUI();
-        initGamePlay();
+        hideLines();
+        reinitGrid();
+        levelLabel.setVisible(false);
+        modeLabel.setVisible(false);
+        scroingTablePane.setVisible(false);
+        totalScoreLable.setVisible(false);
+        timeLabel.setVisible(false);
+        remainingLabel.setVisible(false);
+        totalLable.setVisible(false);
+        wordLabel.setVisible(false);
+        bottomPlayButton.setVisible(false);
+        pauseButtonPane.setVisible(false);
     }
 
     public void layoutGUI(){
@@ -32,8 +44,34 @@ public class Home extends WGGUI{
             new LoginPage();
         });
         start.setOnMouseClicked(event -> {
-            new LevelSelection();
+            if (selectMode.getValue().toString() != "Select Mode")
+            {
+                modeLabel.setText(selectMode.getValue().toString());
+                new LevelSelection();
+            }
         });
+    }
+
+    public void hideLines(){
+        for (int i = 0; i < 3; i++) {
+            for (int j=0; j <4; j++){
+                vLettersLines[i][j].setVisible(false);
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j=0; j <3; j++){
+                hLettersLines[i][j].setVisible(false);
+            }
+        }
+    }
+    public void reinitGrid(){
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
+                gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
+                gameLettersLabel[i][j].setText("B");
+            }
+        }
     }
 
 }
