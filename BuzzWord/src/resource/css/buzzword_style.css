@@ -2,10 +2,16 @@
     -fx-text-fill: white;
     -fx-font: 18px "Arial";
 }
-#modelabel{
+#modelabel {
     -fx-text-fill: white;
     -fx-font: 32px "Arial";
 }
+
+#remainingpane {
+    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
+}
+
 .combo-box-base {
     -fx-padding: 0 0 0 8;
     -fx-font-weight: bold;
@@ -24,9 +30,6 @@
     -fx-text-fill: white;
 }
 
-#modelabel {
-
-}
 
 .combo-box-base .arrow-button {
     -fx-background-color: transparent;

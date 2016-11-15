@@ -1,6 +1,9 @@
 package ui;
 
 import com.guigarage.flatterfx.FlatterFX;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -66,7 +69,7 @@ public class WGGUI implements WGStyle {
     protected static Line[][] vLettersLines;
     protected static Label[][] gameLettersLabel;
     protected static Label   wordLabel;
-    protected static TableView<String> scoringTable;
+    protected static TableView scoringTable;
     protected static Label   totalLable;
     protected static Label   totalScoreLable;
     protected static VBox    targetBox;
@@ -91,6 +94,7 @@ public class WGGUI implements WGStyle {
         makeExitButton();
         initGamePlay();
         initLetter();
+        addData();
     }
 
     public WGGUI(){
@@ -134,10 +138,12 @@ public class WGGUI implements WGStyle {
         topBottomBox = new HBox();
 
         modeLabel = new Label("Dictionary");
+        modeLabel.setUnderline(true);
         modeLabel.setVisible(false);
         modeLabel.setId("modelabel");
 
         levelLabel = new Label("Level 4");
+        levelLabel.setUnderline(true);
         levelLabel.setVisible(false);
 
         gamePane = new Pane();
@@ -182,21 +188,30 @@ public class WGGUI implements WGStyle {
         guiHeadingLabel.addEventHandler(MouseEvent.MOUSE_CLICKED , event -> {guiHeadingLabel.setEffect(highlight);});
         guiHeadingLabel.setId("Heading");
 
-        Pane remainingPane = new StackPane();
+        Pane remainingPane = new Pane();
         remainingPane.setMinWidth(100);
-        remainingPane.setStyle("-fx-background-color: #000000;");
+        remainingPane.setStyle("-fx-background-color: #FFFFFF;");
+        remainingPane.setId("remainingpane");
+        remainingPane.setVisible(false);
 
         remainingLabel = new Label("Time Remaining");
+        remainingLabel.setUnderline(true);
         remainingLabel.setVisible(false);
         remainingLabel.setId("remaining");
         remainingPane.getChildren().add(remainingLabel);
 
+        Pane timerPane = new Pane();
+        timerPane.setMinWidth(80);
+        timerPane.setStyle("-fx-background-color: #FFFFFF;");
+        timerPane.setVisible(false);
+
         timeLabel = new Label("40 seconds");
         timeLabel.setVisible(false);
         timeLabel.setId("timer");
+        timerPane.getChildren().add(timeLabel);
 
         Pane emptyBox = new Pane();
-        emptyBox.setMinWidth(25);
+        emptyBox.setMinWidth(45);
 
         Pane modePane = new StackPane();
         modePane.setMinWidth(400);
@@ -204,7 +219,7 @@ public class WGGUI implements WGStyle {
         modePane.getChildren().add(modeLabel);
 
         topBottomBox.getChildren().addAll(modePane, emptyBox, remainingLabel, timeLabel);
-        topBottomBox.setSpacing(10);
+        topBottomBox.setSpacing(0);
         topBottomBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         topBottomBox.setAlignment(Pos.TOP_RIGHT);
 
@@ -425,6 +440,44 @@ public class WGGUI implements WGStyle {
         gameLettersLabel[2][3].setText("O");
         gameLettersLabel[3][2].setText("R");
         gameLettersLabel[3][3].setText("D");
+    }
+
+    public void addData(){
+
+        class Person {
+
+            private final SimpleStringProperty firstName;
+            private final SimpleStringProperty lastName;
+
+            private Person(String fName, String lName) {
+                this.firstName = new SimpleStringProperty(fName);
+                this.lastName = new SimpleStringProperty(lName);
+
+            }
+
+            public String getFirstName() {
+                return firstName.get();
+            }
+
+            public void setFirstName(String fName) {
+                firstName.set(fName);
+            }
+
+            public String getLastName() {
+                return lastName.get();
+            }
+
+            public void setLastName(String fName) {
+                lastName.set(fName);
+            }
+        }
+        final ObservableList<Person> data =
+                FXCollections.observableArrayList(
+                        new Person("WAR", "10"),
+                        new Person("RAW", "10"),
+                        new Person("DRAW", "20")
+                );
+        scoringTable.setItems(data);
     }
 
 }

@@ -25,6 +25,7 @@ public class Home extends WGGUI{
         layoutGUI();
         hideLines();
         reinitGrid();
+        initLetter();
         levelLabel.setVisible(false);
         modeLabel.setVisible(false);
         scroingTablePane.setVisible(false);
@@ -79,7 +80,16 @@ public class Home extends WGGUI{
                 gameLetters[i][j].setVisible(true);
             }
         }
-        super.initLetter();
     }
 
+    @Override
+    public void initLetter() {
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLettersLabel[i][j].setVisible(true);
+                gameLettersLabel[i][j].setText("");
+            }
+        }
+        super.initLetter();
+    }
 }
