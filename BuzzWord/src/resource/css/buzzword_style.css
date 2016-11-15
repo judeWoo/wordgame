@@ -6,6 +6,38 @@
     -fx-text-fill: white;
     -fx-font: 32px "Arial";
 }
+.combo-box-base {
+    -fx-padding: 0 0 0 8;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.3em;
+    -fx-font-family: "Arial";
+    -fx-alignment: center-left;
+    -fx-background-color: transparent, #A294AC, transparent, #A294AC;
+    -fx-font-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-text-fill: white;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: white;
+}
+
+#modelabel {
+
+}
+
+.combo-box-base .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box-base .arrow {
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-background-color: #FFFFFF, #FFFFFF;
+    -fx-padding: 0.7em 0.7em 0.7em 0.7em; /* 2 4 2 4 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
 
 .button {
     -fx-padding: 8 15 15 15;
@@ -18,7 +50,7 @@
     -fx-faint-focus-color : transparent;
     -fx-body-color: "#A294AC";
     -fx-font-weight: bold;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 1.3em;
     -fx-text-fill: white;
     -fx-font-family: "Arial";
     -fx-alignment: center-left;

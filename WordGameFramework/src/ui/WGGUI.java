@@ -90,6 +90,7 @@ public class WGGUI implements WGStyle {
         initGrid();
         makeExitButton();
         initGamePlay();
+        initLetter();
     }
 
     public WGGUI(){
@@ -181,18 +182,28 @@ public class WGGUI implements WGStyle {
         guiHeadingLabel.addEventHandler(MouseEvent.MOUSE_CLICKED , event -> {guiHeadingLabel.setEffect(highlight);});
         guiHeadingLabel.setId("Heading");
 
+        Pane remainingPane = new StackPane();
+        remainingPane.setMinWidth(100);
+        remainingPane.setStyle("-fx-background-color: #000000;");
+
         remainingLabel = new Label("Time Remaining");
         remainingLabel.setVisible(false);
         remainingLabel.setId("remaining");
+        remainingPane.getChildren().add(remainingLabel);
 
         timeLabel = new Label("40 seconds");
         timeLabel.setVisible(false);
         timeLabel.setId("timer");
 
         Pane emptyBox = new Pane();
-        emptyBox.setMinWidth(150);
+        emptyBox.setMinWidth(25);
 
-        topBottomBox.getChildren().addAll(modeLabel, emptyBox, remainingLabel, timeLabel);
+        Pane modePane = new StackPane();
+        modePane.setMinWidth(400);
+        //modePane.setStyle("-fx-background-color: #000000;");
+        modePane.getChildren().add(modeLabel);
+
+        topBottomBox.getChildren().addAll(modePane, emptyBox, remainingLabel, timeLabel);
         topBottomBox.setSpacing(10);
         topBottomBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         topBottomBox.setAlignment(Pos.TOP_RIGHT);
@@ -274,7 +285,7 @@ public class WGGUI implements WGStyle {
         vLettersLines = new Line[3][4];
 
         int ySpacing = 40;
-        int initSpacing = 40;
+        int initSpacing = 50;
         int k = 0;
 
         for (int i = 0; i < 4; i++){
@@ -289,7 +300,7 @@ public class WGGUI implements WGStyle {
                 gameLetters[i][j].setCenterX(xRadius + initSpacing);
                 gameLetters[i][j].setCenterY(ySpacing);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
-                gameLetters[i][j].setStyle("-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 )");
+                gameLetters[i][j].setStyle("-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
                 xRadius = xRadius +100;
             }
             ySpacing = ySpacing +100;
@@ -403,7 +414,17 @@ public class WGGUI implements WGStyle {
         });
         arrowPane.getChildren().add(polygon);
         Rectangle rectangle = new Rectangle();
+    }
 
+    public void initLetter(){
+        gameLettersLabel[0][0].setText("B");
+        gameLettersLabel[0][1].setText("U");
+        gameLettersLabel[1][0].setText("Z");
+        gameLettersLabel[1][1].setText("Z");
+        gameLettersLabel[2][2].setText("W");
+        gameLettersLabel[2][3].setText("O");
+        gameLettersLabel[3][2].setText("R");
+        gameLettersLabel[3][3].setText("D");
     }
 
 }

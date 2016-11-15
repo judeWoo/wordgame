@@ -35,6 +35,8 @@ public class Home extends WGGUI{
         wordLabel.setVisible(false);
         bottomPlayButton.setVisible(false);
         pauseButtonPane.setVisible(false);
+        targetPointsLable.setVisible(false);
+        targetLable.setVisible(false);
     }
 
     public void layoutGUI(){
@@ -50,6 +52,11 @@ public class Home extends WGGUI{
                 new LevelSelection();
             }
         });
+        if (createProfile.getText() != "Create Profile"){
+            login.setVisible(false);
+            selectMode.setVisible(true);
+            start.setVisible(true);
+        }
     }
 
     public void hideLines(){
@@ -69,9 +76,10 @@ public class Home extends WGGUI{
             for (int j=0; j <4; j++) {
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
-                gameLettersLabel[i][j].setText("B");
+                gameLetters[i][j].setVisible(true);
             }
         }
+        super.initLetter();
     }
 
 }

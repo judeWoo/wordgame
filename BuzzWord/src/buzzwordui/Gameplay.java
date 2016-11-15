@@ -35,6 +35,7 @@ public class Gameplay extends WGGUI{
         initGrid();
         showLines();
         setHighlight();
+        initLetter();
     }
 
     public void layoutGUI(){
@@ -77,4 +78,10 @@ public class Gameplay extends WGGUI{
         vLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
     }
 
+    @Override
+    public void initLetter() {
+        super.initLetter();
+        gameLettersLabel[0][2].setText("B");
+        gameLettersLabel[3][1].setText("A");
+    }
 }
