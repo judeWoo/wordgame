@@ -50,6 +50,10 @@ public class Gameplay extends WGGUI{
         bottomPlayButton.setVisible(true);
         targetLable.setVisible(true);
         targetPointsLable.setVisible(true);
+        scoreBarPane.setVisible(true);
+        timeBoxPane.setVisible(true);
+        wordBoxPane.setVisible(true);
+        targetBoxPane.setVisible(true);
         bottomPlayButton.setOnMouseClicked(event -> {
             pauseButtonPane.setVisible(true);
             bottomPlayButton.setVisible(false);
@@ -86,5 +90,11 @@ public class Gameplay extends WGGUI{
         super.initLetter();
         gameLettersLabel[0][2].setText("B");
         gameLettersLabel[3][1].setText("A");
+    }
+
+    @Override
+    public void drawScoreBox() {
+        super.drawScoreBox();
+
     }
 }

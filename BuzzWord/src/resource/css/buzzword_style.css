@@ -17,6 +17,16 @@
     -fx-font: 18px "Arial";
 }
 
+.label {
+    -fx-text-fill: white;
+    -fx-font: 14px "Arial";
+}
+
+.pane {
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+}
+
 .combo-box-base {
     -fx-padding: 0 0 0 8;
     -fx-font-weight: bold;
