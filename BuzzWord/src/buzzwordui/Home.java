@@ -1,7 +1,13 @@
 package buzzwordui;
 
+import javafx.geometry.Orientation;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -19,6 +25,7 @@ public class Home extends WGGUI{
     public Home(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         layoutGUI();
+        drawScoreBox();
     }
 
     public Home(){
@@ -28,11 +35,8 @@ public class Home extends WGGUI{
         initLetter();
         levelLabel.setVisible(false);
         modeLabel.setVisible(false);
-        scroingTablePane.setVisible(false);
-        totalScoreLable.setVisible(false);
         timeLabel.setVisible(false);
         remainingLabel.setVisible(false);
-        totalLable.setVisible(false);
         wordLabel.setVisible(false);
         bottomPlayButton.setVisible(false);
         pauseButtonPane.setVisible(false);
@@ -91,5 +95,36 @@ public class Home extends WGGUI{
             }
         }
         super.initLetter();
+    }
+
+    public void drawScoreBox(){
+        HBox scoreBoardBox = new HBox();
+        VBox scoreLeftBox = new VBox();
+        scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        VBox scoreRightBox = new VBox();
+        scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        Label label = new Label();
+        label.setPrefSize(105, 150);
+        label.setStyle("-fx-background-color: #979CA9;");
+        Label label1 = new Label();
+        label1.setPrefSize(30, 150);
+        label1.setStyle("-fx-background-color: #979CA9;");
+        Label label2 = new Label("Total");
+        label2.setPrefSize(105, 30);
+        label2.setStyle("-fx-background-color: #8F94A1;");
+        scoreLeftBox.getChildren().addAll(label, label2);
+        scoreRightBox.getChildren().add(label1);
+        scoreBoardBox.getChildren().addAll(scoreLeftBox, scoreRightBox);
+        ScrollPane scoreBar = new ScrollPane();
+        scoreBar.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scoreBar.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scoreBar.setContent(scoreBoardBox);
+        Pane emptyBox = new Pane();
+        emptyBox.setPrefSize(30, 30);
+        Pane scoreBarPane = new HBox();
+        scoreBarPane.getChildren().addAll(emptyBox, scoreBar);
+        rightBox.getChildren().addAll(scoreBarPane);
     }
 }

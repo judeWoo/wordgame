@@ -44,11 +44,8 @@ public class Gameplay extends WGGUI{
     public void layoutGUI(){
         //  timerLabel.textProperty().bind(valueProperty);
         levelLabel.setVisible(true);
-        scroingTablePane.setVisible(true);
-        totalScoreLable.setVisible(true);
         timeLabel.setVisible(true);
         remainingLabel.setVisible(true);
-        totalLable.setVisible(true);
         wordLabel.setVisible(true);
         bottomPlayButton.setVisible(true);
         targetLable.setVisible(true);
@@ -78,7 +75,10 @@ public class Gameplay extends WGGUI{
 
     public void setHighlight(){
         gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        vLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
+        gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
+        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
     }
 
     @Override
