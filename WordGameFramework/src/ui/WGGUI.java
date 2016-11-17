@@ -4,6 +4,7 @@ import com.guigarage.flatterfx.FlatterFX;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import javafx.stage.StageStyle;
 import wgcomponents.WGStyle;
 import wgtemplate.WGTemplate;
 
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -28,54 +30,54 @@ import java.io.IOException;
  */
 public class WGGUI implements WGStyle {
 
-    protected Stage     primaryStage;     // the application window
-    protected Scene     primaryScene;     // the scene graph
+    protected Stage primaryStage;     // the application window
+    protected Scene primaryScene;     // the scene graph
     protected BorderPane appPane;          // the root node in the scene graph, to organize the containers
     protected StackPane basePane;          // base pane that merges the basic paintings.
-    protected HBox      baseBox;            //where appPane lies
-    protected Label     baseLeftLabel;       //base Label
-    protected Label     baseRightLabel;      //base Label
-    protected VBox      centerBox;
-    protected VBox      leftBox;
-    protected VBox      bottomBox;
-    protected String    applicationTitle;   //application Title
-    protected Label     guiHeadingLabel;   // workspace (GUI) heading label
-    protected VBox      topBox;          // conatainer to display the heading
+    protected HBox baseBox;            //where appPane lies
+    protected Label baseLeftLabel;       //base Label
+    protected Label baseRightLabel;      //base Label
+    protected VBox centerBox;
+    protected VBox leftBox;
+    protected VBox bottomBox;
+    protected String applicationTitle;   //application Title
+    protected Label guiHeadingLabel;   // workspace (GUI) heading label
+    protected VBox topBox;          // conatainer to display the heading
     protected StackPane leftPane;
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
-    protected VBox    scoreBox;
-    protected HBox    totalBox;
-    protected static Pane   arrowPane;
-    protected static ScrollPane scroingTablePane;
+    protected static Pane wordBoxPane;
+    protected static HBox wordBox;
+    protected static Pane timeBoxPane;
+    protected static HBox timeBox;
+    protected static Pane arrowPane;
     protected static Label remainingLabel;
     protected static Label timeLabel;
-    protected static Pane  pauseButtonPane;
+    protected static Pane pauseButtonPane;
     protected static Line[] bottomPauseButton;
     protected static Polygon bottomPlayButton;
     protected static Pane gamePane;
-    protected static VBox      rightBox;
-    protected static HBox      topBottomBox;
-    protected static Label     modeLabel;
-    protected static Label     levelLabel;
+    protected static VBox rightBox;
+    protected static HBox topBottomBox;
+    protected static Label modeLabel;
+    protected static Label levelLabel;
     protected static Button createProfile;
-    protected static Button    login;
-    protected static Button    start;
-    protected static Button    home;
-    protected static ComboBox  selectMode;
+    protected static Button login;
+    protected static Button start;
+    protected static Button home;
+    protected static ComboBox selectMode;
     protected static Circle[][] gameLetters; // circle labeled letters on the grid
     protected static Line[][] hLettersLines;
     protected static Line[][] vLettersLines;
     protected static Label[][] gameLettersLabel;
-    protected static Label   wordLabel;
-    protected static TableView scoringTable;
-    protected static Label   totalLable;
-    protected static Label   totalScoreLable;
-    protected static VBox    targetBox;
-    protected static Label   targetLable;
-    protected static Label   targetPointsLable;
-
+    protected static Label wordLabel;
+    protected static Label totalLable;
+    protected static Label totalScoreLable;
+    protected static VBox targetBox;
+    protected static Pane targetBoxPane;
+    protected static Label targetLable;
+    protected static Label targetPointsLable;
 
     private int appSpecificWindowWidth;  // optional parameter for window width that can be set by the application
     private int appSpecificWindowHeight; // optional parameter for window height that can be set by the application
@@ -94,43 +96,43 @@ public class WGGUI implements WGStyle {
         makeExitButton();
         initGamePlay();
         initLetter();
-        addData();
+        drawArrow();
     }
 
-    public WGGUI(){
+    public WGGUI() {
 
     }
 
-    public void initializeWindow(){
+    public void initializeWindow() {
         primaryStage.setTitle(applicationTitle);
 
         bottomPlayButton = new Polygon();
         bottomPlayButton.setFill(Paint.valueOf("#FFFFFF"));
         bottomPlayButton.getPoints().addAll(new Double[]{
                 5.0, 5.0,
-                5.0, 45.0,
-                45.0, 25.0
+                5.0, 35.0,
+                45.0, 20.0
         });
         bottomPlayButton.setId("bottom-button");
 
         bottomPauseButton = new Line[2];
 
         pauseButtonPane = new Pane();
-        pauseButtonPane.setMaxSize(50, 50);
+        pauseButtonPane.setPrefSize(40, 40);
 
-        for (int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             bottomPauseButton[i] = new Line();
             bottomPauseButton[i].setStrokeWidth(10);
             bottomPauseButton[i].setStroke(Paint.valueOf("#FFFFFF"));
-            bottomPauseButton[i].setStartX(15+i*15);
-            bottomPauseButton[i].setStartY(0);
-            bottomPauseButton[i].setEndX(15+i*15);
-            bottomPauseButton[i].setEndY(35);
+            bottomPauseButton[i].setStartX(10 + i * 15);
+            bottomPauseButton[i].setStartY(5);
+            bottomPauseButton[i].setEndX(10 + i * 15);
+            bottomPauseButton[i].setEndY(30);
             pauseButtonPane.getChildren().add(bottomPauseButton[i]);
         }
 
         bottomPane = new StackPane();
-        bottomPane.setMaxSize(50, 50);
+        bottomPane.setMaxSize(40, 40);
         bottomPane.getChildren().addAll(bottomPlayButton, pauseButtonPane);
         bottomPlayButton.setVisible(false);
         pauseButtonPane.setVisible(false);
@@ -144,6 +146,7 @@ public class WGGUI implements WGStyle {
 
         levelLabel = new Label("Level 4");
         levelLabel.setUnderline(true);
+        levelLabel.setId("level");
         levelLabel.setVisible(false);
 
         gamePane = new Pane();
@@ -155,19 +158,21 @@ public class WGGUI implements WGStyle {
 
         leftBox = new VBox();
         leftBox.setSpacing(10);
-        leftBox.setMaxWidth(200);
+        leftBox.setPrefWidth(200);
         leftBox.setAlignment(Pos.TOP_CENTER);
 
         rightBox = new VBox();
         rightBox.setSpacing(10);
-        rightBox.setAlignment(Pos.TOP_RIGHT);
+        rightBox.setPrefWidth(200);
+        rightBox.setAlignment(Pos.TOP_LEFT);
 
         bottomBox = new VBox();
-        bottomBox.setSpacing(10);
+        bottomBox.setSpacing(5);
         bottomBox.setAlignment(Pos.TOP_CENTER);
         bottomBox.getChildren().addAll(levelLabel, bottomPane);
 
         appPane = new BorderPane();
+        appPane.setPrefSize(800, 550);
         appPane.setLeft(leftBox);
         appPane.setRight(rightBox);
         appPane.setBottom(bottomBox);
@@ -176,7 +181,7 @@ public class WGGUI implements WGStyle {
         baseBox = new HBox();
         baseLeftLabel = new Label();
         baseRightLabel = new Label();
-        baseBox.getChildren().addAll(baseLeftLabel,baseRightLabel);
+        baseBox.getChildren().addAll(baseLeftLabel, baseRightLabel);
 
         basePane = new StackPane();
         basePane.getChildren().addAll(baseBox, appPane);
@@ -185,40 +190,39 @@ public class WGGUI implements WGStyle {
         exitPane.setPrefSize(30, 30);
 
         guiHeadingLabel = new Label("!! BuzzWord !!");
-        guiHeadingLabel.addEventHandler(MouseEvent.MOUSE_CLICKED , event -> {guiHeadingLabel.setEffect(highlight);});
+        guiHeadingLabel.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            guiHeadingLabel.setEffect(highlight);
+        });
         guiHeadingLabel.setId("Heading");
 
-        Pane remainingPane = new Pane();
-        remainingPane.setMinWidth(100);
-        remainingPane.setStyle("-fx-background-color: #FFFFFF;");
-        remainingPane.setId("remainingpane");
-        remainingPane.setVisible(false);
-
-        remainingLabel = new Label("Time Remaining");
+        remainingLabel = new Label("Time Remaining:");
         remainingLabel.setUnderline(true);
         remainingLabel.setVisible(false);
         remainingLabel.setId("remaining");
-        remainingPane.getChildren().add(remainingLabel);
-
-        Pane timerPane = new Pane();
-        timerPane.setMinWidth(80);
-        timerPane.setStyle("-fx-background-color: #FFFFFF;");
-        timerPane.setVisible(false);
 
         timeLabel = new Label("40 seconds");
         timeLabel.setVisible(false);
         timeLabel.setId("timer");
-        timerPane.getChildren().add(timeLabel);
 
-        Pane emptyBox = new Pane();
-        emptyBox.setMinWidth(45);
+        timeBox = new HBox();
+        timeBox.setSpacing(10);
+        timeBox.getChildren().addAll(remainingLabel, timeLabel);
+        timeBox.setAlignment(Pos.CENTER_LEFT);
+
+        timeBoxPane = new Pane();
+        timeBoxPane.getChildren().add(timeBox);
+        timeBoxPane.setPrefSize(180, 30);
+        timeBoxPane.setStyle("-fx-background-color: #979CA9;");
 
         Pane modePane = new StackPane();
         modePane.setMinWidth(400);
         //modePane.setStyle("-fx-background-color: #000000;");
         modePane.getChildren().add(modeLabel);
 
-        topBottomBox.getChildren().addAll(modePane, emptyBox, remainingLabel, timeLabel);
+        HBox emptypane = new HBox();
+        emptypane.setPrefSize(20, 30);
+
+        topBottomBox.getChildren().addAll(modePane, timeBoxPane, emptypane);
         topBottomBox.setSpacing(0);
         topBottomBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         topBottomBox.setAlignment(Pos.TOP_RIGHT);
@@ -235,7 +239,7 @@ public class WGGUI implements WGStyle {
 
         arrowPane = new Pane();
         arrowPane.setMaxSize(Double.MAX_VALUE, 30);
-        arrowPane.setStyle("-fx-background-color: #FFFFFF;");
+        arrowPane.setVisible(false);
 
         createProfilePane = new StackPane();
         createProfilePane.setMaxSize(Double.MAX_VALUE, 30);
@@ -252,7 +256,7 @@ public class WGGUI implements WGStyle {
                 "Famous People"
         );
         selectMode.setValue("Select Mode");
-        selectMode.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        selectMode.setMaxSize(Double.MAX_VALUE, 35);
         selectMode.setVisible(false);
 
         start = new Button("Start Playing");
@@ -270,13 +274,13 @@ public class WGGUI implements WGStyle {
         Pane emptyPane = new Pane();
         emptyPane.setMinWidth(200);
 
-        leftBox.getChildren().addAll(createProfile, leftPane, start, emptyPane);
+        leftBox.getChildren().addAll(createProfilePane, leftPane, start, emptyPane);
 
         primaryScene = appSpecificWindowWidth < 1 || appSpecificWindowHeight < 1 ? new Scene(basePane)
                 : new Scene(basePane,
                 appSpecificWindowWidth,
                 appSpecificWindowHeight);
-       primaryScene.getStylesheets().add("css/buzzword_style.css");
+        primaryScene.getStylesheets().add("css/buzzword_style.css");
 
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
@@ -288,12 +292,12 @@ public class WGGUI implements WGStyle {
     public void initStyle() {
         basePane.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
         baseLeftLabel.setStyle("-fx-background-color: #979CA9;");
-        baseLeftLabel.setPrefSize(100,550);
+        baseLeftLabel.setPrefSize(100, 550);
         baseRightLabel.setStyle("-fx-background-color: #A294AC;");
-        baseRightLabel.setPrefSize(700,550);
+        baseRightLabel.setPrefSize(700, 550);
     }
 
-    public void initGrid(){
+    public void initGrid() {
         gameLettersLabel = new Label[4][4];
         gameLetters = new Circle[4][4];
         hLettersLines = new Line[4][3];
@@ -303,42 +307,42 @@ public class WGGUI implements WGStyle {
         int initSpacing = 50;
         int k = 0;
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             int xRadius = 0;
             for (int j = 0; j < 4; j++) {
                 gameLetters[i][j] = new Circle();
                 gameLettersLabel[i][j] = new Label();
                 gameLettersLabel[i][j].setPrefSize(30, 30);
-                gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing-4);
-                gameLettersLabel[i][j].setLayoutY(ySpacing-15);
+                gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing - 4);
+                gameLettersLabel[i][j].setLayoutY(ySpacing - 15);
                 gameLetters[i][j].setRadius(30);
                 gameLetters[i][j].setCenterX(xRadius + initSpacing);
                 gameLetters[i][j].setCenterY(ySpacing);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
-                xRadius = xRadius +100;
+                xRadius = xRadius + 100;
             }
-            ySpacing = ySpacing +100;
+            ySpacing = ySpacing + 100;
         }
         for (int i = 0; i < 3; i++) {
-            for (int j=0; j <4; j++){
+            for (int j = 0; j < 4; j++) {
                 vLettersLines[i][j] = new Line();
                 vLettersLines[i][j].startXProperty().bind(gameLetters[i][j].centerXProperty());
                 vLettersLines[i][j].startYProperty().bind(gameLetters[i][j].centerYProperty());
-                vLettersLines[i][j].endXProperty().bind(gameLetters[i+1][j].centerXProperty());
-                vLettersLines[i][j].endYProperty().bind(gameLetters[i+1][j].centerYProperty());
+                vLettersLines[i][j].endXProperty().bind(gameLetters[i + 1][j].centerXProperty());
+                vLettersLines[i][j].endYProperty().bind(gameLetters[i + 1][j].centerYProperty());
                 vLettersLines[i][j].setVisible(false);
                 gamePane.getChildren().add(vLettersLines[i][j]);
             }
         }
 
         for (int i = 0; i < 4; i++) {
-            for (int j=0; j <3; j++){
+            for (int j = 0; j < 3; j++) {
                 hLettersLines[i][j] = new Line();
                 hLettersLines[i][j].startXProperty().bind(gameLetters[i][j].centerXProperty());
                 hLettersLines[i][j].startYProperty().bind(gameLetters[i][j].centerYProperty());
-                hLettersLines[i][j].endXProperty().bind(gameLetters[i][j+1].centerXProperty());
-                hLettersLines[i][j].endYProperty().bind(gameLetters[i][j+1].centerYProperty());
+                hLettersLines[i][j].endXProperty().bind(gameLetters[i][j + 1].centerXProperty());
+                hLettersLines[i][j].endYProperty().bind(gameLetters[i][j + 1].centerYProperty());
                 hLettersLines[i][j].setVisible(false);
                 gamePane.getChildren().add(hLettersLines[i][j]);
                 gamePane.getChildren().add(gameLetters[i][j]);
@@ -349,7 +353,7 @@ public class WGGUI implements WGStyle {
         }
     }
 
-    public void makeExitButton(){
+    public void makeExitButton() {
         Line exitLine1 = new Line();
         exitLine1.setStroke(Paint.valueOf("FFFFFF"));
         exitLine1.setStrokeWidth(10);
@@ -373,65 +377,77 @@ public class WGGUI implements WGStyle {
         exitPane.getChildren().addAll(exitLine1, exitLine2);
     }
 
-    public void initGamePlay(){
+    public void initGamePlay() {
         wordLabel = new Label("B U");
         //  timerLabel.textProperty().bind(valueProperty);
         wordLabel.setVisible(false);
 
-        scoringTable = new TableView<>();
-        scoringTable.setEditable(true);
-        TableColumn words = new TableColumn("Words");
-        TableColumn score = new TableColumn("Score");
-        scoringTable.getColumns().addAll(words, score);
-        scoringTable.setMaxSize(100, 300);
-        scoringTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        wordBox = new HBox();
+        wordBox.setAlignment(Pos.CENTER_LEFT);
+        wordBox.setPadding(new Insets(8));
+        wordBox.getChildren().addAll(wordLabel);
 
-        scroingTablePane = new ScrollPane();
-        scroingTablePane.setContent(scoringTable);
-        scroingTablePane.setMaxSize(110, 300);
-        scroingTablePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scroingTablePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scroingTablePane.setVisible(false);
+        wordBoxPane = new Pane();
+        wordBoxPane.setPrefSize(150, 30);
+        wordBoxPane.setStyle("-fx-background-color: #979CA9;");
+        wordBoxPane.getChildren().add(wordBox);
 
+        Pane emptypane2 = new Pane();
+        emptypane2.setPrefSize(30, 30);
 
-        totalLable = new Label("TOTAL");
-        totalLable.setVisible(false);
-
-        totalScoreLable = new Label("40");
-        totalScoreLable.setVisible(false);
-
-        totalBox = new HBox();
-        totalBox.getChildren().addAll(totalLable, totalScoreLable);
-
-        scoreBox = new VBox();
-        scoreBox.getChildren().addAll(scroingTablePane,totalBox);
+        Pane wordBoxPanePane = new HBox();
+        wordBoxPanePane.setPrefWidth(180);
+        wordBoxPanePane.getChildren().addAll(emptypane2, wordBoxPane);
 
         targetLable = new Label("Target");
+        targetLable.setUnderline(true);
         targetLable.setVisible(false);
 
         targetPointsLable = new Label("75 points");
         targetPointsLable.setVisible(false);
 
         targetBox = new VBox();
+        targetBox.setSpacing(10);
+        targetBox.setId("targetbox");
         targetBox.getChildren().addAll(targetLable, targetPointsLable);
 
-        rightBox.getChildren().addAll(wordLabel,scoreBox,targetBox);
+        targetBoxPane = new Pane();
+        targetBoxPane.getChildren().addAll(targetBox);
+        targetBoxPane.setPrefSize(150, 60);
+        targetBoxPane.setStyle("-fx-background-color: #979CA9;");
+
+        Pane emptypane3 = new Pane();
+        emptypane3.setPrefSize(30, 30);
+
+        Pane targetBoxPanePane = new HBox();
+        targetBoxPanePane.setPrefWidth(180);
+        targetBoxPanePane.getChildren().addAll(emptypane3, targetBoxPane);
+
+        Pane emptypane = new Pane();
+        emptypane.setMinSize(200, 30);
+
+        rightBox.getChildren().addAll(emptypane, wordBoxPanePane, targetBoxPanePane);
 
     }
 
-    public void drawArrow(){
+    public void drawArrow() {
         Polygon polygon = new Polygon();
         polygon.setFill(Paint.valueOf("#FFFFFF"));
         polygon.getPoints().addAll(new Double[]{
-                arrowPane.getMaxWidth()-35, arrowPane.getMaxHeight()-5.0,
-                arrowPane.getMaxWidth()-45, 25.0,
-                arrowPane.getMaxWidth()-35, 45.0
+                170.0, 5.0,
+                170.0, 25.0,
+                160.0, 15.0
         });
-        arrowPane.getChildren().add(polygon);
         Rectangle rectangle = new Rectangle();
+        rectangle.setFill(Paint.valueOf("#FFFFFF"));
+        rectangle.setX(170);
+        rectangle.setY(10);
+        rectangle.setHeight(10);
+        rectangle.setWidth(23);
+        arrowPane.getChildren().addAll(polygon, rectangle);
     }
 
-    public void initLetter(){
+    public void initLetter() {
         gameLettersLabel[0][0].setText("B");
         gameLettersLabel[0][1].setText("U");
         gameLettersLabel[1][0].setText("Z");
@@ -440,44 +456,6 @@ public class WGGUI implements WGStyle {
         gameLettersLabel[2][3].setText("O");
         gameLettersLabel[3][2].setText("R");
         gameLettersLabel[3][3].setText("D");
-    }
-
-    public void addData(){
-
-        class Person {
-
-            private final SimpleStringProperty firstName;
-            private final SimpleStringProperty lastName;
-
-            private Person(String fName, String lName) {
-                this.firstName = new SimpleStringProperty(fName);
-                this.lastName = new SimpleStringProperty(lName);
-
-            }
-
-            public String getFirstName() {
-                return firstName.get();
-            }
-
-            public void setFirstName(String fName) {
-                firstName.set(fName);
-            }
-
-            public String getLastName() {
-                return lastName.get();
-            }
-
-            public void setLastName(String fName) {
-                lastName.set(fName);
-            }
-        }
-        final ObservableList<Person> data =
-                FXCollections.observableArrayList(
-                        new Person("WAR", "10"),
-                        new Person("RAW", "10"),
-                        new Person("DRAW", "20")
-                );
-        scoringTable.setItems(data);
     }
 
 }
