@@ -1,14 +1,6 @@
 package buzzwordui;
 
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
@@ -20,8 +12,6 @@ import java.io.IOException;
  */
 public class Home extends WGGUI{
 
-    Gameplay gameplay;
-
     public Home(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         layoutGUI();
@@ -32,7 +22,7 @@ public class Home extends WGGUI{
         hideLines();
         reinitGrid();
         initLetter();
-        drawScoreBox();
+        scoreBarPane.setVisible(false);
         levelLabel.setVisible(false);
         modeLabel.setVisible(false);
         timeLabel.setVisible(false);
@@ -83,6 +73,7 @@ public class Home extends WGGUI{
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
+                gameLetters[i][j].setStyle("-fx-effect: transparent;");
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
                 gameLetters[i][j].setVisible(true);
             }

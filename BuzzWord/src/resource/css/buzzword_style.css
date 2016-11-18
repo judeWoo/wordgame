@@ -17,7 +17,17 @@
     -fx-font: 18px "Arial";
 }
 
-.label {
+#remaining {
+    -fx-text-fill: red;
+    -fx-font: 12px "Arial";
+}
+
+#timer {
+    -fx-text-fill: red;
+    -fx-font: 12px "Arial";
+}
+
+.word {
     -fx-text-fill: white;
     -fx-font: 14px "Arial";
 }

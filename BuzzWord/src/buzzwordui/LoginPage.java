@@ -40,10 +40,10 @@ public class LoginPage extends WGGUI{
     StackPane root;
     VBox vBox;
     HBox idBox;
-    TextField idField;
+    static TextField idField;
     Label id;
     HBox pwBox;
-    PasswordField pwField;
+    static PasswordField pwField;
     Label pw;
     Scene scene;
     Stage stage;
@@ -118,6 +118,14 @@ public class LoginPage extends WGGUI{
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
+    }
+
+    public TextField getIdField() {
+        return idField;
+    }
+
+    public PasswordField getPwField() {
+        return pwField;
     }
 
 }

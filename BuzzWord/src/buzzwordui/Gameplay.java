@@ -1,22 +1,8 @@
 package buzzwordui;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ui.WGGUI;
-import wgcomponents.WGSpaceComponents;
 import wgtemplate.WGTemplate;
 
 import java.io.IOException;
@@ -35,7 +21,7 @@ public class Gameplay extends WGGUI{
 
     public Gameplay(){
         layoutGUI();
-        initGrid();
+        reinitGrid();
         showLines();
         setHighlight();
         initLetter();
@@ -95,6 +81,17 @@ public class Gameplay extends WGGUI{
     @Override
     public void drawScoreBox() {
         super.drawScoreBox();
-
     }
+
+    public void reinitGrid(){
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
+                //gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
+                gameLetters[i][j].setVisible(true);
+            }
+        }
+    }
+
+
 }
