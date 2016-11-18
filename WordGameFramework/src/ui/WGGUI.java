@@ -312,6 +312,7 @@ public class WGGUI implements WGStyle {
             int xRadius = 0;
             for (int j = 0; j < 4; j++) {
                 gameLetters[i][j] = new Circle();
+                //bind gameletters and gameletterslabel when drag and drop
                 gameLettersLabel[i][j] = new Label();
                 gameLettersLabel[i][j].setPrefSize(60, 60);
                 gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing - 30);
