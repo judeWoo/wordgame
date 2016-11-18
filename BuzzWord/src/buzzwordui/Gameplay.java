@@ -73,6 +73,12 @@ public class Gameplay extends WGGUI{
 
     @Override
     public void initLetter() {
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLettersLabel[i][j].setVisible(true);
+                gameLettersLabel[i][j].setText("");
+            }
+        }
         super.initLetter();
         gameLettersLabel[0][2].setText("B");
         gameLettersLabel[3][1].setText("A");

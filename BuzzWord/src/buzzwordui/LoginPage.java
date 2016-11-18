@@ -111,6 +111,9 @@ public class LoginPage extends WGGUI{
                     stage.close();
                 }
             }
+            if (event.getCode().equals(KeyCode.ESCAPE)){
+                stage.close();
+            }
         });
         stage = new Stage();
         stage.setScene(scene);

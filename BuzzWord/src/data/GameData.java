@@ -48,5 +48,11 @@ public class GameData implements WGData {
         this.passWord = null;
     }
 
+    public String getUserID() {
+        return userID;
+    }
 
+    public String getPassWord() {
+        return passWord;
+    }
 }
