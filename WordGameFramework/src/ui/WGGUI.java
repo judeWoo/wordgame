@@ -13,6 +13,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import wgcomponents.WGStyle;
@@ -42,6 +43,8 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static VBox scoreLeftBox;
+    protected static VBox scoreRightBox;
     protected static HBox scoreBarPane;
     protected static Pane wordBoxPane;
     protected static HBox wordBox;
@@ -93,7 +96,7 @@ public class WGGUI implements WGStyle {
         initLetter();
         drawArrow();
     }
-
+    //Default constructer for controllers
     public WGGUI() {
 
     }
@@ -200,8 +203,9 @@ public class WGGUI implements WGStyle {
         timeLabel.setId("timer");
 
         timeBox = new HBox();
-        timeBox.setSpacing(10);
+        timeBox.setSpacing(5);
         timeBox.getChildren().addAll(remainingLabel, timeLabel);
+        timeBox.setPadding(new Insets(8));
         timeBox.setAlignment(Pos.CENTER_LEFT);
 
         timeBoxPane = new Pane();
@@ -309,9 +313,10 @@ public class WGGUI implements WGStyle {
             for (int j = 0; j < 4; j++) {
                 gameLetters[i][j] = new Circle();
                 gameLettersLabel[i][j] = new Label();
-                gameLettersLabel[i][j].setPrefSize(30, 30);
-                gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing - 4);
-                gameLettersLabel[i][j].setLayoutY(ySpacing - 15);
+                gameLettersLabel[i][j].setPrefSize(60, 60);
+                gameLettersLabel[i][j].setLayoutX(xRadius + initSpacing - 30);
+                gameLettersLabel[i][j].setLayoutY(ySpacing - 30);
+                gameLettersLabel[i][j].setAlignment(Pos.CENTER);
                 gameLetters[i][j].setRadius(30);
                 gameLetters[i][j].setCenterX(xRadius + initSpacing);
                 gameLetters[i][j].setCenterY(ySpacing);
@@ -376,8 +381,9 @@ public class WGGUI implements WGStyle {
 
     public void initGamePlay() {
         wordLabel = new Label("B U");
-        //  timerLabel.textProperty().bind(valueProperty);
+        //timerLabel.textProperty().bind(valueProperty);
         wordLabel.setVisible(false);
+        wordLabel.getStyleClass().add("word");
 
         wordBox = new HBox();
         wordBox.setAlignment(Pos.CENTER_LEFT);
@@ -401,13 +407,15 @@ public class WGGUI implements WGStyle {
         targetLable = new Label("Target");
         targetLable.setUnderline(true);
         targetLable.setVisible(false);
+        targetLable.getStyleClass().addAll("word");
 
         targetPointsLable = new Label("75 points");
         targetPointsLable.setVisible(false);
+        targetPointsLable.getStyleClass().add("word");
 
         targetBox = new VBox();
         targetBox.setSpacing(10);
-        targetBox.setId("targetbox");
+        targetBox.setPadding(new Insets(8));
         targetBox.getChildren().addAll(targetLable, targetPointsLable);
 
         targetBoxPane = new Pane();
@@ -458,24 +466,23 @@ public class WGGUI implements WGStyle {
     }
     public void drawScoreBox(){
         HBox scoreBoardBox = new HBox();
-        VBox scoreLeftBox = new VBox();
+        Pane scoreLeftBoxPane = new StackPane();
+        Pane scoreLeftBoxColorPane = new Pane();
+        Pane scoreRightBoxPane = new StackPane();
+        Pane scoreRIghtBoxColorPane = new Pane();
+        scoreLeftBoxColorPane.setPrefSize(105, 200);
+        scoreLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        scoreRIghtBoxColorPane.setPrefSize(30, 200);
+        scoreRIghtBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        scoreLeftBox = new VBox();
         scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        VBox scoreRightBox = new VBox();
+        scoreRightBox = new VBox();
         scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        Label label = new Label();
-        label.setPrefSize(105, 150);
-        label.setStyle("-fx-background-color: #979CA9;");
-        Label label1 = new Label();
-        label1.setPrefSize(30, 150);
-        label1.setStyle("-fx-background-color: #979CA9;");
-        Label label2 = new Label("Total");
-        label2.setPrefSize(105, 30);
-        label2.setStyle("-fx-background-color: #8F94A1;");
-        scoreLeftBox.getChildren().addAll(label, label2);
-        scoreRightBox.getChildren().add(label1);
-        scoreBoardBox.getChildren().addAll(scoreLeftBox, scoreRightBox);
+        scoreLeftBoxPane.getChildren().addAll(scoreLeftBoxColorPane, scoreLeftBox);
+        scoreRightBoxPane.getChildren().addAll(scoreRIghtBoxColorPane, scoreRightBox);
+        scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
         ScrollPane scoreBar = new ScrollPane();
         scoreBar.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scoreBar.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -486,5 +493,6 @@ public class WGGUI implements WGStyle {
         scoreBarPane.getChildren().addAll(emptyBox, scoreBar);
         scoreBarPane.setVisible(false);
     }
+
 
 }
