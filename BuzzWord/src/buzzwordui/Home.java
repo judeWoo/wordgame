@@ -35,11 +35,16 @@ public class Home extends WGGUI{
         timeBoxPane.setVisible(false);
         wordBoxPane.setVisible(false);
         targetBoxPane.setVisible(false);
+        //userButton.setVisible(false);
     }
 
     public void layoutGUI(){
         login.setVisible(true);
         home.setVisible(false);
+        createProfile.setOnMouseClicked(event -> {
+            new CreateProfile();
+        });
+
         login.setOnMouseClicked(event -> {
             new LoginPage();
         });
