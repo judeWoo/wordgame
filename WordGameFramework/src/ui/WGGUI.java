@@ -285,7 +285,7 @@ public class WGGUI implements WGStyle {
 
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        //primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
 
@@ -293,9 +293,9 @@ public class WGGUI implements WGStyle {
     public void initStyle() {
         basePane.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
         baseLeftLabel.setStyle("-fx-background-color: #979CA9;");
-        baseLeftLabel.setPrefSize(100, 550);
+        baseLeftLabel.setPrefSize(100, 600);
         baseRightLabel.setStyle("-fx-background-color: #A294AC;");
-        baseRightLabel.setPrefSize(700, 550);
+        baseRightLabel.setPrefSize(750, 600);
     }
 
     public void initGrid() {

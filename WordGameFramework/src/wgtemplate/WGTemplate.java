@@ -33,11 +33,12 @@ public abstract class WGTemplate extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        wggui = new WGGUI(primaryStage, "Godje", this, 800, 550);
-
         WGComponentsMaker builder = makeAppBuilderHook();
 
         wgData = builder.makeDataComponent();
         wgFile = builder.makeFileComponent();
+
+        wggui = new WGGUI(primaryStage, "Godje", this, 800, 550);
+
     }
 }
