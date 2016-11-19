@@ -102,8 +102,10 @@ public class LoginPage extends WGGUI{
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)){
-                if (!idField.getText().equals(null)){
-                    createProfile.setText(idField.getText());
+                if (idField.getText().matches(".*[a-zA-Z]+.*")){
+                    createProfile.setVisible(false);
+                    userButton.setText(idField.getText());
+                    userButton.setVisible(true);
                     login.setVisible(false);
                     selectMode.setVisible(true);
                     start.setVisible(true);

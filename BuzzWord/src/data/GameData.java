@@ -1,11 +1,9 @@
 package data;
 
+import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
 import wgcomponents.WGData;
 import wgtemplate.WGTemplate;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Kun on 11/17/2016.
@@ -18,6 +16,11 @@ public class GameData implements WGData {
 
     public GameData(WGTemplate wgTemplate){
         this(wgTemplate, false);
+    }
+
+    public GameData(){
+        reset();
+        init();
     }
 
     public GameData(WGTemplate wgTemplate, boolean initgame) {
@@ -35,11 +38,11 @@ public class GameData implements WGData {
     }
 
     private String setPassWord() {
-        return new LoginPage().getPwField().getText();
+        return new CreateProfile(GameData.this).getPwField().getText();
     }
 
     private String setUserID() {
-        return new LoginPage().getIdField().getText();
+        return new CreateProfile(GameData.this).getIdField().getText();
     }
 
     @Override

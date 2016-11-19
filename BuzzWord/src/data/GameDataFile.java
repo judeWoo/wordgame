@@ -1,11 +1,13 @@
 package data;
 
+import buzzwordui.CreateProfile;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import wgcomponents.WGData;
 import wgcomponents.WGFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -23,19 +25,19 @@ public class GameDataFile implements WGFile {
     @Override
     public void saveData(WGData data, Path to) throws IOException {
         GameData       gamedata    = (GameData) data;
+        CreateProfile createProfile = new CreateProfile(gamedata);
         String userID = gamedata.getUserID();
         String passWord  = gamedata.getPassWord();
 
         JsonFactory jsonFactory = new JsonFactory();
 
-        try (OutputStream out = Files.newOutputStream(to)) {
-
-            JsonGenerator generator = jsonFactory.createGenerator(out, JsonEncoding.UTF8);
+        try {
+            JsonGenerator generator = jsonFactory.createGenerator(new File(to+"/"+createProfile.getIdField().getText()+".json"), JsonEncoding.UTF8);
 
             generator.writeStartObject();
 
-            generator.writeStringField(USER_ID, gamedata.getUserID());
-            generator.writeStringField(PASSWORD, gamedata.getPassWord());
+            generator.writeStringField(USER_ID, userID);
+            generator.writeStringField(PASSWORD, passWord);
             /*generator.writeFieldName(GOOD_GUESSES);
             generator.writeStartArray(goodguesses.size());
             for (Character c : goodguesses)

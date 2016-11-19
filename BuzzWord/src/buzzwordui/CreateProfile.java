@@ -1,5 +1,7 @@
 package buzzwordui;
 
+import controller.BuzzWordController;
+import data.GameData;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ui.WGGUI;
+import wgcomponents.WGComponentsMaker;
+import wgtemplate.WGTemplate;
 
 /**
  * Created by Kun on 11/18/2016.
@@ -22,15 +26,32 @@ public class CreateProfile extends WGGUI {
     StackPane root;
     VBox vBox;
     HBox idBox;
-    static TextField idField;
     Label id;
     HBox pwBox;
-    static PasswordField pwField;
     Label pw;
     Scene scene;
     Stage stage;
+    static TextField idField;
+    static PasswordField pwField;
+
+    public CreateProfile(){
+        layOutGUI();
+    }
+
+    public CreateProfile(GameData gameData){
+    }
+
+    public static TextField getIdField() {
+        return idField;
+    }
+
+    public static PasswordField getPwField() {
+        return pwField;
+    }
 
     public void layOutGUI() {
+        BuzzWordController controller = new BuzzWordController();
+
         root = new StackPane();
         root.setStyle("-fx-background-color: null;");
 
@@ -82,8 +103,11 @@ public class CreateProfile extends WGGUI {
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                if (!idField.getText().equals(null)) {
-                    createProfile.setText(idField.getText());
+                if (idField.getText().matches(".*[a-zA-Z]+.*")) {
+                    controller.newGameProfileRequest(stage, idField.getText());
+                    userButton.setVisible(true);
+                    userButton.setText(idField.getText());
+                    createProfile.setVisible(false);
                     login.setVisible(false);
                     selectMode.setVisible(true);
                     start.setVisible(true);

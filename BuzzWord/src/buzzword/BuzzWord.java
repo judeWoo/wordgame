@@ -16,21 +16,6 @@ import wgtemplate.WGTemplate;
 public class BuzzWord extends WGTemplate{
 
     @Override
-    public WGComponentsMaker makeAppBuilderHook() {
-        return new WGComponentsMaker() {
-            @Override
-            public WGData makeDataComponent() throws Exception {
-                return new GameData(BuzzWord.this);
-            }
-
-            @Override
-            public WGFile makeFileComponent() throws Exception {
-                return new GameDataFile();
-            }
-        };
-    }
-
-    @Override
     public void start(Stage primaryStage) throws Exception {
         Home home = new Home(primaryStage, "Godje",BuzzWord.this, 800, 550);
     }

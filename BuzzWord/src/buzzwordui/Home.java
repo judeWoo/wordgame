@@ -35,7 +35,6 @@ public class Home extends WGGUI{
         timeBoxPane.setVisible(false);
         wordBoxPane.setVisible(false);
         targetBoxPane.setVisible(false);
-        //userButton.setVisible(false);
     }
 
     public void layoutGUI(){
