@@ -43,6 +43,7 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static Button userButton;
     protected static VBox scoreLeftBox;
     protected static VBox scoreRightBox;
     protected static HBox scoreBarPane;
@@ -238,13 +239,17 @@ public class WGGUI implements WGStyle {
         createProfile = new Button("Create Profile");
         createProfile.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
+        userButton = new Button("");
+        userButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        userButton.setVisible(false);
+
         arrowPane = new Pane();
         arrowPane.setMaxSize(Double.MAX_VALUE, 30);
         arrowPane.setVisible(false);
 
         createProfilePane = new StackPane();
         createProfilePane.setMaxSize(Double.MAX_VALUE, 30);
-        createProfilePane.getChildren().addAll(createProfile, arrowPane);
+        createProfilePane.getChildren().addAll(createProfile, userButton, arrowPane);
 
         login = new Button("Login");
         login.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

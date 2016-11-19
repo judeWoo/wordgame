@@ -28,17 +28,8 @@ public abstract class WGTemplate extends Application {
         return wggui;
     }
 
-    public abstract WGComponentsMaker makeAppBuilderHook();
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        WGComponentsMaker builder = makeAppBuilderHook();
-
-        wgData = builder.makeDataComponent();
-        wgFile = builder.makeFileComponent();
-
-        wggui = new WGGUI(primaryStage, "Godje", this, 800, 550);
-
+        wggui = new WGGUI();
     }
 }
