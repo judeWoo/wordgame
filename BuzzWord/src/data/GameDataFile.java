@@ -9,8 +9,6 @@ import wgcomponents.WGFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 
