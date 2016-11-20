@@ -75,6 +75,8 @@ public class Home extends WGGUI{
         }
     }
     public void reinitGrid(){
+        super.initGrid();
+        
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));

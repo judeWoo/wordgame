@@ -37,7 +37,7 @@ import ui.WGGUI;
 /**
  * Created by Jude Hokyoon Woo on 11/9/2016.
  */
-public class LoginPage extends WGGUI{
+public class LoginPage extends WGGUI {
 
     StackPane root;
     VBox vBox;
@@ -55,7 +55,7 @@ public class LoginPage extends WGGUI{
         layOutGUI();
     }
 
-    public LoginPage(GameData gameData){
+    public LoginPage(GameData gameData) {
 
     }
 
@@ -73,7 +73,7 @@ public class LoginPage extends WGGUI{
         region.setEffect(new DropShadow(10, Color.GREY));
 
 
-        idField = new TextField("User"){
+        idField = new TextField("User") {
 //            @Override public void replaceText(int start, int end, String text) {
 //                // If the replaced text would end up being invalid, then simply
 //                // ignore this call!
@@ -119,9 +119,9 @@ public class LoginPage extends WGGUI{
         scene = new Scene(root, 300, 250);
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)){
-                if (idField.getText().matches(".*[a-zA-Z]+.*")){
-                    if(controller.loginRequest()) {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                if (idField.getText().matches(".*[a-zA-Z]+.*")) {
+                    if (controller.loginRequest()) {
                         createProfile.setVisible(false);
                         userButton.setText(idField.getText());
                         userButton.setVisible(true);
@@ -133,7 +133,7 @@ public class LoginPage extends WGGUI{
                     }
                 }
             }
-            if (event.getCode().equals(KeyCode.ESCAPE)){
+            if (event.getCode().equals(KeyCode.ESCAPE)) {
                 stage.close();
             }
         });

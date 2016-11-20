@@ -35,11 +35,7 @@ public class LevelSelection extends WGGUI{
                 int finalI = i;
                 gameLettersLabel[i][j].setText(""+k);
                 k++;
-                gameLetters[i][j].setOnMouseClicked(event -> {
-                    levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
-                    new Gameplay();
-                });
-                gameLettersLabel[i][j].setOnMouseClicked(event -> {
+                gameLettersLabel[i][j].setOnMousePressed(event -> {
                     levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
                     new Gameplay();
                 });

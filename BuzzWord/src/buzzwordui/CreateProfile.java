@@ -36,11 +36,11 @@ public class CreateProfile extends WGGUI {
     static TextField idField;
     static PasswordField pwField;
 
-    public CreateProfile(){
+    public CreateProfile() {
         layOutGUI();
     }
 
-    public CreateProfile(GameData gameData){
+    public CreateProfile(GameData gameData) {
     }
 
     public static TextField getIdField() {
@@ -98,15 +98,16 @@ public class CreateProfile extends WGGUI {
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 if (idField.getText().matches(".*[a-zA-Z]+.*")) {
-                    controller.newGameProfileRequest();
-                    userButton.setVisible(true);
-                    userButton.setText(idField.getText());
-                    createProfile.setVisible(false);
-                    login.setVisible(false);
-                    selectMode.setVisible(true);
-                    start.setVisible(true);
-                    arrowPane.setVisible(true);
-                    stage.close();
+                    if (controller.newGameProfileRequest()) {
+                        userButton.setVisible(true);
+                        userButton.setText(idField.getText());
+                        createProfile.setVisible(false);
+                        login.setVisible(false);
+                        selectMode.setVisible(true);
+                        start.setVisible(true);
+                        arrowPane.setVisible(true);
+                        stage.close();
+                    }
                 }
             }
             if (event.getCode().equals(KeyCode.ESCAPE)) {

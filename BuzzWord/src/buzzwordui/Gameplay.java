@@ -1,5 +1,7 @@
 package buzzwordui;
 
+import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -13,6 +15,8 @@ import java.io.IOException;
 public class Gameplay extends WGGUI{
 
     WGTemplate wgTemplate;
+    double orgSceneX, orgSceneY;
+    double orgTranslateX, orgTranslateY;
 
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
@@ -99,5 +103,38 @@ public class Gameplay extends WGGUI{
         }
     }
 
+    //bind grid to move together
+    public void bindGrid(){
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLetters[i][j].centerXProperty().bind(gameLettersLabel[i][j].layoutXProperty().add(30));
+                gameLetters[i][j].centerYProperty().bind(gameLettersLabel[i][j].layoutYProperty().add(30));
+            }
+        }
+    }
+
+    public void dragDropHandler(){
+        bindGrid();
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLettersLabel[i][j].setCursor(Cursor.HAND);
+                gameLettersLabel[i][j].setOnMousePressed(t -> {
+                    orgSceneX = t.getSceneX();
+                    orgSceneY = t.getSceneY();
+                    orgTranslateX = ((Label)(t.getSource())).getTranslateX();
+                    orgTranslateY = ((Label)(t.getSource())).getTranslateY();
+                });
+                gameLettersLabel[i][j].setOnMouseDragged(t -> {
+                    double offsetX = t.getSceneX() - orgSceneX;
+                    double offsetY = t.getSceneY() - orgSceneY;
+                    double newTranslateX = orgTranslateX + offsetX;
+                    double newTranslateY = orgTranslateY + offsetY;
+
+                    ((Label)(t.getSource())).setTranslateX(newTranslateX);
+                    ((Label)(t.getSource())).setTranslateY(newTranslateY);
+                });
+            }
+        }
+    }
 
 }

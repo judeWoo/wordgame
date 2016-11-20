@@ -2,13 +2,8 @@ package controller;
 
 import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
-import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import data.GameData;
 import data.GameDataFile;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import ui.WGGUI;
-import wgtemplate.WGTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +16,7 @@ import java.nio.file.Paths;
 public class BuzzWordController implements FileManager {
 
     private Path workFile;
-    private GameData gameData;
+    private static GameData gameData;
     private GameDataFile gameDataFile;
 
     public enum GameState {
@@ -32,36 +27,41 @@ public class BuzzWordController implements FileManager {
     }
 
     public BuzzWordController() {
+        initGameData();
+    }
 
+    public void initGameData() {
+        gameData = new GameData();
     }
 
     @Override
-    public void newGameProfileRequest() {
+    public boolean newGameProfileRequest() {
         if (workFile == null) {
-            Path            appDirPath      = Paths.get("BuzzWord").toAbsolutePath();
-            Path            targetPath      = appDirPath.resolve("saved");
+            Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
+            Path targetPath = appDirPath.resolve("saved");
 
-            if (true) {
-                try {
-                    save(targetPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (save(targetPath)) {
+                    return true;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-        else{
+        } else {
             try {
                 save(workFile);
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        }
+        return false;
+    }
 
     @Override
     public boolean loginRequest() {
-        Path            appDirPath      = Paths.get("BuzzWord").toAbsolutePath();
-        Path            targetPath      = appDirPath.resolve("saved");
+        Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
+        Path targetPath = appDirPath.resolve("saved");
         if (targetPath != null) {
             try {
                 if (load(targetPath)) {
@@ -90,11 +90,18 @@ public class BuzzWordController implements FileManager {
 
     }
 
-    private void save(Path target) throws IOException {
-        gameData = new GameData();
+    private boolean save(Path target) throws IOException {
+        //save game data
         gameDataFile = new GameDataFile();
+        CreateProfile createProfile = new CreateProfile(gameData);
+        File file = new File(target + "/" + createProfile.getIdField().getText() + ".json");
+        if (file.exists()) {
+            //singleton
+            return false;
+        }
         gameDataFile.saveData(gameData, target);
         workFile = target;
+        return true;
     }
 
     private boolean load(Path source) throws IOException {
@@ -102,13 +109,13 @@ public class BuzzWordController implements FileManager {
         gameData = new GameData();
         gameDataFile = new GameDataFile();
         LoginPage loginPage = new LoginPage(gameData);
-        File file = new File(source+"/"+loginPage.getIdField().getText()+".json");
-        if(!file.exists()){
+        File file = new File(source + "/" + loginPage.getIdField().getText() + ".json");
+        if (!file.exists()) {
             //singleton
             return false;
         }
         gameDataFile.loadData(gameData, source);
-        if (!loginPage.getPwField().getText().equals(gameData.getPassWord())){
+        if (!loginPage.getPwField().getText().equals(gameData.getPassWord())) {
             //singleton
             return false;
         }
