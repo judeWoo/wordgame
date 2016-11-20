@@ -35,15 +35,15 @@ public class LevelSelection extends WGGUI{
             for (int j=0; j<4; j++){
                 int finalJ = j;
                 int finalI = i;
-                if (k == l){
+                if (k <= l){
                     gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
+                    gameLettersLabel[i][j].setOnMousePressed(event -> {
+                        levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
+                        new Gameplay();
+                    });
                 }
                 gameLettersLabel[i][j].setText(""+k);
                 k++;
-                gameLettersLabel[i][j].setOnMousePressed(event -> {
-                    levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
-                    new Gameplay();
-                });
             }
         }
         start.setVisible(false);
