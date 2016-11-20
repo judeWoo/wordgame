@@ -4,6 +4,7 @@ import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
 import data.GameData;
 import data.GameDataFile;
+import ui.WGGUI;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class BuzzWordController implements FileManager {
     private Path workFile;
     private static GameData gameData;
     private GameDataFile gameDataFile;
+    private WGGUI   wggui;
 
     public enum GameState {
         UNINITIALIZED,
@@ -27,7 +29,6 @@ public class BuzzWordController implements FileManager {
     }
 
     public BuzzWordController() {
-        initGameData();
     }
 
     public void initGameData() {
@@ -36,6 +37,9 @@ public class BuzzWordController implements FileManager {
 
     @Override
     public boolean newGameProfileRequest() {
+
+        initGameData();
+
         if (workFile == null) {
             Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
             Path targetPath = appDirPath.resolve("saved");
@@ -128,5 +132,8 @@ public class BuzzWordController implements FileManager {
 //        PropertyManager           props  = PropertyManager.getManager();
 //        dialog.show(props.getPropertyValue(LOAD_COMPLETED_TITLE), props.getPropertyValue(LOAD_COMPLETED_MESSAGE));
 //        setGameState(GameState.INITIALIZED_UNMODIFIED);
+    }
+    public static GameData getGameData() {
+        return gameData;
     }
 }

@@ -1,5 +1,6 @@
 package buzzwordui;
 
+import controller.BuzzWordController;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -12,6 +13,7 @@ import java.io.IOException;
  */
 public class LevelSelection extends WGGUI{
 
+    BuzzWordController controller = new BuzzWordController();
 
     public LevelSelection(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
@@ -27,12 +29,15 @@ public class LevelSelection extends WGGUI{
             new Home();
         });
         int k = 1;
+        int l = controller.getGameData().getLevel();
 
         for (int i=0; i<2; i++){
             for (int j=0; j<4; j++){
-                gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
                 int finalJ = j;
                 int finalI = i;
+                if (k == l){
+                    gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
+                }
                 gameLettersLabel[i][j].setText(""+k);
                 k++;
                 gameLettersLabel[i][j].setOnMousePressed(event -> {
