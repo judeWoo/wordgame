@@ -1,6 +1,7 @@
 package controller;
 
 import buzzwordui.CreateProfile;
+import buzzwordui.LoginPage;
 import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import data.GameData;
 import data.GameDataFile;
@@ -35,15 +36,10 @@ public class BuzzWordController implements FileManager {
     }
 
     @Override
-    public void newGameProfileRequest(Stage stage, String string) {
+    public void newGameProfileRequest() {
         if (workFile == null) {
-            FileChooser fileChooser = new FileChooser();
             Path            appDirPath      = Paths.get("BuzzWord").toAbsolutePath();
             Path            targetPath      = appDirPath.resolve("saved");
-//            fileChooser.setInitialDirectory(targetPath.toFile());
-//            fileChooser.setInitialFileName(string);
-//            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json File(*.json)", "*.json"));
-//            File file = fileChooser.showSaveDialog(null);
 
             if (true) {
                 try {
@@ -63,8 +59,20 @@ public class BuzzWordController implements FileManager {
         }
 
     @Override
-    public void loginRequest() {
-
+    public boolean loginRequest() {
+        Path            appDirPath      = Paths.get("BuzzWord").toAbsolutePath();
+        Path            targetPath      = appDirPath.resolve("saved");
+        if (targetPath != null) {
+            try {
+                if (load(targetPath)) {
+                    return true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -87,5 +95,31 @@ public class BuzzWordController implements FileManager {
         gameDataFile = new GameDataFile();
         gameDataFile.saveData(gameData, target);
         workFile = target;
+    }
+
+    private boolean load(Path source) throws IOException {
+        // load game data
+        gameData = new GameData();
+        gameDataFile = new GameDataFile();
+        LoginPage loginPage = new LoginPage(gameData);
+        File file = new File(source+"/"+loginPage.getIdField().getText()+".json");
+        if(!file.exists()){
+            //singleton
+            return false;
+        }
+        gameDataFile.loadData(gameData, source);
+        if (!loginPage.getPwField().getText().equals(gameData.getPassWord())){
+            //singleton
+            return false;
+        }
+        // set the work file as the file from which the game was loaded
+        workFile = source;
+        return true;
+
+        // notify the user that load was successful
+//        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+//        PropertyManager           props  = PropertyManager.getManager();
+//        dialog.show(props.getPropertyValue(LOAD_COMPLETED_TITLE), props.getPropertyValue(LOAD_COMPLETED_MESSAGE));
+//        setGameState(GameState.INITIALIZED_UNMODIFIED);
     }
 }

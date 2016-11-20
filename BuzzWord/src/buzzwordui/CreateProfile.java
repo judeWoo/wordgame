@@ -2,6 +2,7 @@ package buzzwordui;
 
 import controller.BuzzWordController;
 import data.GameData;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -29,6 +30,7 @@ public class CreateProfile extends WGGUI {
     Label id;
     HBox pwBox;
     Label pw;
+    Label title;
     Scene scene;
     Stage stage;
     static TextField idField;
@@ -59,43 +61,35 @@ public class CreateProfile extends WGGUI {
         region.setStyle("-fx-background-radius:20; -fx-background-color: rgba(0, 0, 0, 0.3)");
         region.setEffect(new DropShadow(10, Color.GREY));
 
+        title = new Label("Create Profile");
+        title.setId("createprofile");
 
-        idField = new TextField("User") {
-            @Override
-            public void replaceText(int start, int end, String text) {
-                // If the replaced text would end up being invalid, then simply
-                // ignore this call!
-                if (text.matches("[a-z]")) {
-                    super.replaceText(start, end, text);
-                }
-            }
-
-            @Override
-            public void replaceSelection(String text) {
-                if (!text.matches("[a-z]")) {
-                    super.replaceSelection(text);
-                }
-            }
-        };
+        idField = new TextField("User");
         idField.setBackground(Background.EMPTY);
+        idField.setMaxSize(100, 30);
         id = new Label("Profile Name");
+        id.setPrefSize(150, 30);
 
         idBox = new HBox();
-        idBox.setSpacing(10);
+        idBox.setSpacing(30);
+        idBox.setPadding(new Insets(8));
         idBox.getChildren().addAll(id, idField);
 
         pwField = new PasswordField();
         pwField.setBackground(Background.EMPTY);
+        pwField.setMaxSize(100, 30);
         pw = new Label("Profile Password");
+        pw.setPrefSize(150, 30);
 
         pwBox = new HBox();
-        idBox.setSpacing(20);
+        pwBox.setSpacing(30);
+        pwBox.setPadding(new Insets(8));
         pwBox.getChildren().addAll(pw, pwField);
 
         vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(40);
-        vBox.getChildren().addAll(idBox, pwBox);
+        vBox.getChildren().addAll(title, idBox, pwBox);
 
         root.getChildren().addAll(region, vBox);
 
@@ -104,7 +98,7 @@ public class CreateProfile extends WGGUI {
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 if (idField.getText().matches(".*[a-zA-Z]+.*")) {
-                    controller.newGameProfileRequest(stage, idField.getText());
+                    controller.newGameProfileRequest();
                     userButton.setVisible(true);
                     userButton.setText(idField.getText());
                     createProfile.setVisible(false);
@@ -119,6 +113,7 @@ public class CreateProfile extends WGGUI {
                 stage.close();
             }
         });
+        scene.getStylesheets().add("css/popup_style.css");
         stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);

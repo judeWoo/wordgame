@@ -35,6 +35,7 @@ public class Home extends WGGUI{
         timeBoxPane.setVisible(false);
         wordBoxPane.setVisible(false);
         targetBoxPane.setVisible(false);
+
     }
 
     public void layoutGUI(){
@@ -54,7 +55,7 @@ public class Home extends WGGUI{
                 new LevelSelection();
             }
         });
-        if (createProfile.getText() != "Create Profile"){
+        if (userButton.getText() != ""){
             login.setVisible(false);
             selectMode.setVisible(true);
             start.setVisible(true);

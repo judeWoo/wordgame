@@ -1,0 +1,16 @@
+
+.text-field {
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 1.2em;
+}
+
+.text-field .text {
+ -fx-underline: true;
+ -fx-underline-color: white;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font: 14px "Arial";
+}

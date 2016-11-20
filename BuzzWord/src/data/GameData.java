@@ -12,6 +12,8 @@ public class GameData implements WGData {
 
     private String         userID;
     private String         passWord;
+    private int           level;
+    private int           score;
     public WGTemplate      wgTemplate;
 
     public GameData(WGTemplate wgTemplate){
@@ -20,7 +22,6 @@ public class GameData implements WGData {
 
     public GameData(){
         reset();
-        init();
     }
 
     public GameData(WGTemplate wgTemplate, boolean initgame) {
@@ -35,6 +36,8 @@ public class GameData implements WGData {
     public void init() {
         this.userID = setUserID();
         this.passWord = setPassWord();
+        this.level = 1; //tbd
+        this.score = 0; //tbd
     }
 
     private String setPassWord() {
@@ -45,10 +48,32 @@ public class GameData implements WGData {
         return new CreateProfile(GameData.this).getIdField().getText();
     }
 
+    public GameData setUserID(String string) {
+        this.userID = string;
+        return this;
+    }
+
+    public GameData setPassWord(String string) {
+        this.passWord = string;
+        return this;
+    }
+
+    public GameData setLevel(int level){
+        this.level = level;
+        return this;
+    }
+
+    public GameData setScore(int score){
+        this.score = score;
+        return this;
+    }
+
     @Override
     public void reset() {
         this.userID = null;
         this.passWord = null;
+        this.level = 1;
+        this.score = 0;
     }
 
     public String getUserID() {
@@ -57,5 +82,13 @@ public class GameData implements WGData {
 
     public String getPassWord() {
         return passWord;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

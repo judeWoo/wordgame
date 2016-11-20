@@ -68,11 +68,6 @@
     -fx-background-color: transparent;
 }
 
-.text-field {
-    -fx-text-fill: white;
-    -fx-font-family: 'Arial';
-}
-
 .combo-box-base .arrow {
     -fx-background-insets: 0 0 0 0, 0;
     -fx-background-color: #FFFFFF, #FFFFFF;

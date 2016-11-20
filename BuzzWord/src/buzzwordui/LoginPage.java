@@ -1,5 +1,7 @@
 package buzzwordui;
 
+import controller.BuzzWordController;
+import data.GameData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -40,19 +42,29 @@ public class LoginPage extends WGGUI{
     StackPane root;
     VBox vBox;
     HBox idBox;
-    static TextField idField;
     Label id;
     HBox pwBox;
-    static PasswordField pwField;
     Label pw;
+    Label title;
     Scene scene;
     Stage stage;
+    static PasswordField pwField;
+    static TextField idField;
 
     public LoginPage() {
         layOutGUI();
     }
 
+    public LoginPage(GameData gameData){
+
+    }
+
     public void layOutGUI() {
+        BuzzWordController controller = new BuzzWordController();
+
+        title = new Label("Log In");
+        title.setId("createprofile");
+
         root = new StackPane();
         root.setStyle("-fx-background-color: null;");
 
@@ -62,39 +74,45 @@ public class LoginPage extends WGGUI{
 
 
         idField = new TextField("User"){
-            @Override public void replaceText(int start, int end, String text) {
-                // If the replaced text would end up being invalid, then simply
-                // ignore this call!
-                if (text.matches("[a-z]")) {
-                    super.replaceText(start, end, text);
-                }
-            }
-
-            @Override public void replaceSelection(String text) {
-                if (!text.matches("[a-z]")) {
-                    super.replaceSelection(text);
-                }
-            }
+//            @Override public void replaceText(int start, int end, String text) {
+//                // If the replaced text would end up being invalid, then simply
+//                // ignore this call!
+//                if (text.matches("[a-z]")) {
+//                    super.replaceText(start, end, text);
+//                }
+//            }
+//
+//            @Override public void replaceSelection(String text) {
+//                if (!text.matches("[a-z]")) {
+//                    super.replaceSelection(text);
+//                }
+//            }
         };
         idField.setBackground(Background.EMPTY);
+        idField.setMaxSize(100, 30);
         id = new Label("ID");
+        id.setPrefSize(150, 30);
 
         idBox = new HBox();
-        idBox.setSpacing(10);
+        idBox.setSpacing(30);
+        idBox.setPadding(new Insets(8));
         idBox.getChildren().addAll(id, idField);
 
         pwField = new PasswordField();
         pwField.setBackground(Background.EMPTY);
+        pwField.setMaxSize(100, 30);
         pw = new Label("Password");
+        pw.setPrefSize(150, 30);
 
         pwBox = new HBox();
-        idBox.setSpacing(20);
+        pwBox.setSpacing(30);
+        pwBox.setPadding(new Insets(8));
         pwBox.getChildren().addAll(pw, pwField);
 
         vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(40);
-        vBox.getChildren().addAll(idBox, pwBox);
+        vBox.getChildren().addAll(title, idBox, pwBox);
 
         root.getChildren().addAll(region, vBox);
 
@@ -103,20 +121,23 @@ public class LoginPage extends WGGUI{
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)){
                 if (idField.getText().matches(".*[a-zA-Z]+.*")){
-                    createProfile.setVisible(false);
-                    userButton.setText(idField.getText());
-                    userButton.setVisible(true);
-                    login.setVisible(false);
-                    selectMode.setVisible(true);
-                    start.setVisible(true);
-                    arrowPane.setVisible(true);
-                    stage.close();
+                    if(controller.loginRequest()) {
+                        createProfile.setVisible(false);
+                        userButton.setText(idField.getText());
+                        userButton.setVisible(true);
+                        login.setVisible(false);
+                        selectMode.setVisible(true);
+                        start.setVisible(true);
+                        arrowPane.setVisible(true);
+                        stage.close();
+                    }
                 }
             }
             if (event.getCode().equals(KeyCode.ESCAPE)){
                 stage.close();
             }
         });
+        scene.getStylesheets().add("css/popup_style.css");
         stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
