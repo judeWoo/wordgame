@@ -480,12 +480,28 @@ public class WGGUI implements WGStyle {
         scoreLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
         scoreRIghtBoxColorPane.setPrefSize(30, 200);
         scoreRIghtBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        Label wordlabel1 = new Label("WAR");
+        Label wordlabel2 = new Label("RAW");
+        Label wordlabel3 = new Label("DRAW");
+        Label total = new Label("Total");
+        Label scorelabel1 = new Label("10");
+        Label scorelabel2 = new Label("10");
+        Label scorelabel3 = new Label("20");
+        Label totalscore = new Label("40");
+        VBox emptyVBox = new VBox();
+        VBox.setVgrow(emptyVBox, Priority.ALWAYS);
+        VBox emptyVBox2 = new VBox();
+        VBox.setVgrow(emptyVBox2, Priority.ALWAYS);
         scoreLeftBox = new VBox();
+        scoreLeftBox.setPadding(new Insets(8));
         scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        scoreLeftBox.getChildren().addAll(wordlabel1, wordlabel2, wordlabel3, emptyVBox, total);
         scoreRightBox = new VBox();
+        scoreRightBox.setPadding(new Insets(8));
         scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        scoreRightBox.getChildren().addAll(scorelabel1, scorelabel2, scorelabel3, emptyVBox2, totalscore);
         scoreLeftBoxPane.getChildren().addAll(scoreLeftBoxColorPane, scoreLeftBox);
         scoreRightBoxPane.getChildren().addAll(scoreRIghtBoxColorPane, scoreRightBox);
         scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
@@ -499,6 +515,5 @@ public class WGGUI implements WGStyle {
         scoreBarPane.getChildren().addAll(emptyBox, scoreBar);
         scoreBarPane.setVisible(false);
     }
-
 
 }
