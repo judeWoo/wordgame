@@ -1,34 +1,34 @@
 package data;
 
 import buzzwordui.CreateProfile;
-import buzzwordui.LoginPage;
 import wgcomponents.WGData;
 import wgtemplate.WGTemplate;
 
 /**
- * Created by Kun on 11/17/2016.
+ * Created by Jude Hokyoon Woo on 11/17/2016.
  */
 public class GameData implements WGData {
 
-    private String         userID;
-    private String         passWord;
-    private int           level;
-    private int           score;
-    public WGTemplate      wgTemplate;
+    private String userID;
+    private String passWord;
+    private int aModeLevel;
+    private int bModeLevel;
+    private int cModeLevel;
+    private int dModeLevel;
+    public WGTemplate wgTemplate;
 
-    public GameData(WGTemplate wgTemplate){
+    public GameData(WGTemplate wgTemplate) {
         this(wgTemplate, false);
     }
 
-    public GameData(){
+    public GameData() {
         reset();
     }
 
     public GameData(WGTemplate wgTemplate, boolean initgame) {
-        if(initgame){
+        if (initgame) {
             this.wgTemplate = wgTemplate;
-        }
-        else {
+        } else {
             this.wgTemplate = wgTemplate;
         }
     }
@@ -36,8 +36,10 @@ public class GameData implements WGData {
     public void init() {
         this.userID = setUserID();
         this.passWord = setPassWord();
-        this.level = 1; //tbd
-        this.score = 0; //tbd
+        this.aModeLevel = 1;
+        this.bModeLevel = 1;
+        this.cModeLevel = 1;
+        this.dModeLevel = 1;
     }
 
     private String setPassWord() {
@@ -58,22 +60,30 @@ public class GameData implements WGData {
         return this;
     }
 
-    public GameData setLevel(int level){
-        this.level = level;
-        return this;
+    public void setaModeLevel(int aModeLevel) {
+        this.aModeLevel = aModeLevel;
     }
 
-    public GameData setScore(int score){
-        this.score = score;
-        return this;
+    public void setbModeLevel(int bModeLevel) {
+        this.bModeLevel = bModeLevel;
+    }
+
+    public void setcModeLevel(int cModeLevel) {
+        this.cModeLevel = cModeLevel;
+    }
+
+    public void setdModeLevel(int dModeLevel) {
+        this.dModeLevel = dModeLevel;
     }
 
     @Override
     public void reset() {
         this.userID = null;
         this.passWord = null;
-        this.level = 1;
-        this.score = 0;
+        this.aModeLevel = 1;
+        this.bModeLevel = 1;
+        this.cModeLevel = 1;
+        this.dModeLevel = 1;
     }
 
     public String getUserID() {
@@ -84,11 +94,19 @@ public class GameData implements WGData {
         return passWord;
     }
 
-    public int getLevel() {
-        return level;
+    public int getaModeLevel() {
+        return aModeLevel;
     }
 
-    public int getScore() {
-        return score;
+    public int getbModeLevel() {
+        return bModeLevel;
+    }
+
+    public int getcModeLevel() {
+        return cModeLevel;
+    }
+
+    public int getdModeLevel() {
+        return dModeLevel;
     }
 }

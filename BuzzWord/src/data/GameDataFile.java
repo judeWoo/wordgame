@@ -8,19 +8,19 @@ import wgcomponents.WGFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Set;
 
 /**
- * Created by Kun on 11/17/2016.
+ * Created by Jude Hokyoon Woo on 11/17/2016.
  */
 public class GameDataFile implements WGFile {
 
     public static final String USER_ID  = "USER_ID";
     public static final String PASSWORD = "PASSWORD";
-    public static final String LEVEL    = "LEVEL";
-    public static final String SCORE    = "SCORE";
+    public static final String A_MODE   = "English Dictionary";
+    public static final String B_MODE   = "Places";
+    public static final String C_MODE   = "Science";
+    public static final String D_MODE   = "Famous People";
 
     @Override
     public void saveData(WGData data, Path to) throws IOException {
@@ -29,8 +29,10 @@ public class GameDataFile implements WGFile {
         CreateProfile createProfile = new CreateProfile(gamedata);
         String userID = gamedata.getUserID();
         String passWord  = gamedata.getPassWord();
-        Integer level = gamedata.getLevel();
-        Integer score = gamedata.getScore();
+        Integer aModeLevel = gamedata.getaModeLevel();
+        Integer bModeLevel = gamedata.getbModeLevel();
+        Integer cModeLevel = gamedata.getcModeLevel();
+        Integer dModeLevel = gamedata.getdModeLevel();
 
         JsonFactory jsonFactory = new JsonFactory();
 
@@ -41,18 +43,10 @@ public class GameDataFile implements WGFile {
 
             generator.writeStringField(USER_ID, userID);
             generator.writeStringField(PASSWORD, passWord);
-            generator.writeStringField(LEVEL, level.toString());
-            generator.writeStringField(SCORE, score.toString());
-            /*generator.writeFieldName(GOOD_GUESSES);
-            generator.writeStartArray(goodguesses.size());
-            for (Character c : goodguesses)
-                generator.writeString(c.toString());
-            generator.writeEndArray();
-            generator.writeFieldName(BAD_GUESSES);
-            generator.writeStartArray(badguesses.size());
-            for (Character c : badguesses)
-                generator.writeString(c.toString());
-            generator.writeEndArray();*/
+            generator.writeStringField(A_MODE, aModeLevel.toString());
+            generator.writeStringField(B_MODE, bModeLevel.toString());
+            generator.writeStringField(C_MODE, cModeLevel.toString());
+            generator.writeStringField(D_MODE, dModeLevel.toString());
 
             generator.writeEndObject();
 
@@ -86,13 +80,21 @@ public class GameDataFile implements WGFile {
                         jsonParser.nextToken();
                         gamedata.setPassWord(jsonParser.getValueAsString());
                         break;
-                    case LEVEL:
+                    case A_MODE:
                         jsonParser.nextToken();
-                        gamedata.setLevel(jsonParser.getValueAsInt());
+                        gamedata.setaModeLevel(jsonParser.getValueAsInt());
                         break;
-                    case SCORE:
+                    case B_MODE:
                         jsonParser.nextToken();
-                        gamedata.setScore(jsonParser.getValueAsInt());
+                        gamedata.setbModeLevel(jsonParser.getValueAsInt());
+                        break;
+                    case C_MODE:
+                        jsonParser.nextToken();
+                        gamedata.setcModeLevel(jsonParser.getValueAsInt());
+                        break;
+                    case D_MODE:
+                        jsonParser.nextToken();
+                        gamedata.setdModeLevel(jsonParser.getValueAsInt());
                         break;
                     default:
                         throw new JsonParseException(jsonParser, "Unable to load JSON data");

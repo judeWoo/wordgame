@@ -1,6 +1,8 @@
 package buzzwordui;
 
 import controller.BuzzWordController;
+import javafx.collections.ObservableList;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -29,8 +31,30 @@ public class LevelSelection extends WGGUI{
             new Home();
         });
         int k = 1;
-        int l = controller.getGameData().getLevel();
+        int l = 0;
+        for (int i = 0; i<selectMode.getItems().size(); i++){
+            if (selectMode.getItems().get(i) == selectMode.getValue()) {
+                switch (i){
+                    case 0:
+                        l = controller.getGameData().getaModeLevel();
+                        i = selectMode.getItems().size();
+                        break;
+                    case 1:
+                        l = controller.getGameData().getbModeLevel();
+                        i = selectMode.getItems().size();
+                        break;
+                    case 2:
+                        l = controller.getGameData().getcModeLevel();
+                        i = selectMode.getItems().size();
+                        break;
+                    case 3:
+                        l = controller.getGameData().getdModeLevel();
+                        i = selectMode.getItems().size();
+                        break;
+                }
 
+            }
+        }
         for (int i=0; i<2; i++){
             for (int j=0; j<4; j++){
                 int finalJ = j;

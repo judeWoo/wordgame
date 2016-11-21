@@ -77,6 +77,7 @@ public class Home extends WGGUI{
     public void reinitGrid(){
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
+                gameLettersLabel[i][j].setOnMousePressed(null);
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
