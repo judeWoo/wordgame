@@ -2,36 +2,19 @@ package buzzwordui;
 
 import controller.BuzzWordController;
 import data.GameData;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import ui.WGGUI;
 
 /**
@@ -121,7 +104,7 @@ public class LoginPage extends WGGUI {
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 if (idField.getText().matches(".*[a-zA-Z]+.*")) {
-                    if (controller.loginRequest()) {
+                    if (controller.logInRequest()) {
                         createProfile.setVisible(false);
                         userButton.setText(idField.getText());
                         userButton.setVisible(true);
@@ -137,6 +120,7 @@ public class LoginPage extends WGGUI {
                 stage.close();
             }
         });
+
         scene.getStylesheets().add("css/popup_style.css");
         stage = new Stage();
         stage.setScene(scene);
@@ -146,11 +130,11 @@ public class LoginPage extends WGGUI {
 
     }
 
-    public TextField getIdField() {
+    public static TextField getIdField() {
         return idField;
     }
 
-    public PasswordField getPwField() {
+    public static PasswordField getPwField() {
         return pwField;
     }
 

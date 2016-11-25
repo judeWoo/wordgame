@@ -1,5 +1,6 @@
 package buzzwordui;
 
+import controller.BuzzWordController;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ui.WGGUI;
@@ -12,30 +13,15 @@ import java.io.IOException;
  */
 public class Home extends WGGUI{
 
+    BuzzWordController controller;
+
     public Home(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         layoutGUI();
     }
 
     public Home(){
-        layoutGUI();
-        hideLines();
-        reinitGrid();
-        initLetter();
-        scoreBarPane.setVisible(false);
-        levelLabel.setVisible(false);
-        modeLabel.setVisible(false);
-        timeLabel.setVisible(false);
-        remainingLabel.setVisible(false);
-        wordLabel.setVisible(false);
-        bottomPlayButton.setVisible(false);
-        pauseButtonPane.setVisible(false);
-        targetPointsLable.setVisible(false);
-        targetLable.setVisible(false);
-        timeBoxPane.setVisible(false);
-        wordBoxPane.setVisible(false);
-        targetBoxPane.setVisible(false);
-
+        initGame();
     }
 
     public void layoutGUI(){
@@ -44,7 +30,17 @@ public class Home extends WGGUI{
         createProfile.setOnMouseClicked(event -> {
             new CreateProfile();
         });
-
+        arrowPane.setOnMouseClicked(event -> {
+            controller = new BuzzWordController();
+            controller.logOutRequest();
+            initGame();
+            createProfile.setVisible(true);
+            arrowPane.setVisible(false);
+            userButton.setVisible(false);
+            login.setVisible(true);
+            selectMode.setVisible(false);
+            start.setVisible(false);
+        });
         login.setOnMouseClicked(event -> {
             new LoginPage();
         });
@@ -97,4 +93,23 @@ public class Home extends WGGUI{
         super.initLetter();
     }
 
+    public void initGame() {
+        layoutGUI();
+        hideLines();
+        reinitGrid();
+        initLetter();
+        scoreBarPane.setVisible(false);
+        levelLabel.setVisible(false);
+        modeLabel.setVisible(false);
+        timeLabel.setVisible(false);
+        remainingLabel.setVisible(false);
+        wordLabel.setVisible(false);
+        bottomPlayButton.setVisible(false);
+        pauseButtonPane.setVisible(false);
+        targetPointsLable.setVisible(false);
+        targetLable.setVisible(false);
+        timeBoxPane.setVisible(false);
+        wordBoxPane.setVisible(false);
+        targetBoxPane.setVisible(false);
+    }
 }

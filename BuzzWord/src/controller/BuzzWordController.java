@@ -12,14 +12,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by Kun on 11/17/2016.
+ * Created by Jude Hokyoon Woo on 11/17/2016.
  */
 public class BuzzWordController implements FileManager {
 
     private Path workFile;
     private static GameData gameData;
     private GameDataFile gameDataFile;
-    private WGGUI   wggui;
+    private WGGUI wggui;
 
     public enum GameState {
         UNINITIALIZED,
@@ -31,7 +31,7 @@ public class BuzzWordController implements FileManager {
     public BuzzWordController() {
     }
 
-    public void initGameData() {
+    private void initGameData() {
         gameData = new GameData();
     }
 
@@ -63,7 +63,7 @@ public class BuzzWordController implements FileManager {
     }
 
     @Override
-    public boolean loginRequest() {
+    public boolean logInRequest() {
         Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
         Path targetPath = appDirPath.resolve("saved");
         if (targetPath != null) {
@@ -80,8 +80,37 @@ public class BuzzWordController implements FileManager {
     }
 
     @Override
-    public void selectModeRequest() {
+    public void logOutRequest() {
+        gameData.reset();
+    }
 
+    @Override
+    public void setGameLetterLable() {
+
+    }
+
+    @Override
+    public int setTargetScore(String level) {
+
+        switch (level){
+            case "1":
+                return 30;
+            case "2":
+                return 45;
+            case "3":
+                return 60;
+            case "4":
+                return 75;
+            case "5":
+                return 90;
+            case "6":
+                return 105;
+            case "7":
+                return 120;
+            case "8":
+                return 135;
+        }
+        return 1;
     }
 
     @Override
@@ -97,8 +126,7 @@ public class BuzzWordController implements FileManager {
     private boolean save(Path target) throws IOException {
         //save game data
         gameDataFile = new GameDataFile();
-        CreateProfile createProfile = new CreateProfile(gameData);
-        File file = new File(target + "/" + createProfile.getIdField().getText() + ".json");
+        File file = new File(target + "/" + CreateProfile.getIdField().getText() + ".json");
         if (file.exists()) {
             //singleton
             return false;
@@ -112,14 +140,13 @@ public class BuzzWordController implements FileManager {
         // load game data
         gameData = new GameData();
         gameDataFile = new GameDataFile();
-        LoginPage loginPage = new LoginPage(gameData);
-        File file = new File(source + "/" + loginPage.getIdField().getText() + ".json");
+        File file = new File(source + "/" + LoginPage.getIdField().getText() + ".json");
         if (!file.exists()) {
             //singleton
             return false;
         }
         gameDataFile.loadData(gameData, source);
-        if (!loginPage.getPwField().getText().equals(gameData.getPassWord())) {
+        if (!LoginPage.getPwField().getText().equals(gameData.getPassWord())) {
             //singleton
             return false;
         }
@@ -133,7 +160,9 @@ public class BuzzWordController implements FileManager {
 //        dialog.show(props.getPropertyValue(LOAD_COMPLETED_TITLE), props.getPropertyValue(LOAD_COMPLETED_MESSAGE));
 //        setGameState(GameState.INITIALIZED_UNMODIFIED);
     }
+
     public static GameData getGameData() {
         return gameData;
     }
+
 }

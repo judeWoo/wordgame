@@ -29,6 +29,7 @@ public class Gameplay extends WGGUI{
         showLines();
         setHighlight();
         initLetter();
+        setButtonEvent();
     }
 
     public void layoutGUI(){
@@ -44,14 +45,6 @@ public class Gameplay extends WGGUI{
         timeBoxPane.setVisible(true);
         wordBoxPane.setVisible(true);
         targetBoxPane.setVisible(true);
-        bottomPlayButton.setOnMouseClicked(event -> {
-            pauseButtonPane.setVisible(true);
-            bottomPlayButton.setVisible(false);
-        });
-        pauseButtonPane.setOnMouseClicked(event -> {
-            pauseButtonPane.setVisible(false);
-            bottomPlayButton.setVisible(true);
-        });
     }
 
     public void showLines(){
@@ -91,6 +84,7 @@ public class Gameplay extends WGGUI{
     public void reinitGrid(){
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
+                gameLettersLabel[i][j].setOnMousePressed(null);
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
@@ -99,38 +93,15 @@ public class Gameplay extends WGGUI{
         }
     }
 
-    //bind grid to move together
-    public void bindGrid(){
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
-                gameLetters[i][j].centerXProperty().bind(gameLettersLabel[i][j].layoutXProperty().add(30));
-                gameLetters[i][j].centerYProperty().bind(gameLettersLabel[i][j].layoutYProperty().add(30));
-            }
-        }
-    }
-
-    public void dragDropHandler(){
-        bindGrid();
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
-                gameLettersLabel[i][j].setCursor(Cursor.HAND);
-                gameLettersLabel[i][j].setOnMousePressed(t -> {
-                    orgSceneX = t.getSceneX();
-                    orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Label)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Label)(t.getSource())).getTranslateY();
-                });
-                gameLettersLabel[i][j].setOnMouseDragged(t -> {
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-
-                    ((Label)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Label)(t.getSource())).setTranslateY(newTranslateY);
-                });
-            }
-        }
+    public void setButtonEvent(){
+        bottomPlayButton.setOnMouseClicked(event -> {
+            pauseButtonPane.setVisible(true);
+            bottomPlayButton.setVisible(false);
+        });
+        pauseButtonPane.setOnMouseClicked(event -> {
+            pauseButtonPane.setVisible(false);
+            bottomPlayButton.setVisible(true);
+        });
     }
 
 }

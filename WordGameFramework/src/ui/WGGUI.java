@@ -107,11 +107,9 @@ public class WGGUI implements WGStyle {
 
         bottomPlayButton = new Polygon();
         bottomPlayButton.setFill(Paint.valueOf("#FFFFFF"));
-        bottomPlayButton.getPoints().addAll(new Double[]{
-                5.0, 5.0,
+        bottomPlayButton.getPoints().addAll(5.0, 5.0,
                 5.0, 35.0,
-                45.0, 20.0
-        });
+                45.0, 20.0);
         bottomPlayButton.setId("bottom-button");
 
         bottomPauseButton = new Line[2];
@@ -222,7 +220,7 @@ public class WGGUI implements WGStyle {
         modePane.getChildren().add(modeLabel);
 
         HBox emptypane = new HBox();
-        emptypane.setPrefSize(20, 30);
+        emptypane.setPrefSize(21, 30);
 
         topBottomBox.getChildren().addAll(modePane, timeBoxPane, emptypane);
         topBottomBox.setSpacing(0);
@@ -258,7 +256,7 @@ public class WGGUI implements WGStyle {
         selectMode.getItems().addAll(
                 "English Dictonary",
                 "Places",
-                "Sciences",
+                "Science",
                 "Famous People"
         );
         selectMode.setValue("Select Mode");
@@ -290,7 +288,7 @@ public class WGGUI implements WGStyle {
 
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
-        //primaryStage.initStyle(StageStyle.TRANSPARENT);
+//        primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
 
@@ -446,11 +444,9 @@ public class WGGUI implements WGStyle {
     public void drawArrow() {
         Polygon polygon = new Polygon();
         polygon.setFill(Paint.valueOf("#FFFFFF"));
-        polygon.getPoints().addAll(new Double[]{
-                170.0, 5.0,
+        polygon.getPoints().addAll(170.0, 5.0,
                 170.0, 25.0,
-                160.0, 15.0
-        });
+                160.0, 15.0);
         Rectangle rectangle = new Rectangle();
         rectangle.setFill(Paint.valueOf("#FFFFFF"));
         rectangle.setX(170);
@@ -506,6 +502,7 @@ public class WGGUI implements WGStyle {
         scoreRightBoxPane.getChildren().addAll(scoreRIghtBoxColorPane, scoreRightBox);
         scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
         ScrollPane scoreBar = new ScrollPane();
+        scoreBar.setMaxHeight(200);
         scoreBar.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scoreBar.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scoreBar.setContent(scoreBoardBox);

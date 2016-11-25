@@ -25,7 +25,7 @@ public class GameDataFile implements WGFile {
     @Override
     public void saveData(WGData data, Path to) throws IOException {
         GameData       gamedata    = (GameData) data;
-        gamedata.init();
+        gamedata.init(); //when create id
         CreateProfile createProfile = new CreateProfile(gamedata);
         String userID = gamedata.getUserID();
         String passWord  = gamedata.getPassWord();

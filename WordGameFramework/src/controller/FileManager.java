@@ -6,9 +6,13 @@ package controller;
 public interface FileManager {
     boolean newGameProfileRequest();
 
-    boolean loginRequest();
+    boolean logInRequest();
 
-    void selectModeRequest();
+    void logOutRequest();
+
+    void setGameLetterLable();
+
+    int setTargetScore(String level);
 
     void loadGameRequest();
 

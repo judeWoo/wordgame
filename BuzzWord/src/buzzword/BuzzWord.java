@@ -1,13 +1,7 @@
 package buzzword;
 
 import buzzwordui.Home;
-import data.GameData;
-import data.GameDataFile;
-import javafx.application.Application;
 import javafx.stage.Stage;
-import wgcomponents.WGComponentsMaker;
-import wgcomponents.WGData;
-import wgcomponents.WGFile;
 import wgtemplate.WGTemplate;
 
 /**

@@ -62,6 +62,7 @@ public class LevelSelection extends WGGUI{
                 if (k <= l){
                     gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
                     gameLettersLabel[i][j].setOnMousePressed(event -> {
+                        targetPointsLable.setText(controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText())+" points");
                         levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
                         new Gameplay();
                     });

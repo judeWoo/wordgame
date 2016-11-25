@@ -16,11 +16,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ui.WGGUI;
-import wgcomponents.WGComponentsMaker;
-import wgtemplate.WGTemplate;
 
 /**
- * Created by Kun on 11/18/2016.
+ * Created by Jude Hokyoon Woo on 11/18/2016.
  */
 public class CreateProfile extends WGGUI {
 

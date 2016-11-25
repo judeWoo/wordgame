@@ -3,7 +3,6 @@ package wgtemplate;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ui.WGGUI;
-import wgcomponents.WGComponentsMaker;
 import wgcomponents.WGData;
 import wgcomponents.WGFile;
 
