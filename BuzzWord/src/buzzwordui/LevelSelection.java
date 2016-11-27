@@ -27,6 +27,7 @@ public class LevelSelection extends WGGUI{
 
     public  void  layoutGUI(){
         home.setVisible(true);
+        pauseLabel.setVisible(false);
         home.setOnMouseClicked(event -> {
             new Home();
         });
@@ -75,8 +76,9 @@ public class LevelSelection extends WGGUI{
         selectMode.setVisible(false);
         modeLabel.setVisible(true);
     }
-    public void hideCircles(){
 
+    @Override
+    public void hideCircles(){
         for (int i=2; i<4; i++){
             for (int j=0; j<4; j++){
                 gameLetters[i][j].setVisible(false);

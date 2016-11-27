@@ -43,6 +43,7 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static Label pauseLabel;
     protected static Button userButton;
     protected static VBox scoreLeftBox;
     protected static VBox scoreRightBox;
@@ -180,8 +181,12 @@ public class WGGUI implements WGStyle {
         baseRightLabel = new Label();
         baseBox.getChildren().addAll(baseLeftLabel, baseRightLabel);
 
+        pauseLabel = new Label("Pause");
+        pauseLabel.setId("pauselabel");
+        pauseLabel.setVisible(false);
+
         basePane = new StackPane();
-        basePane.getChildren().addAll(baseBox, appPane);
+        basePane.getChildren().addAll(baseBox, appPane, pauseLabel);
 
         exitPane = new Pane();
         exitPane.setPrefSize(30, 30);
@@ -360,6 +365,9 @@ public class WGGUI implements WGStyle {
     }
 
     public void makeExitButton() {
+        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
+        wgDialogSingleton.init(primaryStage);
+
         Line exitLine1 = new Line();
         exitLine1.setStroke(Paint.valueOf("FFFFFF"));
         exitLine1.setStrokeWidth(10);
@@ -375,10 +383,14 @@ public class WGGUI implements WGStyle {
         exitLine2.setEndY(25);
         exitLine2.setStrokeWidth(10);
         exitLine1.setOnMouseClicked(event -> {
-            System.exit(0);
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
+            { System.exit(0);}
         });
         exitLine2.setOnMouseClicked(event -> {
-            System.exit(0);
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
+            { System.exit(0);}
         });
         exitPane.getChildren().addAll(exitLine1, exitLine2);
     }
@@ -511,6 +523,28 @@ public class WGGUI implements WGStyle {
         scoreBarPane = new HBox();
         scoreBarPane.getChildren().addAll(emptyBox, scoreBar);
         scoreBarPane.setVisible(false);
+    }
+
+    public void hideLines(){
+        for (int i = 0; i < 3; i++) {
+            for (int j=0; j <4; j++){
+                vLettersLines[i][j].setVisible(false);
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j=0; j <3; j++){
+                hLettersLines[i][j].setVisible(false);
+            }
+        }
+    }
+
+    public void hideCircles(){
+        for (int i=0; i<4; i++){
+            for (int j=0; j<4; j++){
+                gameLetters[i][j].setVisible(false);
+                gameLettersLabel[i][j].setVisible(false);
+            }
+        }
     }
 
 }

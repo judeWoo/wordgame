@@ -4,6 +4,7 @@ import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
 import data.GameData;
 import data.GameDataFile;
+import ui.WGDialogSingleton;
 import ui.WGGUI;
 
 import java.io.File;
@@ -137,12 +138,12 @@ public class BuzzWordController implements FileManager {
     }
 
     private boolean load(Path source) throws IOException {
+
         // load game data
         gameData = new GameData();
         gameDataFile = new GameDataFile();
         File file = new File(source + "/" + LoginPage.getIdField().getText() + ".json");
         if (!file.exists()) {
-            //singleton
             return false;
         }
         gameDataFile.loadData(gameData, source);

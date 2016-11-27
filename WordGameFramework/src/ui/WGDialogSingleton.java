@@ -5,17 +5,31 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Created by Jude Hokyoon Woo on 11/20/2016.
  */
 public class WGDialogSingleton extends Stage{
-    private static WGDialogSingleton singleton = null;
+    static WGDialogSingleton singleton = null;
 
-    private Label messageLabel;
+    StackPane root;
+    VBox vBox;
+    Label messageLabel;
+    Label title;
+    Scene scene;
+    String selection;
+
+    public static final String YES    = "Yes";
+    public static final String NO     = "No";
 
     private WGDialogSingleton() { }
 
@@ -30,47 +44,69 @@ public class WGDialogSingleton extends Stage{
         return singleton;
     }
 
-    public void setMessageLabel(String messageLabelText) {
-        messageLabel.setText(messageLabelText);
-    }
-
     /**
      * This function fully initializes the singleton dialog for use.
-     *
-     * @param owner The window above which this dialog will be centered.
-     */
+     **/
     public void init(Stage owner) {
-        initModality(Modality.WINDOW_MODAL); // modal => messages are blocked from reaching other windows
+        initModality(Modality.WINDOW_MODAL);
         initOwner(owner);
 
-        // LABEL TO DISPLAY THE CUSTOM MESSAGE
+        root = new StackPane();
+        root.setStyle("-fx-background-color: null;");
+
+        Region region = new Region();
+        region.setStyle("-fx-background-radius:20; -fx-background-color: rgba(0, 0, 0, 0.3)");
+        region.setEffect(new DropShadow(10, Color.GREY));
+
+        title = new Label("Exit?");
+        title.setId("createprofile");
+
         messageLabel = new Label();
 
-        Button closeButton = new Button();
-        closeButton.setOnAction(e -> this.close());
+        vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(40);
+        vBox.getChildren().addAll(title, messageLabel);
 
-        VBox messagePane = new VBox();
-        messagePane.setAlignment(Pos.CENTER);
-        messagePane.getChildren().add(messageLabel);
-        messagePane.getChildren().add(closeButton);
+        root.getChildren().addAll(region, vBox);
 
-        messagePane.setPadding(new Insets(80, 60, 80, 60));
-        messagePane.setSpacing(20);
-
-        Scene messageScene = new Scene(messagePane);
-        this.setScene(messageScene);
+        scene = new Scene(root, 400, 250);
+        scene.setFill(Color.TRANSPARENT);
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                this.selection = "Yes";
+                this.hide();
+            }
+            if (event.getCode().equals(KeyCode.ESCAPE)) {
+                this.selection = "No";
+                this.hide();
+            }
+        });
+        scene.getStylesheets().add("css/popup_style.css");
+        this.setScene(scene);
+        this.initStyle(StageStyle.TRANSPARENT);
     }
 
     /**
      * This method loads a custom message into the label and
      * then pops open the dialog.
-     *
-     * @param title   The title to appear in the dialog window.
-     * @param message Message to appear inside the dialog.
      */
+
+    public void setMessageLabel(String messageLabelText) {
+        messageLabel.setText(messageLabelText);
+    }
+
+    public void setTitleLabel(String titleLabelText) {
+        title.setText(titleLabelText);
+    }
+
+    public String getSelection() {
+        return selection;
+    }
+
     public void show(String title, String message) {
-        setTitle(title); // set the dialog title
+        setTitleLabel(title); // set the dialog title
         setMessageLabel(message); // message displayed to the user
-        showAndWait(); // opens the dialog, and waits for the user to resolve using one of the given choices
+        showAndWait();
     }
 }

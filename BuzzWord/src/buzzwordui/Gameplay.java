@@ -1,9 +1,11 @@
 package buzzwordui;
 
+import data.BuzzBoard;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ui.WGDialogSingleton;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
 
@@ -70,15 +72,14 @@ public class Gameplay extends WGGUI{
 
     @Override
     public void initLetter() {
+        BuzzBoard buzzBoard = new BuzzBoard();
+
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
                 gameLettersLabel[i][j].setVisible(true);
-                gameLettersLabel[i][j].setText("");
+                gameLettersLabel[i][j].setText(Character.toString(buzzBoard.getLetter(i, j)));
             }
         }
-        super.initLetter();
-        gameLettersLabel[0][2].setText("B");
-        gameLettersLabel[3][1].setText("A");
     }
 
     public void reinitGrid(){
@@ -93,12 +94,27 @@ public class Gameplay extends WGGUI{
         }
     }
 
+    public void showCircles(){
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLetters[i][j].setVisible(true);
+                gameLettersLabel[i][j].setVisible(true);
+            }
+        }
+    }
+
     public void setButtonEvent(){
         bottomPlayButton.setOnMouseClicked(event -> {
+            showLines();
+            showCircles();
+            pauseLabel.setVisible(false);
             pauseButtonPane.setVisible(true);
             bottomPlayButton.setVisible(false);
         });
         pauseButtonPane.setOnMouseClicked(event -> {
+            hideCircles();
+            hideLines();
+            pauseLabel.setVisible(true);
             pauseButtonPane.setVisible(false);
             bottomPlayButton.setVisible(true);
         });

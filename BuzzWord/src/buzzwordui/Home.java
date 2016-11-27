@@ -27,6 +27,7 @@ public class Home extends WGGUI{
     public void layoutGUI(){
         login.setVisible(true);
         home.setVisible(false);
+        pauseLabel.setVisible(false);
         createProfile.setOnMouseClicked(event -> {
             new CreateProfile();
         });
@@ -58,18 +59,6 @@ public class Home extends WGGUI{
         }
     }
 
-    public void hideLines(){
-        for (int i = 0; i < 3; i++) {
-            for (int j=0; j <4; j++){
-                vLettersLines[i][j].setVisible(false);
-            }
-        }
-        for (int i = 0; i < 4; i++) {
-            for (int j=0; j <3; j++){
-                hLettersLines[i][j].setVisible(false);
-            }
-        }
-    }
     public void reinitGrid(){
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
