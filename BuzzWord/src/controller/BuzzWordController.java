@@ -2,10 +2,7 @@ package controller;
 
 import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
-import data.BuzzBoard;
-import data.BuzzWordSolver;
-import data.GameData;
-import data.GameDataFile;
+import data.*;
 import ui.WGGUI;
 
 import java.io.File;
@@ -170,10 +167,8 @@ public class BuzzWordController implements FileManager {
     }
 
     public void solveBuzzBoard() throws IOException, URISyntaxException {
-        BuzzWordSolver solver = new BuzzWordSolver();
-        solver.readDict();
-        solver.readBoard(buzzBoard);
-        solver.solveBoard();
+        BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
+        solver.start(buzzBoard);
     }
 
     public static GameData getGameData() {
