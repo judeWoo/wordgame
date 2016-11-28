@@ -1,9 +1,11 @@
 package data;
 
-import standard.StdRandom;
+import java.util.Random;
+
 /**
  * This code is from http://coursera.cs.princeton.edu/algs4/assignments/boggle.html
  */
+
 public class BuzzBoard {
 // the 16 Boggle dice (1992 version)
     private static final String[] BOGGLE_1992 = {
@@ -53,92 +55,27 @@ public class BuzzBoard {
     private final int m;        // number of rows
     private final int n;        // number of columns
     private char[][] board;     // the m-by-n array of characters
+    private static Random random;
+    private static long seed;        // pseudo-standard number generator seed
 
     /**
      * Initializes a standard 4-by-4 board, by rolling the Hasbro dice.
      */
     public BuzzBoard() {
+        seed = System.currentTimeMillis();
+        random = new Random(seed);
         m = 4;
         n = 4;
-        StdRandom.shuffle(BOGGLE_1992);
+        shuffle(BOGGLE_1992);
         board = new char[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 String letters = BOGGLE_1992[n*i+j];
-                int r = StdRandom.uniform(letters.length());
+                int r = uniform(letters.length());
                 board[i][j] = letters.charAt(r);
             }
         }
     }
-
-    /**
-     * Initializes a board from the given filename.
-     * @param filename the name of the file containing the Boggle board
-     */
-//    public BuzzBoard(String filename) {
-//        In in = new In(filename);
-//        m = in.readInt();
-//        n = in.readInt();
-//        if (m <= 0) throw new IllegalArgumentException("number of rows must be a positive integer");
-//        if (n <= 0) throw new IllegalArgumentException("number of columns must be a positive integer");
-//        board = new char[m][n];
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                String letter = in.readString().toUpperCase();
-//                if (letter.equals("QU"))
-//                    board[i][j] = 'Q';
-//                else if (letter.length() != 1)
-//                    throw new IllegalArgumentException("invalid character: " + letter);
-//                else if (ALPHABET.indexOf(letter) == -1)
-//                    throw new IllegalArgumentException("invalid character: " + letter);
-//                else
-//                    board[i][j] = letter.charAt(0);
-//            }
-//        }
-//    }
-
-    /**
-     * Initializes a standard m-by-n board, according to the frequency
-     * of letters in the English language.
-     * @param m the number of rows
-     * @param n the number of columns
-     */
-    public BuzzBoard(int m, int n) {
-        this.m = m;
-        this.n = n;
-        if (m <= 0) throw new IllegalArgumentException("number of rows must be a positive integer");
-        if (n <= 0) throw new IllegalArgumentException("number of columns must be a positive integer");
-        board = new char[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                int r = StdRandom.discrete(FREQUENCIES);
-                board[i][j] = ALPHABET.charAt(r);
-            }
-        }
-    }
-
-    /**
-     * Initializes a board from the given 2d character array,
-     * with 'Q' representing the two-letter sequence "Qu".
-     * @param a the 2d character array
-     */
-    public BuzzBoard(char[][] a) {
-        this.m = a.length;
-        this.n = a[0].length;
-        if (m <= 0) throw new IllegalArgumentException("number of rows must be a positive integer");
-        if (n <= 0) throw new IllegalArgumentException("number of columns must be a positive integer");
-        board = new char[m][n];
-        for (int i = 0; i < m; i++) {
-            if (a[i].length != n)
-                throw new IllegalArgumentException("char[][] array is ragged");
-            for (int j = 0; j < n; j++) {
-                if (ALPHABET.indexOf(a[i][j]) == -1)
-                    throw new IllegalArgumentException("invalid character: " + a[i][j]);
-                board[i][j] = a[i][j];
-            }
-        }
-    }
-
     /**
      * Returns the number of rows.
      * @return number of rows
@@ -182,5 +119,21 @@ public class BuzzBoard {
             sb.append("\n");
         }
         return sb.toString().trim();
+    }
+
+    public static void shuffle(Object[] a) {
+        if (a == null) throw new IllegalArgumentException("argument array is null");
+        int n = a.length;
+        for (int i = 0; i < n; i++) {
+            int r = i + uniform(n-i);     // between i and n-1
+            Object temp = a[i];
+            a[i] = a[r];
+            a[r] = temp;
+        }
+    }
+
+    public static int uniform(int n) {
+        if (n <= 0) throw new IllegalArgumentException("argument must be positive");
+        return random.nextInt(n);
     }
 }

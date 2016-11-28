@@ -2,13 +2,15 @@ package controller;
 
 import buzzwordui.CreateProfile;
 import buzzwordui.LoginPage;
+import data.BuzzBoard;
+import data.BuzzWordSolver;
 import data.GameData;
 import data.GameDataFile;
-import ui.WGDialogSingleton;
 import ui.WGGUI;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -19,6 +21,7 @@ public class BuzzWordController implements FileManager {
 
     private Path workFile;
     private static GameData gameData;
+    private static BuzzBoard buzzBoard;
     private GameDataFile gameDataFile;
     private WGGUI wggui;
 
@@ -34,6 +37,10 @@ public class BuzzWordController implements FileManager {
 
     private void initGameData() {
         gameData = new GameData();
+    }
+
+    public void initBuzzBoard() {
+        buzzBoard = new BuzzBoard();
     }
 
     @Override
@@ -93,7 +100,7 @@ public class BuzzWordController implements FileManager {
     @Override
     public int setTargetScore(String level) {
 
-        switch (level){
+        switch (level) {
             case "1":
                 return 30;
             case "2":
@@ -162,8 +169,18 @@ public class BuzzWordController implements FileManager {
 //        setGameState(GameState.INITIALIZED_UNMODIFIED);
     }
 
+    public void solveBuzzBoard() throws IOException, URISyntaxException {
+        BuzzWordSolver solver = new BuzzWordSolver();
+        solver.readDict();
+        solver.readBoard(buzzBoard);
+        solver.solveBoard();
+    }
+
     public static GameData getGameData() {
         return gameData;
     }
 
+    public static BuzzBoard getBuzzBoard() {
+        return buzzBoard;
+    }
 }

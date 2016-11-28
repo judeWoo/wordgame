@@ -27,7 +27,6 @@ import java.io.IOException;
 public class WGGUI implements WGStyle {
 
     protected Stage primaryStage;     // the application window
-    protected Scene primaryScene;     // the scene graph
     protected BorderPane appPane;          // the root node in the scene graph, to organize the containers
     protected StackPane basePane;          // base pane that merges the basic paintings.
     protected HBox baseBox;            //where appPane lies
@@ -43,6 +42,7 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static Scene primaryScene;     // the scene graph
     protected static Label pauseLabel;
     protected static Button userButton;
     protected static VBox scoreLeftBox;

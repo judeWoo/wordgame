@@ -1,5 +1,6 @@
 package buzzwordui;
 
+import controller.BuzzWordController;
 import data.BuzzBoard;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -10,6 +11,7 @@ import ui.WGGUI;
 import wgtemplate.WGTemplate;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Created by Jude Hokyoon Woo on 11/6/2016.
@@ -17,8 +19,8 @@ import java.io.IOException;
 public class Gameplay extends WGGUI{
 
     WGTemplate wgTemplate;
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
+    BuzzWordController controller;
+
 
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
@@ -32,10 +34,18 @@ public class Gameplay extends WGGUI{
         setHighlight();
         initLetter();
         setButtonEvent();
+        try {
+            controller.solveBuzzBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public void layoutGUI(){
         //  timerLabel.textProperty().bind(valueProperty);
+        controller = new BuzzWordController();
         levelLabel.setVisible(true);
         timeLabel.setVisible(true);
         remainingLabel.setVisible(true);
@@ -72,12 +82,11 @@ public class Gameplay extends WGGUI{
 
     @Override
     public void initLetter() {
-        BuzzBoard buzzBoard = new BuzzBoard();
-
+        controller.initBuzzBoard();
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
                 gameLettersLabel[i][j].setVisible(true);
-                gameLettersLabel[i][j].setText(Character.toString(buzzBoard.getLetter(i, j)));
+                gameLettersLabel[i][j].setText(Character.toString(controller.getBuzzBoard().getLetter(i, j)));
             }
         }
     }
@@ -104,6 +113,7 @@ public class Gameplay extends WGGUI{
     }
 
     public void setButtonEvent(){
+//        BuzzWordController controller = new BuzzWordController();
         bottomPlayButton.setOnMouseClicked(event -> {
             showLines();
             showCircles();
