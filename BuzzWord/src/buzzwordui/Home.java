@@ -40,6 +40,7 @@ public class Home extends WGGUI{
             userButton.setVisible(false);
             login.setVisible(true);
             selectMode.setVisible(false);
+            selectMode.setValue(new String("Select Mode"));
             start.setVisible(false);
         });
         login.setOnMouseClicked(event -> {

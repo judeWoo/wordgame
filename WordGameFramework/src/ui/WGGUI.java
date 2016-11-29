@@ -547,4 +547,7 @@ public class WGGUI implements WGStyle {
         }
     }
 
+    public static ComboBox getSelectMode() {
+        return selectMode;
+    }
 }
