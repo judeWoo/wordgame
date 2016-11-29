@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 public class Gameplay extends WGGUI{
 
     WGTemplate wgTemplate;
-    BuzzWordController controller;
+    BuzzWordController controller = new BuzzWordController();
 
 
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
@@ -45,7 +45,6 @@ public class Gameplay extends WGGUI{
 
     public void layoutGUI(){
         //  timerLabel.textProperty().bind(valueProperty);
-        controller = new BuzzWordController();
         levelLabel.setVisible(true);
         timeLabel.setVisible(true);
         remainingLabel.setVisible(true);

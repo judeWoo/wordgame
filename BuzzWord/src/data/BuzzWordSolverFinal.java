@@ -1,8 +1,5 @@
 package data;
 
-import controller.BuzzWordController;
-import ui.WGGUI;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.Set;
@@ -14,9 +11,8 @@ import java.util.TreeSet;
 public class BuzzWordSolverFinal {
 
     private static BufferedReader in = null;
-    public  static Set<String> set;
-    private static String INPUT_FILE = "words/Places.txt";
-    private static BuzzWordController controller = new BuzzWordController();
+    private static String INPUT_FILE = "words/English Dictionary.txt";
+    private static Set<String> counter;
 
     public static void beginFileReader() {
         try {
@@ -36,14 +32,8 @@ public class BuzzWordSolverFinal {
             while ((line = in.readLine()) != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
-                    for (int i = 0; i < word.length(); i++) {
-                        char c = word.toCharArray()[i];
-                        if (!Character.isLetter(c)) {
-                            break;
-                        }
-                        word = word.trim().toLowerCase();
-                        trie.addWord(word);
-                    }
+                    word = word.trim().toLowerCase();
+                    trie.addWord(word);
                 }
             }
             if (in != null) {
@@ -119,11 +109,8 @@ public class BuzzWordSolverFinal {
         BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
         BuzzTrie dictionary = solver.buildTrie();
         // start finding words
-        set = solver.findWords(input, dictionary);
-        while (set.size() == 0) {
-            controller.initBuzzBoard();
-            set = solver.findWords(input, dictionary);
-        }
+        Set<String> set = solver.findWords(input, dictionary);
+        counter = set;
         // present the result
         System.out.println(set.size() + " words are found, they are: ");
         for (String str : set) {
@@ -142,11 +129,15 @@ public class BuzzWordSolverFinal {
         }
     }
 
+    public static String getInputFile() {
+        return INPUT_FILE;
+    }
+
     public static void setInputFile(String inputFile) {
         INPUT_FILE = inputFile;
     }
 
-    public static Set<String> getSet() {
-        return set;
+    public static Set<String> getCounter() {
+        return counter;
     }
 }

@@ -21,7 +21,7 @@ public class BuzzWordController implements FileManager {
     private static BuzzBoard buzzBoard;
     private GameDataFile gameDataFile;
     private WGGUI wggui;
-    private BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
+    private BuzzWordSolverFinal solver;
 
     public enum GameState {
         UNINITIALIZED,
@@ -38,7 +38,7 @@ public class BuzzWordController implements FileManager {
     }
 
     public void initBuzzBoard() {
-        buzzBoard = new BuzzBoard();
+        buzzBoard = new BuzzBoard(4, 4);
     }
 
 
@@ -100,11 +100,11 @@ public class BuzzWordController implements FileManager {
     public int setTargetScore(String level) {
 
         switch (level) {
-            case "Level 1":
+            case "1":
                 return 30;
-            case "Level 2":
+            case "2":
                 return 45;
-            case "Level 3":
+            case "3":
                 return 60;
             case "4":
                 return 75;
@@ -169,26 +169,28 @@ public class BuzzWordController implements FileManager {
     }
 
     public void solveBuzzBoard() throws IOException, URISyntaxException {
+        solver = new BuzzWordSolverFinal();
         String mode = WGGUI.getSelectMode().getValue().toString();
         switch (mode) {
             case "Famous People":
-                solver.setInputFile("words/Famous People.txt");
+                solver.setInputFile("words/English Dictionary.txt");
                 break;
             case "Places":
-                solver.setInputFile("words/Places.txt");
+                solver.setInputFile("words/English Dictionary.txt");
                 break;
             case "Science":
-                solver.setInputFile("words/Science.txt");
+                solver.setInputFile("words/English Dictionary.txt");
                 break;
             case "English Dictionary":
                 solver.setInputFile("words/English Dictionary.txt");
                 break;
         }
         solver.start(buzzBoard);
+        System.out.println("Total Score: "+calTotalScore());
     }
 
     public int calTotalScore(){
-        return solver.getSet().size()*10;
+        return solver.getCounter().size()*10;
     }
 
     public static GameData getGameData() {
