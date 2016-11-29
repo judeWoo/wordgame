@@ -39,7 +39,7 @@ public class BuzzWordController implements FileManager {
     }
 
     public void initBuzzBoard() {
-        buzzBoard = new BuzzBoard(4, 4);
+        buzzBoard = new BuzzBoard();
     }
 
 
@@ -187,6 +187,10 @@ public class BuzzWordController implements FileManager {
                 break;
         }
         solver.start(buzzBoard);
+        System.out.println(solver.getCounter().size() + " words are found, they are: ");
+        for (String str : solver.getCounter()) {
+            System.out.println(str);
+        }
         System.out.println("Total Score: "+calTotalScore());
     }
 

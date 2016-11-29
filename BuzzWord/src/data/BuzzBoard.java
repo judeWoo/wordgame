@@ -68,11 +68,11 @@ public class BuzzBoard {
         random = new Random(seed);
         m = 4;
         n = 4;
-        shuffle(BOGGLE_BIG);
+        shuffle(BOGGLE_1992);
         board = new char[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                String letters = BOGGLE_BIG[n*i+j];
+                String letters = BOGGLE_1992[n*i+j];
                 int r = uniform(letters.length());
                 board[i][j] = letters.charAt(r);
             }
@@ -85,19 +85,19 @@ public class BuzzBoard {
      * @param m the number of rows
      * @param n the number of columns
      */
-    public BuzzBoard(int m, int n) {
-        this.m = m;
-        this.n = n;
-        if (m <= 0) throw new IllegalArgumentException("number of rows must be a positive integer");
-        if (n <= 0) throw new IllegalArgumentException("number of columns must be a positive integer");
-        board = new char[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                int r = StdRandom.discrete(FREQUENCIES);
-                board[i][j] = ALPHABET.charAt(r);
-            }
-        }
-    }
+//    public BuzzBoard(int m, int n) {
+//        this.m = m;
+//        this.n = n;
+//        if (m <= 0) throw new IllegalArgumentException("number of rows must be a positive integer");
+//        if (n <= 0) throw new IllegalArgumentException("number of columns must be a positive integer");
+//        board = new char[m][n];
+//        for (int i = 0; i < m; i++) {
+//            for (int j = 0; j < n; j++) {
+//                int r = StdRandom.discrete(FREQUENCIES);
+//                board[i][j] = ALPHABET.charAt(r);
+//            }
+//        }
+//    }
 
     /**
      * Returns the number of rows.

@@ -2,6 +2,7 @@ package data;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -32,8 +33,10 @@ public class BuzzWordSolverFinal {
             while ((line = in.readLine()) != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
-                    word = word.trim().toLowerCase();
-                    trie.addWord(word);
+                    if (word.length() >= 3) {
+                        word = word.trim().toLowerCase();
+                        trie.addWord(word);
+                    }
                 }
             }
             if (in != null) {
@@ -127,10 +130,6 @@ public class BuzzWordSolverFinal {
             this.y = column;
             this.prefix = prefix;
         }
-    }
-
-    public static String getInputFile() {
-        return INPUT_FILE;
     }
 
     public static void setInputFile(String inputFile) {
