@@ -16,6 +16,8 @@ import java.io.IOException;
 public class LevelSelection extends WGGUI{
 
     BuzzWordController controller = new BuzzWordController();
+    public static int targetScore;
+
 
     public LevelSelection(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
@@ -23,6 +25,11 @@ public class LevelSelection extends WGGUI{
     public LevelSelection(){
         layoutGUI();
         hideCircles();
+    }
+
+    //for controller
+    public LevelSelection(BuzzWordController controller){
+
     }
 
     public  void  layoutGUI(){
@@ -63,6 +70,7 @@ public class LevelSelection extends WGGUI{
                 if (k <= l){
                     gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
                     gameLettersLabel[i][j].setOnMousePressed(event -> {
+                        targetScore = controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText());
                         targetPointsLable.setText(controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText())+" points");
                         levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
                         new Gameplay();
@@ -85,5 +93,9 @@ public class LevelSelection extends WGGUI{
                 gameLettersLabel[i][j].setVisible(false);
             }
         }
+    }
+
+    public static int getTargetScore() {
+        return targetScore;
     }
 }

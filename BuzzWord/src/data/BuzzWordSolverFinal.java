@@ -112,10 +112,10 @@ public class BuzzWordSolverFinal {
         Set<String> set = solver.findWords(input, dictionary);
         counter = set;
         // present the result
-        System.out.println(set.size() + " words are found, they are: ");
-        for (String str : set) {
-            System.out.println(str);
-        }
+//        System.out.println(set.size() + " words are found, they are: ");
+//        for (String str : set) {
+//            System.out.println(str);
+//        }
     }
 
     class Item {

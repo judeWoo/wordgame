@@ -36,6 +36,7 @@ public class Gameplay extends WGGUI{
         setButtonEvent();
         try {
             controller.solveBuzzBoard();
+            controller.checkGrid();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

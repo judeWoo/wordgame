@@ -1,6 +1,7 @@
 package controller;
 
 import buzzwordui.CreateProfile;
+import buzzwordui.LevelSelection;
 import buzzwordui.LoginPage;
 import data.*;
 import ui.WGGUI;
@@ -191,6 +192,22 @@ public class BuzzWordController implements FileManager {
 
     public int calTotalScore(){
         return solver.getCounter().size()*10;
+    }
+
+    public void checkGrid(){
+        while (calTotalScore() < new LevelSelection(this).getTargetScore()){
+            initBuzzBoard();
+            solver = new BuzzWordSolverFinal();
+            solver.start(buzzBoard);
+            System.out.println("Total Score: "+calTotalScore()+" Rebuilding...");
+            if (calTotalScore() >= new LevelSelection(this).getTargetScore()){
+                System.out.println(solver.getCounter().size() + " words are found, they are: ");
+                for (String str : solver.getCounter()) {
+                    System.out.println(str);
+                }
+                break;
+            }
+        }
     }
 
     public static GameData getGameData() {
