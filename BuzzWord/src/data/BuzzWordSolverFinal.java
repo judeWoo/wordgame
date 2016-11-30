@@ -96,6 +96,11 @@ public class BuzzWordSolverFinal {
         findWordsDfs(ans, dict, map, visited, new Item(x, y + 1, newWord));
         findWordsDfs(ans, dict, map, visited, new Item(x - 1, y, newWord));
         findWordsDfs(ans, dict, map, visited, new Item(x + 1, y, newWord));
+        //Below is for diagonals
+        findWordsDfs(ans, dict, map, visited, new Item(x + 1, y - 1, newWord));
+        findWordsDfs(ans, dict, map, visited, new Item(x + 1, y + 1, newWord));
+        findWordsDfs(ans, dict, map, visited, new Item(x - 1, y - 1, newWord));
+        findWordsDfs(ans, dict, map, visited, new Item(x - 1, y + 1, newWord));
         visited[x][y] = false;
     }
 

@@ -174,13 +174,13 @@ public class BuzzWordController implements FileManager {
         String mode = WGGUI.getSelectMode().getValue().toString();
         switch (mode) {
             case "Famous People":
-                solver.setInputFile("words/English Dictionary.txt");
+                solver.setInputFile("words/Famous People.txt");
                 break;
             case "Places":
-                solver.setInputFile("words/English Dictionary.txt");
+                solver.setInputFile("words/Places.txt");
                 break;
             case "Science":
-                solver.setInputFile("words/English Dictionary.txt");
+                solver.setInputFile("words/Science.txt");
                 break;
             case "English Dictionary":
                 solver.setInputFile("words/English Dictionary.txt");

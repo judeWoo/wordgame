@@ -1,12 +1,10 @@
 package buzzwordui;
 
 import controller.BuzzWordController;
-import data.BuzzBoard;
-import javafx.scene.Cursor;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import ui.WGDialogSingleton;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
 
@@ -31,7 +29,7 @@ public class Gameplay extends WGGUI{
         layoutGUI();
         reinitGrid();
         showLines();
-        setHighlight();
+        setinitHighlight();
         initLetter();
         setButtonEvent();
         try {
@@ -72,12 +70,16 @@ public class Gameplay extends WGGUI{
         }
     }
 
-    public void setHighlight(){
+    public void setinitHighlight(){
         gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
         hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
+    }
+
+    public void setHightLight(Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines){
+
     }
 
     @Override
