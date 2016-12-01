@@ -342,6 +342,8 @@ public class WGGUI implements WGStyle {
                 vLettersLines[i][j].startYProperty().bind(gameLetters[i][j].centerYProperty());
                 vLettersLines[i][j].endXProperty().bind(gameLetters[i + 1][j].centerXProperty());
                 vLettersLines[i][j].endYProperty().bind(gameLetters[i + 1][j].centerYProperty());
+                vLettersLines[i][j].setStroke(Paint.valueOf("#FFFFFF"));
+                vLettersLines[i][j].setStrokeWidth(5);
                 vLettersLines[i][j].setVisible(false);
                 gamePane.getChildren().add(vLettersLines[i][j]);
             }
@@ -354,6 +356,8 @@ public class WGGUI implements WGStyle {
                 hLettersLines[i][j].startYProperty().bind(gameLetters[i][j].centerYProperty());
                 hLettersLines[i][j].endXProperty().bind(gameLetters[i][j + 1].centerXProperty());
                 hLettersLines[i][j].endYProperty().bind(gameLetters[i][j + 1].centerYProperty());
+                hLettersLines[i][j].setStroke(Paint.valueOf("#FFFFFF"));
+                hLettersLines[i][j].setStrokeWidth(5);
                 hLettersLines[i][j].setVisible(false);
                 gamePane.getChildren().add(hLettersLines[i][j]);
                 gamePane.getChildren().add(gameLetters[i][j]);

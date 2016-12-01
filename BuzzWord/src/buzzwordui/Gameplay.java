@@ -1,9 +1,12 @@
 package buzzwordui;
 
 import controller.BuzzWordController;
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
@@ -19,7 +22,6 @@ public class Gameplay extends WGGUI{
     WGTemplate wgTemplate;
     BuzzWordController controller = new BuzzWordController();
 
-
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         this.wgTemplate = appTemplate;
@@ -29,17 +31,16 @@ public class Gameplay extends WGGUI{
         layoutGUI();
         reinitGrid();
         showLines();
-        setinitHighlight();
+        //setinitHighlight();
         initLetter();
         setButtonEvent();
         try {
             controller.solveBuzzBoard();
             controller.checkGrid();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+        setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
 
     public void layoutGUI(){
@@ -74,12 +75,24 @@ public class Gameplay extends WGGUI{
         gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
-        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.9,1,1);");
+        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.92,1,1);");
+        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.92,1,1);");
     }
 
-    public void setHightLight(Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines){
-
+    public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters ,Line[][] hLettersLines, Line[][] vLettersLines){
+        for(int i=0; i < 4; i++){
+            for (int j=0; j <4; j++){
+                int finalI = i;
+                int finalJ = j;
+                gameLettersLabel[i][j].setOnMouseEntered(event -> {
+                    gameLettersLabel[finalI][finalJ].setCursor(Cursor.HAND);
+                });
+                gameLettersLabel[i][j].setOnMousePressed(event -> {
+                    clearHighlight();
+                    gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                });
+            }
+        }
     }
 
     @Override
@@ -88,7 +101,7 @@ public class Gameplay extends WGGUI{
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
                 gameLettersLabel[i][j].setVisible(true);
-                gameLettersLabel[i][j].setText(Character.toString(controller.getBuzzBoard().getLetter(i, j)));
+                gameLettersLabel[i][j].setText(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)));
             }
         }
     }
@@ -101,6 +114,15 @@ public class Gameplay extends WGGUI{
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
                 gameLetters[i][j].setVisible(true);
+            }
+        }
+    }
+
+    public void clearHighlight(){
+        for(int i =0; i < 4; i++){
+            for (int j=0; j <4; j++) {
+                gameLetters[i][j].setStyle(null);
+                gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
             }
         }
     }
