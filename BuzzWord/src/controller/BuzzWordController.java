@@ -4,6 +4,7 @@ import buzzwordui.CreateProfile;
 import buzzwordui.LevelSelection;
 import buzzwordui.LoginPage;
 import data.*;
+import javafx.scene.control.Label;
 import ui.WGGUI;
 
 import java.io.File;
@@ -12,6 +13,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -25,6 +28,8 @@ public class BuzzWordController implements FileManager {
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
+    private static ArrayList<Character> letters = new ArrayList<>();
+
 
     public enum GameState {
         UNINITIALIZED,
@@ -174,6 +179,7 @@ public class BuzzWordController implements FileManager {
     public void solveBuzzBoard() throws IOException, URISyntaxException {
         solver = new BuzzWordSolverFinal();
         String mode = WGGUI.getSelectMode().getValue().toString();
+        initBuzzBoard();
         switch (mode) {
             case "Famous People":
                 solver.setInputFile("words/Famous People.txt");
@@ -219,6 +225,39 @@ public class BuzzWordController implements FileManager {
         }
     }
 
+    public void makeRightGridIndex(char c){
+        letters.add(c);
+    }
+
+    String getStringRepresentation(ArrayList<Character> list)
+    {
+        StringBuilder builder = new StringBuilder(list.size());
+        for(Character ch: list)
+        {
+            builder.append(ch);
+        }
+        return builder.toString();
+    }
+
+    public void checkRightGrid(){
+        if (getStringRepresentation(letters).equals(null)){
+            initRecord();
+            return;
+        }
+
+        for (String str : solver.getCounter()) {
+            if(str.equals(getStringRepresentation(letters).toLowerCase())){
+                Label scorelabel = new Label(getStringRepresentation(letters));
+                WGGUI.getScoreLeftBox().getChildren().addAll(scorelabel);
+                initLetters();
+                initRecord();
+                return;
+            }
+        }
+        initLetters();
+        initRecord();
+    }
+
     public ArrayList<ArrayList<Integer>> recordGridIndex(int i, int j){
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
@@ -250,9 +289,7 @@ public class BuzzWordController implements FileManager {
                 record = new ArrayList<>(); //clear first;
                 record.add(recordElement);
             }
-
         }
-
         return record;
     }
 
@@ -264,6 +301,14 @@ public class BuzzWordController implements FileManager {
             return true;
         }
         return false;
+    }
+
+    public static void initLetters(){
+        letters = new ArrayList<>();
+    }
+
+    public static void initRecord(){
+        record = new ArrayList<>();
     }
 
     public static GameData getGameData() {

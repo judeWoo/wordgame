@@ -31,8 +31,6 @@ public class Gameplay extends WGGUI{
     public Gameplay(){
         layoutGUI();
         reinitGrid();
-        showLines();
-        initLetter();
         setButtonEvent();
         try {
             controller.solveBuzzBoard();
@@ -40,6 +38,7 @@ public class Gameplay extends WGGUI{
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+        initLetter();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
 
@@ -95,14 +94,19 @@ public class Gameplay extends WGGUI{
                 gameLettersLabel[i][j].setOnMouseEntered(event -> {
                     gameLettersLabel[finalI][finalJ].setCursor(Cursor.HAND);
                 });
-                gameLettersLabel[i][j].setOnMousePressed(event -> {
-                    clearHighlight();
-                    gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-                });
+//                gameLettersLabel[i][j].setOnMousePressed(event -> {
+//                    clearHighlight();
+//                    gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//                });
                 gameLettersLabel[i][j].setOnMouseDragEntered(event -> {
                     if (controller.checkMouseDrag(finalI, finalJ)) {
+                        controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
                         gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
                     }
+                });
+                primaryScene.setOnMouseDragReleased(event -> {
+                    controller.checkRightGrid();
+                    clearHighlight();
                 });
             }
         }
@@ -110,10 +114,9 @@ public class Gameplay extends WGGUI{
 
     @Override
     public void initLetter() {
-        controller.initBuzzBoard();
         for(int i =0; i < 4; i++){
             for (int j=0; j <4; j++) {
-                gameLettersLabel[i][j].setVisible(true);
+                gameLettersLabel[i][j].setVisible(false);
                 gameLettersLabel[i][j].setText(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)));
             }
         }
@@ -126,7 +129,7 @@ public class Gameplay extends WGGUI{
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
-                gameLetters[i][j].setVisible(true);
+                gameLetters[i][j].setVisible(false);
             }
         }
     }

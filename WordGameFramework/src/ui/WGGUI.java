@@ -508,12 +508,12 @@ public class WGGUI implements WGStyle {
         scoreLeftBox.setPadding(new Insets(8));
         scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        scoreLeftBox.getChildren().addAll(wordlabel1, wordlabel2, wordlabel3, emptyVBox, total);
+        scoreLeftBox.getChildren().addAll(wordlabel1, wordlabel2, wordlabel3);
         scoreRightBox = new VBox();
         scoreRightBox.setPadding(new Insets(8));
         scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        scoreRightBox.getChildren().addAll(scorelabel1, scorelabel2, scorelabel3, emptyVBox2, totalscore);
+        scoreRightBox.getChildren().addAll(scorelabel1, scorelabel2, scorelabel3);
         scoreLeftBoxPane.getChildren().addAll(scoreLeftBoxColorPane, scoreLeftBox);
         scoreRightBoxPane.getChildren().addAll(scoreRIghtBoxColorPane, scoreRightBox);
         scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
@@ -553,5 +553,13 @@ public class WGGUI implements WGStyle {
 
     public static ComboBox getSelectMode() {
         return selectMode;
+    }
+
+    public static VBox getScoreLeftBox() {
+        return scoreLeftBox;
+    }
+
+    public static VBox getScoreRightBox() {
+        return scoreRightBox;
     }
 }

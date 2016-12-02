@@ -63,6 +63,7 @@
 
 .combo-box-popup .list-view {
     -fx-background-color: #A294AC;
+    -fx-effect: dropshadow( gaussian , transparent , 4,0,0,1 );
 }
 
 .combo-box .cell:selected {
