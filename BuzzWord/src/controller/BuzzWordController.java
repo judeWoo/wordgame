@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -23,6 +24,7 @@ public class BuzzWordController implements FileManager {
     private GameDataFile gameDataFile;
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
+    private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
 
     public enum GameState {
         UNINITIALIZED,
@@ -187,11 +189,13 @@ public class BuzzWordController implements FileManager {
                 break;
         }
         solver.start(buzzBoard);
-        System.out.println(solver.getCounter().size() + " words are found, they are: ");
-        for (String str : solver.getCounter()) {
-            System.out.println(str);
+        if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
+            System.out.println(solver.getCounter().size() + " words are found, they are: ");
+            for (String str : solver.getCounter()) {
+                System.out.println(str);
+            }
+            System.out.println("Total Score: " + calTotalScore());
         }
-        System.out.println("Total Score: "+calTotalScore());
     }
 
     public int calTotalScore(){
@@ -203,15 +207,63 @@ public class BuzzWordController implements FileManager {
             initBuzzBoard();
             solver = new BuzzWordSolverFinal();
             solver.start(buzzBoard);
-            System.out.println("Total Score: "+calTotalScore()+" Rebuilding...");
+            System.out.println(" Rebuilding...");
             if (calTotalScore() >= new LevelSelection(this).getTargetScore()){
                 System.out.println(solver.getCounter().size() + " words are found, they are: ");
                 for (String str : solver.getCounter()) {
                     System.out.println(str);
                 }
+                System.out.println("Total Score: "+calTotalScore());
                 break;
             }
         }
+    }
+
+    public ArrayList<ArrayList<Integer>> recordGridIndex(int i, int j){
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        if (record.isEmpty()) {
+            record.add(recordElement);
+        }
+        else if (!record.isEmpty()){
+            ArrayList<Integer> compareElement1 = new ArrayList<>();
+            ArrayList<Integer> compareElement2 = new ArrayList<>();
+            ArrayList<Integer> compareElement3 = new ArrayList<>();
+            ArrayList<Integer> compareElement4 = new ArrayList<>();
+            ArrayList<Integer> compareElement5 = new ArrayList<>();
+            ArrayList<Integer> compareElement6 = new ArrayList<>();
+            ArrayList<Integer> compareElement7 = new ArrayList<>();
+            ArrayList<Integer> compareElement8 = new ArrayList<>();
+            compareElement1.add(i);compareElement1.add(j-1);
+            compareElement2.add(i);compareElement2.add(j+1);
+            compareElement3.add(i-1);compareElement3.add(j);
+            compareElement4.add(i+1);compareElement4.add(j);
+            compareElement5.add(i+1);compareElement5.add(j-1);
+            compareElement6.add(i+1);compareElement6.add(j+1);
+            compareElement7.add(i-1);compareElement7.add(j-1);
+            compareElement8.add(i-1);compareElement8.add(j+1);
+
+            if (record.contains(compareElement1) || record.contains(compareElement2) || record.contains(compareElement3)
+                    || record.contains(compareElement4) || record.contains(compareElement5) ||
+                    record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)){
+                record = new ArrayList<>(); //clear first;
+                record.add(recordElement);
+            }
+
+        }
+
+        return record;
+    }
+
+    public boolean checkMouseDrag(int i, int j){
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        if (recordGridIndex(i,j).contains(recordElement)){
+            return true;
+        }
+        return false;
     }
 
     public static GameData getGameData() {

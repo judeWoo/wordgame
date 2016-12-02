@@ -13,6 +13,7 @@ import wgtemplate.WGTemplate;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 /**
  * Created by Jude Hokyoon Woo on 11/6/2016.
@@ -31,7 +32,6 @@ public class Gameplay extends WGGUI{
         layoutGUI();
         reinitGrid();
         showLines();
-        //setinitHighlight();
         initLetter();
         setButtonEvent();
         try {
@@ -80,6 +80,14 @@ public class Gameplay extends WGGUI{
     }
 
     public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters ,Line[][] hLettersLines, Line[][] vLettersLines){
+        //Do not forget to erase primaryscene event!
+        primaryScene.addEventFilter(MouseEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryScene.startFullDrag();
+            }
+        });
+
         for(int i=0; i < 4; i++){
             for (int j=0; j <4; j++){
                 int finalI = i;
@@ -90,6 +98,11 @@ public class Gameplay extends WGGUI{
                 gameLettersLabel[i][j].setOnMousePressed(event -> {
                     clearHighlight();
                     gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                });
+                gameLettersLabel[i][j].setOnMouseDragEntered(event -> {
+                    if (controller.checkMouseDrag(finalI, finalJ)) {
+                        gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                    }
                 });
             }
         }
