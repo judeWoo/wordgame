@@ -27,6 +27,11 @@
     -fx-font: 12px "Arial";
 }
 
+#time {
+    -fx-text-fill: red;
+    -fx-font: 12px "Arial";
+}
+
 #timer {
     -fx-text-fill: red;
     -fx-font: 12px "Arial";

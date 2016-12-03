@@ -42,6 +42,7 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static Label timerLabel;
     protected static Label totalScoreLabel;
     protected static Scene primaryScene;     // the scene graph
     protected static Label pauseLabel;
@@ -203,13 +204,17 @@ public class WGGUI implements WGStyle {
         remainingLabel.setVisible(false);
         remainingLabel.setId("remaining");
 
-        timeLabel = new Label("40 seconds");
+        timerLabel = new Label("60");
+        timerLabel.setVisible(false);
+        timerLabel.setId("time");
+
+        timeLabel = new Label("seconds");
         timeLabel.setVisible(false);
         timeLabel.setId("timer");
 
         timeBox = new HBox();
         timeBox.setSpacing(5);
-        timeBox.getChildren().addAll(remainingLabel, timeLabel);
+        timeBox.getChildren().addAll(remainingLabel, timerLabel, timeLabel);
         timeBox.setPadding(new Insets(8));
         timeBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -504,7 +509,7 @@ public class WGGUI implements WGStyle {
         scoreRIghtBoxColorPane.setStyle("-fx-background-color: #979CA9;");
         Label total = new Label("TOTAL");
         total.getStyleClass().add("total");
-        totalScoreLabel = new Label("40");
+        totalScoreLabel = new Label("0");
         totalScoreLabel.setId("totalScoreLabel");
         totalScoreLabel.getStyleClass().add("total");
         scoreLeftBox = new VBox();

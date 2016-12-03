@@ -1,77 +1,42 @@
 package controller;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javafx.beans.property.SimpleStringProperty;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 /**
  * Created by Jude Hokyoon Woo on 10/29/2016.
  */
-public class WGTimerManager extends Thread {
-    private Thread thread = null;
-    private SimpleDateFormat sdf = new SimpleDateFormat("mm:ss:S");
-    private String[] split;
-    private SimpleStringProperty min, sec, millis, sspTime;
-    private long time;
+public class WGTimerManager {
+    private Timeline timeline;
 
-    public static void main(String[] args) {
-        WGTimerManager t = new WGTimerManager();
-        t.startTimer(00);
-    }
+    public void start(Label timerLabel, Integer STARTTIME) {
 
-    public WGTimerManager() {
-        min = new SimpleStringProperty("00");
-        sec = new SimpleStringProperty("00");
-        millis = new SimpleStringProperty("00");
-        sspTime = new SimpleStringProperty("00:00:00");
-    }
+        IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
 
-    public void startTimer(long time) {
-        this.time = time;
-        thread = new Thread(this);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-    }
+        // Configure the Label
+        timerLabel.setText(timeSeconds.toString());
+        timerLabel.textProperty().bind(timeSeconds.asString());
 
-    public void stopTimer(long time) {
-        if (thread != null) {
-            thread.interrupt();
-        }
-        this.time = time;
-        setTime(time);
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-        split = sdf.format(new Date(time)).split(":");
-        min.set(split[0]);
-        sec.set(split[1]);
-
-        if (split[2].length() == 1) {
-            split[2] = "0" + split[2];
-        }
-        millis.set(split[2].substring(0, 2));
-
-        sspTime.set(min.get() + ":" + sec.get() + ":" + millis.get());
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public SimpleStringProperty getSspTime() {
-        return sspTime;
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (!thread.isInterrupted()) {
-                setTime(time);
-                sleep(10);
-                time = time + 10;
+        // Create and configure the Button
+        Button button = new Button();
+        button.setText("Start Timer");
+        button.setOnAction(event -> {
+            if (timeline != null) {
+                timeline.stop();
             }
-        } catch (Exception e) {
-        }
-
+            timeSeconds.set(STARTTIME);
+            timeline = new Timeline();
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(STARTTIME+1),
+                            new KeyValue(timeSeconds, 0)));
+            timeline.playFromStart();
+        });
     }
+
 }

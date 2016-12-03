@@ -18,17 +18,23 @@ import java.util.ArrayList;
 /**
  * Created by Jude Hokyoon Woo on 11/6/2016.
  */
-public class Gameplay extends WGGUI{
+public class Gameplay extends WGGUI {
 
     WGTemplate wgTemplate;
     BuzzWordController controller = new BuzzWordController();
+    EventHandler filter = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            primaryScene.startFullDrag();
+        }
+    };
 
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         this.wgTemplate = appTemplate;
     }
 
-    public Gameplay(){
+    public Gameplay() {
         layoutGUI();
         reinitGrid();
         setButtonEvent();
@@ -42,10 +48,11 @@ public class Gameplay extends WGGUI{
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
 
-    public void layoutGUI(){
+    public void layoutGUI() {
         //  timerLabel.textProperty().bind(valueProperty);
         levelLabel.setVisible(true);
         timeLabel.setVisible(true);
+        timerLabel.setVisible(true);
         remainingLabel.setVisible(true);
         wordLabel.setVisible(true);
         bottomPlayButton.setVisible(true);
@@ -57,20 +64,20 @@ public class Gameplay extends WGGUI{
         targetBoxPane.setVisible(true);
     }
 
-    public void showLines(){
+    public void showLines() {
         for (int i = 0; i < 3; i++) {
-            for (int j=0; j <4; j++){
+            for (int j = 0; j < 4; j++) {
                 vLettersLines[i][j].setVisible(true);
             }
         }
         for (int i = 0; i < 4; i++) {
-            for (int j=0; j <3; j++){
+            for (int j = 0; j < 3; j++) {
                 hLettersLines[i][j].setVisible(true);
             }
         }
     }
 
-    public void setinitHighlight(){
+    public void setinitHighlight() {
         gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
         gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
@@ -78,17 +85,12 @@ public class Gameplay extends WGGUI{
         hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.92,1,1);");
     }
 
-    public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters ,Line[][] hLettersLines, Line[][] vLettersLines){
+    public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines) {
         //Do not forget to erase primaryscene event!
-        primaryScene.addEventFilter(MouseEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                primaryScene.startFullDrag();
-            }
-        });
+        primaryScene.addEventFilter(MouseEvent.DRAG_DETECTED, filter);
 
-        for(int i=0; i < 4; i++){
-            for (int j=0; j <4; j++){
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 int finalI = i;
                 int finalJ = j;
                 gameLettersLabel[i][j].setOnMouseEntered(event -> {
@@ -106,9 +108,12 @@ public class Gameplay extends WGGUI{
                 });
                 primaryScene.setOnMouseDragReleased(event -> {
                     controller.checkRightGrid();
-                    totalScoreLabel.setText(controller.changeTotalScore()+"");
+                    totalScoreLabel.setText(controller.changeTotalScore() + "");
                     BuzzWordController.initVisited();
                     clearHighlight();
+                    if (timerLabel.equals("0") || controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())){
+                        controller.end(filter);
+                    }
                 });
             }
         }
@@ -116,17 +121,17 @@ public class Gameplay extends WGGUI{
 
     @Override
     public void initLetter() {
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 gameLettersLabel[i][j].setVisible(false);
                 gameLettersLabel[i][j].setText(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)));
             }
         }
     }
 
-    public void reinitGrid(){
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
+    public void reinitGrid() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 gameLettersLabel[i][j].setOnMousePressed(null);
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setFill(Color.valueOf("#979CA9"));
@@ -136,29 +141,32 @@ public class Gameplay extends WGGUI{
         }
     }
 
-    public void clearHighlight(){
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
+    public void clearHighlight() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
             }
         }
     }
 
-    public void showCircles(){
-        for(int i =0; i < 4; i++){
-            for (int j=0; j <4; j++) {
+    public void showCircles() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 gameLetters[i][j].setVisible(true);
                 gameLettersLabel[i][j].setVisible(true);
             }
         }
     }
 
-    public void setButtonEvent(){
-//        BuzzWordController controller = new BuzzWordController();
+    public void setButtonEvent() {
+
+        BuzzWordController.initTimer(timerLabel);
+
         bottomPlayButton.setOnMouseClicked(event -> {
             showLines();
             showCircles();
+            controller.startTimer();
             pauseLabel.setVisible(false);
             pauseButtonPane.setVisible(true);
             bottomPlayButton.setVisible(false);
@@ -166,6 +174,7 @@ public class Gameplay extends WGGUI{
         pauseButtonPane.setOnMouseClicked(event -> {
             hideCircles();
             hideLines();
+            controller.pauseTimer();
             pauseLabel.setVisible(true);
             pauseButtonPane.setVisible(false);
             bottomPlayButton.setVisible(true);

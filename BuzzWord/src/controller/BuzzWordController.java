@@ -4,9 +4,15 @@ import buzzwordui.CreateProfile;
 import buzzwordui.LevelSelection;
 import buzzwordui.LoginPage;
 import data.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
 import ui.WGGUI;
 
 import java.io.File;
@@ -25,7 +31,8 @@ public class BuzzWordController implements FileManager {
     private GameDataFile gameDataFile;
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
-    private GameState   gamestate;   // the state of the game being shown in the workspace
+    private GameState gamestate;   // the state of the game being shown in the workspace
+    private static Timeline timeline;
     private static GameData gameData;
     private static String gameLevel;
     private static BuzzBoard buzzBoard;
@@ -157,7 +164,6 @@ public class BuzzWordController implements FileManager {
     }
 
     private boolean load(Path source) throws IOException {
-
         // load game data
         gameData = new GameData();
         gameDataFile = new GameDataFile();
@@ -253,14 +259,13 @@ public class BuzzWordController implements FileManager {
                 Label wordlabel = new Label(getStringRepresentation(letters));
                 Label scorelabel = new Label("10");
                 WGGUI.getScoreLeftBox().getChildren().addAll(wordlabel);
-                if (getStringRepresentation(letters).length() == 3){
+                if (getStringRepresentation(letters).length() == 3) {
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
                     score.add(10);
                     initLetters();
                     initRecord();
                     return;
-                }
-                else if (getStringRepresentation(letters).length() == 4) {
+                } else if (getStringRepresentation(letters).length() == 4) {
                     scorelabel.setText("20");
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
                     score.add(20);
@@ -274,8 +279,7 @@ public class BuzzWordController implements FileManager {
                     initLetters();
                     initRecord();
                     return;
-                }
-                else {
+                } else {
                     //for safety
                     System.out.println(-1);
                     return;
@@ -349,27 +353,58 @@ public class BuzzWordController implements FileManager {
         return false;
     }
 
-    public int changeTotalScore(){
+    public int changeTotalScore() {
         int total = 0;
-        for (int i=0; i < score.size(); i++){
+        for (int i = 0; i < score.size(); i++) {
             total = total + score.get(i);
         }
         return total;
     }
 
-    public void end (EventHandler filter){
-        if (changeTotalScore() >= setTargetScore(gameLevel)) {
-            wggui.getPrimaryScene().setOnKeyTyped(null);
-            wggui.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
-            setGameState(GameState.ENDED);
-        }
+    public void end(EventHandler filter) {
+        timeline.stop();
+        wggui.getPrimaryScene().setOnKeyTyped(null);
+        wggui.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
+        setGameState(GameState.ENDED);
+        System.out.println("Game Ended");
+
     }
 
     public void setGameState(GameState gamestate) {
         this.gamestate = gamestate;
     }
 
-    public static void initScore() { score = new ArrayList<>();}
+    public void startTimer() {
+        timeline.play();
+    }
+
+    public void pauseTimer() {
+        timeline.pause();
+    }
+
+    public static void initTimer(Label timerLabel) {
+        Integer starttime = 60;
+        IntegerProperty timeSeconds = new SimpleIntegerProperty(starttime);
+
+        // Configure the Label
+        timerLabel.setText(timeSeconds.toString());
+        timerLabel.textProperty().bind(timeSeconds.asString());
+
+        if (timeline != null) {
+            timeline.stop();
+        }
+        timeSeconds.set(starttime);
+        timeline = new Timeline();
+
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(starttime + 1),
+                        new KeyValue(timeSeconds, 0)));
+
+    }
+
+    public static void initScore() {
+        score = new ArrayList<>();
+    }
 
     public static void initVisited() {
         visited = new ArrayList<>();
@@ -393,5 +428,9 @@ public class BuzzWordController implements FileManager {
 
     public static BuzzBoard getBuzzBoard() {
         return buzzBoard;
+    }
+
+    public static String getGameLevel() {
+        return gameLevel;
     }
 }
