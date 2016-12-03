@@ -569,6 +569,10 @@ public class WGGUI implements WGStyle {
         }
     }
 
+    public static Scene getPrimaryScene() {
+        return primaryScene;
+    }
+
     public static ComboBox getSelectMode() {
         return selectMode;
     }

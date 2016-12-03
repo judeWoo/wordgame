@@ -37,12 +37,12 @@ public class GameDataFile implements WGFile {
         JsonFactory jsonFactory = new JsonFactory();
 
         try {
-            JsonGenerator generator = jsonFactory.createGenerator(new File(to+"/"+createProfile.getIdField().getText()+".json"), JsonEncoding.UTF8);
+            JsonGenerator generator = jsonFactory.createGenerator(new File(to+"/"+ CreateProfile.getIdField().getText()+".json"), JsonEncoding.UTF8);
 
             generator.writeStartObject();
 
             generator.writeStringField(USER_ID, userID);
-            generator.writeStringField(PASSWORD, passWord);
+            generator.writeStringField(PASSWORD, Hash.md5(passWord));
             generator.writeStringField(A_MODE, aModeLevel.toString());
             generator.writeStringField(B_MODE, bModeLevel.toString());
             generator.writeStringField(C_MODE, cModeLevel.toString());
@@ -65,7 +65,7 @@ public class GameDataFile implements WGFile {
         gamedata.reset();
 
         JsonFactory jsonFactory = new JsonFactory();
-        JsonParser jsonParser  = jsonFactory.createParser(new File(from+"/"+loginPage.getIdField().getText()+".json"));
+        JsonParser jsonParser  = jsonFactory.createParser(new File(from+"/"+ loginPage.getIdField().getText()+".json"));
 
         while (!jsonParser.isClosed()) {
             JsonToken token = jsonParser.nextToken();
@@ -101,6 +101,5 @@ public class GameDataFile implements WGFile {
                 }
             }
         }
-
     }
 }

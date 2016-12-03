@@ -4,7 +4,9 @@ import buzzwordui.CreateProfile;
 import buzzwordui.LevelSelection;
 import buzzwordui.LoginPage;
 import data.*;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import ui.WGGUI;
 
 import java.io.File;
@@ -20,15 +22,18 @@ import java.util.ArrayList;
 public class BuzzWordController implements FileManager {
 
     private Path workFile;
-    private static GameData gameData;
-    private static BuzzBoard buzzBoard;
     private GameDataFile gameDataFile;
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
+    private GameState   gamestate;   // the state of the game being shown in the workspace
+    private static GameData gameData;
+    private static String gameLevel;
+    private static BuzzBoard buzzBoard;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> visited = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
+    private static ArrayList<Integer> score = new ArrayList<>();
 
 
     public enum GameState {
@@ -106,7 +111,7 @@ public class BuzzWordController implements FileManager {
 
     @Override
     public int setTargetScore(String level) {
-
+        gameLevel = new String(level);
         switch (level) {
             case "1":
                 return 30;
@@ -161,7 +166,7 @@ public class BuzzWordController implements FileManager {
             return false;
         }
         gameDataFile.loadData(gameData, source);
-        if (!LoginPage.getPwField().getText().equals(gameData.getPassWord())) {
+        if (!Hash.md5(LoginPage.getPwField().getText()).equals(gameData.getPassWord())) {
             //singleton
             return false;
         }
@@ -248,17 +253,31 @@ public class BuzzWordController implements FileManager {
                 Label wordlabel = new Label(getStringRepresentation(letters));
                 Label scorelabel = new Label("10");
                 WGGUI.getScoreLeftBox().getChildren().addAll(wordlabel);
-                if (getStringRepresentation(letters).length() == 4 || getStringRepresentation(letters).length() == 3) {
+                if (getStringRepresentation(letters).length() == 3){
+                    WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    score.add(10);
+                    initLetters();
+                    initRecord();
+                    return;
+                }
+                else if (getStringRepresentation(letters).length() == 4) {
                     scorelabel.setText("20");
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    score.add(20);
                     initLetters();
                     initRecord();
                     return;
                 } else if (getStringRepresentation(letters).length() >= 5) {
                     scorelabel.setText("30");
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    score.add(30);
                     initLetters();
                     initRecord();
+                    return;
+                }
+                else {
+                    //for safety
+                    System.out.println(-1);
                     return;
                 }
             }
@@ -329,6 +348,28 @@ public class BuzzWordController implements FileManager {
         }
         return false;
     }
+
+    public int changeTotalScore(){
+        int total = 0;
+        for (int i=0; i < score.size(); i++){
+            total = total + score.get(i);
+        }
+        return total;
+    }
+
+    public void end (EventHandler filter){
+        if (changeTotalScore() >= setTargetScore(gameLevel)) {
+            wggui.getPrimaryScene().setOnKeyTyped(null);
+            wggui.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
+            setGameState(GameState.ENDED);
+        }
+    }
+
+    public void setGameState(GameState gamestate) {
+        this.gamestate = gamestate;
+    }
+
+    public static void initScore() { score = new ArrayList<>();}
 
     public static void initVisited() {
         visited = new ArrayList<>();

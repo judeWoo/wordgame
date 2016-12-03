@@ -106,6 +106,7 @@ public class Gameplay extends WGGUI{
                 });
                 primaryScene.setOnMouseDragReleased(event -> {
                     controller.checkRightGrid();
+                    totalScoreLabel.setText(controller.changeTotalScore()+"");
                     BuzzWordController.initVisited();
                     clearHighlight();
                 });
