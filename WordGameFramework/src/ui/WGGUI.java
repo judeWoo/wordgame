@@ -42,12 +42,13 @@ public class WGGUI implements WGStyle {
     protected StackPane createProfilePane;
     protected Pane exitPane;
     protected StackPane bottomPane;
+    protected static Label totalScoreLabel;
     protected static Scene primaryScene;     // the scene graph
     protected static Label pauseLabel;
     protected static Button userButton;
     protected static VBox scoreLeftBox;
     protected static VBox scoreRightBox;
-    protected static HBox scoreBarPane;
+    protected static VBox scoreBarPane;
     protected static Pane wordBoxPane;
     protected static HBox wordBox;
     protected static Pane timeBoxPane;
@@ -484,10 +485,19 @@ public class WGGUI implements WGStyle {
     }
     public void drawScoreBox(){
         HBox scoreBoardBox = new HBox();
+        HBox totalBoardBox = new HBox();
         Pane scoreLeftBoxPane = new StackPane();
         Pane scoreLeftBoxColorPane = new Pane();
         Pane scoreRightBoxPane = new StackPane();
         Pane scoreRIghtBoxColorPane = new Pane();
+        Pane totalLeftBoxPane = new StackPane();
+        Pane totalLeftBoxColorPane = new Pane();
+        Pane totalRightBoxPane = new StackPane();
+        Pane totalRightBoxColorPane = new Pane();
+        totalLeftBoxColorPane.setPrefSize(105, 30);
+        totalLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        totalRightBoxColorPane.setPrefSize(30, 30);
+        totalRightBoxColorPane.setStyle("-fx-background-color: #979CA9;");
         scoreLeftBoxColorPane.setPrefSize(105, 200);
         scoreLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
         scoreRIghtBoxColorPane.setPrefSize(30, 200);
@@ -495,15 +505,11 @@ public class WGGUI implements WGStyle {
         Label wordlabel1 = new Label("WAR");
         Label wordlabel2 = new Label("RAW");
         Label wordlabel3 = new Label("DRAW");
-        Label total = new Label("Total");
+        Label total = new Label("TOTAL");
         Label scorelabel1 = new Label("10");
         Label scorelabel2 = new Label("10");
         Label scorelabel3 = new Label("20");
-        Label totalscore = new Label("40");
-        VBox emptyVBox = new VBox();
-        VBox.setVgrow(emptyVBox, Priority.ALWAYS);
-        VBox emptyVBox2 = new VBox();
-        VBox.setVgrow(emptyVBox2, Priority.ALWAYS);
+        totalScoreLabel = new Label("40");
         scoreLeftBox = new VBox();
         scoreLeftBox.setPadding(new Insets(8));
         scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
@@ -514,9 +520,24 @@ public class WGGUI implements WGStyle {
         scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         scoreRightBox.getChildren().addAll(scorelabel1, scorelabel2, scorelabel3);
+        VBox totalLeftBox = new VBox();
+        totalLeftBox.setPadding(new Insets(8));
+        totalLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        totalLeftBox.getChildren().add(total);
+        VBox totalRightBox = new VBox();
+        totalRightBox.setPadding(new Insets(8));
+        totalRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        totalRightBox.getChildren().add(totalScoreLabel);
         scoreLeftBoxPane.getChildren().addAll(scoreLeftBoxColorPane, scoreLeftBox);
         scoreRightBoxPane.getChildren().addAll(scoreRIghtBoxColorPane, scoreRightBox);
+        totalLeftBoxPane.getChildren().addAll(totalLeftBoxColorPane, totalLeftBox);
+        totalRightBoxPane.getChildren().addAll(totalRightBoxColorPane, totalRightBox);
         scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
+        Pane emptyBox2 = new Pane();
+        emptyBox2.setPrefSize(30, 30);
+        totalBoardBox.getChildren().addAll(emptyBox2, totalLeftBoxPane, totalRightBoxPane);
         ScrollPane scoreBar = new ScrollPane();
         scoreBar.setMaxHeight(200);
         scoreBar.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -524,8 +545,10 @@ public class WGGUI implements WGStyle {
         scoreBar.setContent(scoreBoardBox);
         Pane emptyBox = new Pane();
         emptyBox.setPrefSize(30, 30);
-        scoreBarPane = new HBox();
-        scoreBarPane.getChildren().addAll(emptyBox, scoreBar);
+        HBox scoreBarPaneHBox = new HBox();
+        scoreBarPaneHBox.getChildren().addAll(emptyBox, scoreBar);
+        scoreBarPane = new VBox();
+        scoreBarPane.getChildren().addAll(scoreBarPaneHBox, totalBoardBox);
         scoreBarPane.setVisible(false);
     }
 
