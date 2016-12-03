@@ -99,13 +99,14 @@ public class Gameplay extends WGGUI{
 //                    gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
 //                });
                 gameLettersLabel[i][j].setOnMouseDragEntered(event -> {
-                    if (controller.checkMouseDrag(finalI, finalJ)) {
+                    if (controller.checkMouseDrag(finalI, finalJ) && controller.checkVisitied(finalI, finalJ)) {
                         controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
                         gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
                     }
                 });
                 primaryScene.setOnMouseDragReleased(event -> {
                     controller.checkRightGrid();
+                    BuzzWordController.initVisited();
                     clearHighlight();
                 });
             }

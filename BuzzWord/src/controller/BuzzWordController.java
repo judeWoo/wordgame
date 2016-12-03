@@ -13,8 +13,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -28,7 +26,9 @@ public class BuzzWordController implements FileManager {
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> visited = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
+    private static ArrayList<String> strings = new ArrayList<>();
 
 
     public enum GameState {
@@ -204,49 +204,47 @@ public class BuzzWordController implements FileManager {
         }
     }
 
-    public int calTotalScore(){
-        return solver.getCounter().size()*10;
+    public int calTotalScore() {
+        return solver.getCounter().size() * 10;
     }
 
-    public void checkGrid(){
-        while (calTotalScore() < new LevelSelection(this).getTargetScore()){
+    public void checkGrid() {
+        while (calTotalScore() < new LevelSelection(this).getTargetScore()) {
             initBuzzBoard();
             solver = new BuzzWordSolverFinal();
             solver.start(buzzBoard);
             System.out.println(" Rebuilding...");
-            if (calTotalScore() >= new LevelSelection(this).getTargetScore()){
+            if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
                 System.out.println(solver.getCounter().size() + " words are found, they are: ");
                 for (String str : solver.getCounter()) {
                     System.out.println(str);
                 }
-                System.out.println("Total Score: "+calTotalScore());
+                System.out.println("Total Score: " + calTotalScore());
                 break;
             }
         }
     }
 
-    public void makeRightGridIndex(char c){
+    public void makeRightGridIndex(char c) {
         letters.add(c);
     }
 
-    String getStringRepresentation(ArrayList<Character> list)
-    {
+    String getStringRepresentation(ArrayList<Character> list) {
         StringBuilder builder = new StringBuilder(list.size());
-        for(Character ch: list)
-        {
+        for (Character ch : list) {
             builder.append(ch);
         }
         return builder.toString();
     }
 
-    public void checkRightGrid(){
-        if (getStringRepresentation(letters).equals(null)){
+    public void checkRightGrid() {
+        if (getStringRepresentation(letters).equals(null)) {
             initRecord();
             return;
         }
-
         for (String str : solver.getCounter()) {
-            if(str.equals(getStringRepresentation(letters).toLowerCase())){
+            if (str.equals(getStringRepresentation(letters).toLowerCase()) && !strings.contains(getStringRepresentation(letters).toLowerCase())) {
+                strings.add(getStringRepresentation(letters).toLowerCase());
                 Label wordlabel = new Label(getStringRepresentation(letters));
                 Label scorelabel = new Label("10");
                 WGGUI.getScoreLeftBox().getChildren().addAll(wordlabel);
@@ -256,8 +254,7 @@ public class BuzzWordController implements FileManager {
                     initLetters();
                     initRecord();
                     return;
-                }
-                else if (getStringRepresentation(letters).length() >= 5){
+                } else if (getStringRepresentation(letters).length() >= 5) {
                     scorelabel.setText("30");
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
                     initLetters();
@@ -270,14 +267,13 @@ public class BuzzWordController implements FileManager {
         initRecord();
     }
 
-    public ArrayList<ArrayList<Integer>> recordGridIndex(int i, int j){
+    public ArrayList<ArrayList<Integer>> recordGridIndex(int i, int j) {
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
         recordElement.add(j);
         if (record.isEmpty()) {
             record.add(recordElement);
-        }
-        else if (!record.isEmpty()){
+        } else if (!record.isEmpty()) {
             ArrayList<Integer> compareElement1 = new ArrayList<>();
             ArrayList<Integer> compareElement2 = new ArrayList<>();
             ArrayList<Integer> compareElement3 = new ArrayList<>();
@@ -286,18 +282,26 @@ public class BuzzWordController implements FileManager {
             ArrayList<Integer> compareElement6 = new ArrayList<>();
             ArrayList<Integer> compareElement7 = new ArrayList<>();
             ArrayList<Integer> compareElement8 = new ArrayList<>();
-            compareElement1.add(i);compareElement1.add(j-1);
-            compareElement2.add(i);compareElement2.add(j+1);
-            compareElement3.add(i-1);compareElement3.add(j);
-            compareElement4.add(i+1);compareElement4.add(j);
-            compareElement5.add(i+1);compareElement5.add(j-1);
-            compareElement6.add(i+1);compareElement6.add(j+1);
-            compareElement7.add(i-1);compareElement7.add(j-1);
-            compareElement8.add(i-1);compareElement8.add(j+1);
+            compareElement1.add(i);
+            compareElement1.add(j - 1);
+            compareElement2.add(i);
+            compareElement2.add(j + 1);
+            compareElement3.add(i - 1);
+            compareElement3.add(j);
+            compareElement4.add(i + 1);
+            compareElement4.add(j);
+            compareElement5.add(i + 1);
+            compareElement5.add(j - 1);
+            compareElement6.add(i + 1);
+            compareElement6.add(j + 1);
+            compareElement7.add(i - 1);
+            compareElement7.add(j - 1);
+            compareElement8.add(i - 1);
+            compareElement8.add(j + 1);
 
             if (record.contains(compareElement1) || record.contains(compareElement2) || record.contains(compareElement3)
                     || record.contains(compareElement4) || record.contains(compareElement5) ||
-                    record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)){
+                    record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)) {
                 record = new ArrayList<>(); //clear first;
                 record.add(recordElement);
             }
@@ -305,22 +309,41 @@ public class BuzzWordController implements FileManager {
         return record;
     }
 
-    public boolean checkMouseDrag(int i, int j){
+    public boolean checkMouseDrag(int i, int j) {
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
         recordElement.add(j);
-        if (recordGridIndex(i,j).contains(recordElement)){
+        if (recordGridIndex(i, j).contains(recordElement)) {
             return true;
         }
         return false;
     }
 
-    public static void initLetters(){
+    public boolean checkVisitied(int i, int j) {
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        if (!visited.contains(recordElement)) {
+            visited.add(recordElement);
+            return true;
+        }
+        return false;
+    }
+
+    public static void initVisited() {
+        visited = new ArrayList<>();
+    }
+
+    public static void initLetters() {
         letters = new ArrayList<>();
     }
 
-    public static void initRecord(){
+    public static void initRecord() {
         record = new ArrayList<>();
+    }
+
+    public static ArrayList<String> getStrings() {
+        return strings;
     }
 
     public static GameData getGameData() {
