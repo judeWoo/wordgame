@@ -247,11 +247,23 @@ public class BuzzWordController implements FileManager {
 
         for (String str : solver.getCounter()) {
             if(str.equals(getStringRepresentation(letters).toLowerCase())){
-                Label scorelabel = new Label(getStringRepresentation(letters));
-                WGGUI.getScoreLeftBox().getChildren().addAll(scorelabel);
-                initLetters();
-                initRecord();
-                return;
+                Label wordlabel = new Label(getStringRepresentation(letters));
+                Label scorelabel = new Label("10");
+                WGGUI.getScoreLeftBox().getChildren().addAll(wordlabel);
+                if (getStringRepresentation(letters).length() == 4 || getStringRepresentation(letters).length() == 3) {
+                    scorelabel.setText("20");
+                    WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    initLetters();
+                    initRecord();
+                    return;
+                }
+                else if (getStringRepresentation(letters).length() >= 5){
+                    scorelabel.setText("30");
+                    WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    initLetters();
+                    initRecord();
+                    return;
+                }
             }
         }
         initLetters();

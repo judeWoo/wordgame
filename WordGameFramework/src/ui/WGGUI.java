@@ -495,31 +495,26 @@ public class WGGUI implements WGStyle {
         Pane totalRightBoxPane = new StackPane();
         Pane totalRightBoxColorPane = new Pane();
         totalLeftBoxColorPane.setPrefSize(105, 30);
-        totalLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        totalLeftBoxColorPane.setStyle("-fx-background-color: #A294AC;");
         totalRightBoxColorPane.setPrefSize(30, 30);
-        totalRightBoxColorPane.setStyle("-fx-background-color: #979CA9;");
+        totalRightBoxColorPane.setStyle("-fx-background-color: #A294AC;");
         scoreLeftBoxColorPane.setPrefSize(105, 200);
         scoreLeftBoxColorPane.setStyle("-fx-background-color: #979CA9;");
         scoreRIghtBoxColorPane.setPrefSize(30, 200);
         scoreRIghtBoxColorPane.setStyle("-fx-background-color: #979CA9;");
-        Label wordlabel1 = new Label("WAR");
-        Label wordlabel2 = new Label("RAW");
-        Label wordlabel3 = new Label("DRAW");
         Label total = new Label("TOTAL");
-        Label scorelabel1 = new Label("10");
-        Label scorelabel2 = new Label("10");
-        Label scorelabel3 = new Label("20");
+        total.getStyleClass().add("total");
         totalScoreLabel = new Label("40");
+        totalScoreLabel.setId("totalScoreLabel");
+        totalScoreLabel.getStyleClass().add("total");
         scoreLeftBox = new VBox();
         scoreLeftBox.setPadding(new Insets(8));
         scoreLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        scoreLeftBox.getChildren().addAll(wordlabel1, wordlabel2, wordlabel3);
         scoreRightBox = new VBox();
         scoreRightBox.setPadding(new Insets(8));
         scoreRightBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        scoreRightBox.getChildren().addAll(scorelabel1, scorelabel2, scorelabel3);
         VBox totalLeftBox = new VBox();
         totalLeftBox.setPadding(new Insets(8));
         totalLeftBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#A294AC"),
@@ -536,7 +531,7 @@ public class WGGUI implements WGStyle {
         totalRightBoxPane.getChildren().addAll(totalRightBoxColorPane, totalRightBox);
         scoreBoardBox.getChildren().addAll(scoreLeftBoxPane, scoreRightBoxPane);
         Pane emptyBox2 = new Pane();
-        emptyBox2.setPrefSize(30, 30);
+        emptyBox2.setPrefSize(31, 30);
         totalBoardBox.getChildren().addAll(emptyBox2, totalLeftBoxPane, totalRightBoxPane);
         ScrollPane scoreBar = new ScrollPane();
         scoreBar.setMaxHeight(200);
@@ -576,6 +571,10 @@ public class WGGUI implements WGStyle {
 
     public static ComboBox getSelectMode() {
         return selectMode;
+    }
+
+    public static Label getTotalScoreLabel() {
+        return totalScoreLabel;
     }
 
     public static VBox getScoreLeftBox() {

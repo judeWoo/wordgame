@@ -37,6 +37,11 @@
     -fx-font: 14px "Arial";
 }
 
+.total {
+    -fx-text-fill: white;
+    -fx-font: 12px "Arial";
+}
+
 .pane {
     -fx-border-radius: 10 10 10 10;
     -fx-background-radius: 10 10 10 10;
