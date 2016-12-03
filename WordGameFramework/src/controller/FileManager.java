@@ -10,11 +10,7 @@ public interface FileManager {
 
     void logOutRequest();
 
-    void setGameLetterLable();
-
     int setTargetScore(String level);
-
-    void loadGameRequest();
 
     void saveGameRequest();
 }

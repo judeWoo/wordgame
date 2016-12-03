@@ -31,7 +31,7 @@ public class BuzzWordController implements FileManager {
     private GameDataFile gameDataFile;
     private WGGUI wggui;
     private BuzzWordSolverFinal solver;
-    private GameState gamestate;   // the state of the game being shown in the workspace
+    private static GameState gamestate;   // the state of the game being shown in the workspace
     private static Timeline timeline;
     private static GameData gameData;
     private static String gameLevel;
@@ -44,9 +44,8 @@ public class BuzzWordController implements FileManager {
 
 
     public enum GameState {
-        UNINITIALIZED,
-        INITIALIZED_UNMODIFIED,
-        INITIALIZED_MODIFIED,
+        PAUSED,
+        STARTED,
         ENDED
     }
 
@@ -112,11 +111,6 @@ public class BuzzWordController implements FileManager {
     }
 
     @Override
-    public void setGameLetterLable() {
-
-    }
-
-    @Override
     public int setTargetScore(String level) {
         gameLevel = new String(level);
         switch (level) {
@@ -141,13 +135,42 @@ public class BuzzWordController implements FileManager {
     }
 
     @Override
-    public void loadGameRequest() {
-
-    }
-
-    @Override
     public void saveGameRequest() {
+        String mode = WGGUI.getSelectMode().getValue().toString();
+        switch (mode) {
+            case "Famous People":
+                gameData.setdModeLevel(Integer.parseInt(gameLevel));
+                break;
+            case "Places":
+                gameData.setbModeLevel(Integer.parseInt(gameLevel));
+                break;
+            case "Science":
+                gameData.setcModeLevel(Integer.parseInt(gameLevel));
+                break;
+            case "English Dictionary":
+                gameData.setaModeLevel(Integer.parseInt(gameLevel));
+                break;
+        }
 
+        if (workFile == null) {
+            Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
+            Path targetPath = appDirPath.resolve("saved");
+
+            try {
+                if (save(targetPath)) {
+                    return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                save(workFile);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private boolean save(Path target) throws IOException {
@@ -367,7 +390,6 @@ public class BuzzWordController implements FileManager {
         wggui.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
         System.out.println("Game Ended");
-
     }
 
     public void setGameState(GameState gamestate) {
@@ -376,10 +398,12 @@ public class BuzzWordController implements FileManager {
 
     public void startTimer() {
         timeline.play();
+        setGameState(GameState.STARTED);
     }
 
     public void pauseTimer() {
         timeline.pause();
+        setGameState(GameState.PAUSED);
     }
 
     public static void initTimer(Label timerLabel) {
@@ -428,6 +452,10 @@ public class BuzzWordController implements FileManager {
 
     public static BuzzBoard getBuzzBoard() {
         return buzzBoard;
+    }
+
+    public GameState getGamestate() {
+        return gamestate;
     }
 
     public static String getGameLevel() {

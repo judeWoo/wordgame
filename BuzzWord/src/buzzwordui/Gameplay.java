@@ -115,8 +115,16 @@ public class Gameplay extends WGGUI {
                         controller.end(filter);
                     }
                 });
+                primaryScene.setOnKeyTyped(event -> {
+                    if (controller.getGamestate().equals(controller.getGamestate().STARTED)){
+
+                    }
+
+                });
+
             }
         }
+
     }
 
     @Override
