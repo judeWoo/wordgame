@@ -73,8 +73,9 @@ public class WGGUI implements WGStyle {
     protected static Circle[][] gameLetters; // circle labeled letters on the grid
     protected static Line[][] hLettersLines;
     protected static Line[][] vLettersLines;
+    protected static Line[][] dRLettersLines;
+    protected static Line[][] dLLettersLines;
     protected static Label[][] gameLettersLabel;
-    protected static Label wordLabel;
     protected static VBox targetBox;
     protected static Pane targetBoxPane;
     protected static Label targetLable;
@@ -317,6 +318,8 @@ public class WGGUI implements WGStyle {
         gameLetters = new Circle[4][4];
         hLettersLines = new Line[4][3];
         vLettersLines = new Line[3][4];
+        dRLettersLines = new Line[3][3];
+        dLLettersLines = new Line[3][3];
 
         int ySpacing = 40;
         int initSpacing = 50;
@@ -352,6 +355,34 @@ public class WGGUI implements WGStyle {
                 vLettersLines[i][j].setStrokeWidth(5);
                 vLettersLines[i][j].setVisible(false);
                 gamePane.getChildren().add(vLettersLines[i][j]);
+            }
+        }
+
+        for (int i =0; i < 3; i++){
+            for (int j=0; j < 3; j++){
+                dRLettersLines[i][j] = new Line();
+                dRLettersLines[i][j].startXProperty().bind(gameLetters[i][j].centerXProperty());
+                dRLettersLines[i][j].startYProperty().bind(gameLetters[i][j].centerYProperty());
+                dRLettersLines[i][j].endXProperty().bind(gameLetters[i + 1][j+1].centerXProperty());
+                dRLettersLines[i][j].endYProperty().bind(gameLetters[i + 1][j+1].centerYProperty());
+                dRLettersLines[i][j].setStroke(Paint.valueOf("#FFFFFF"));
+                dRLettersLines[i][j].setStrokeWidth(5);
+                dRLettersLines[i][j].setVisible(false);
+                gamePane.getChildren().add(dRLettersLines[i][j]);
+            }
+        }
+
+        for (int i = 0; i < 4-1; i++){
+            for (int j=1; j < 4; j++){
+                dLLettersLines[i][j-1] = new Line();
+                dLLettersLines[i][j-1].startXProperty().bind(gameLetters[i][j].centerXProperty());
+                dLLettersLines[i][j-1].startYProperty().bind(gameLetters[i][j].centerYProperty());
+                dLLettersLines[i][j-1].endXProperty().bind(gameLetters[i + 1][j-1].centerXProperty());
+                dLLettersLines[i][j-1].endYProperty().bind(gameLetters[i + 1][j-1].centerYProperty());
+                dLLettersLines[i][j-1].setStroke(Paint.valueOf("#FFFFFF"));
+                dLLettersLines[i][j-1].setStrokeWidth(5);
+                dLLettersLines[i][j-1].setVisible(false);
+                gamePane.getChildren().add(dLLettersLines[i][j-1]);
             }
         }
 
@@ -406,15 +437,10 @@ public class WGGUI implements WGStyle {
     }
 
     public void initGamePlay() {
-        wordLabel = new Label("B U");
-        //timerLabel.textProperty().bind(valueProperty);
-        wordLabel.setVisible(false);
-        wordLabel.getStyleClass().add("word");
-
         wordBox = new HBox();
         wordBox.setAlignment(Pos.CENTER_LEFT);
         wordBox.setPadding(new Insets(8));
-        wordBox.getChildren().addAll(wordLabel);
+        wordBox.setSpacing(3);
 
         wordBoxPane = new Pane();
         wordBoxPane.setPrefSize(150, 30);
@@ -574,6 +600,10 @@ public class WGGUI implements WGStyle {
         }
     }
 
+    public static Label getTimerLabel() {
+        return timerLabel;
+    }
+
     public static Scene getPrimaryScene() {
         return primaryScene;
     }
@@ -582,8 +612,8 @@ public class WGGUI implements WGStyle {
         return selectMode;
     }
 
-    public static Label getTotalScoreLabel() {
-        return totalScoreLabel;
+    public static HBox getWordBox() {
+        return wordBox;
     }
 
     public static VBox getScoreLeftBox() {
@@ -593,4 +623,5 @@ public class WGGUI implements WGStyle {
     public static VBox getScoreRightBox() {
         return scoreRightBox;
     }
+
 }

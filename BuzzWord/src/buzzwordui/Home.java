@@ -93,7 +93,6 @@ public class Home extends WGGUI{
         modeLabel.setVisible(false);
         timeLabel.setVisible(false);
         remainingLabel.setVisible(false);
-        wordLabel.setVisible(false);
         bottomPlayButton.setVisible(false);
         pauseButtonPane.setVisible(false);
         targetPointsLable.setVisible(false);

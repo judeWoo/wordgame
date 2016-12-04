@@ -11,6 +11,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import ui.WGGUI;
@@ -21,6 +22,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -37,13 +39,15 @@ public class BuzzWordController implements FileManager {
     private static String gameLevel;
     private static BuzzBoard buzzBoard;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> recordKeyEvent = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> visited = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
     private static ArrayList<Integer> score = new ArrayList<>();
-
+    private static ArrayList<?> keyInputTree = new ArrayList<>();
 
     public enum GameState {
+        INITIALIZED,
         PAUSED,
         STARTED,
         ENDED
@@ -52,20 +56,9 @@ public class BuzzWordController implements FileManager {
     public BuzzWordController() {
     }
 
-    private void initGameData() {
-        gameData = new GameData();
-    }
-
-    public void initBuzzBoard() {
-        buzzBoard = new BuzzBoard();
-    }
-
-
     @Override
     public boolean newGameProfileRequest() {
-
         initGameData();
-
         if (workFile == null) {
             Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
             Path targetPath = appDirPath.resolve("saved");
@@ -113,6 +106,7 @@ public class BuzzWordController implements FileManager {
     @Override
     public int setTargetScore(String level) {
         gameLevel = new String(level);
+        initGameState();
         switch (level) {
             case "1":
                 return 30;
@@ -216,22 +210,22 @@ public class BuzzWordController implements FileManager {
         initBuzzBoard();
         switch (mode) {
             case "Famous People":
-                solver.setInputFile("words/Famous People.txt");
+                BuzzWordSolverFinal.setInputFile("words/Famous People.txt");
                 break;
             case "Places":
-                solver.setInputFile("words/Places.txt");
+                BuzzWordSolverFinal.setInputFile("words/Places.txt");
                 break;
             case "Science":
-                solver.setInputFile("words/Science.txt");
+                BuzzWordSolverFinal.setInputFile("words/Science.txt");
                 break;
             case "English Dictionary":
-                solver.setInputFile("words/English Dictionary.txt");
+                BuzzWordSolverFinal.setInputFile("words/English Dictionary.txt");
                 break;
         }
-        solver.start(buzzBoard);
+        BuzzWordSolverFinal.start(buzzBoard);
         if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
-            System.out.println(solver.getCounter().size() + " words are found, they are: ");
-            for (String str : solver.getCounter()) {
+            System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
+            for (String str : BuzzWordSolverFinal.getCounter()) {
                 System.out.println(str);
             }
             System.out.println("Total Score: " + calTotalScore());
@@ -239,18 +233,18 @@ public class BuzzWordController implements FileManager {
     }
 
     public int calTotalScore() {
-        return solver.getCounter().size() * 10;
+        return BuzzWordSolverFinal.getCounter().size() * 10;
     }
 
     public void checkGrid() {
         while (calTotalScore() < new LevelSelection(this).getTargetScore()) {
             initBuzzBoard();
             solver = new BuzzWordSolverFinal();
-            solver.start(buzzBoard);
+            BuzzWordSolverFinal.start(buzzBoard);
             System.out.println(" Rebuilding...");
             if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
-                System.out.println(solver.getCounter().size() + " words are found, they are: ");
-                for (String str : solver.getCounter()) {
+                System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
+                for (String str : BuzzWordSolverFinal.getCounter()) {
                     System.out.println(str);
                 }
                 System.out.println("Total Score: " + calTotalScore());
@@ -261,6 +255,14 @@ public class BuzzWordController implements FileManager {
 
     public void makeRightGridIndex(char c) {
         letters.add(c);
+        Label word = new Label();
+        word.getStyleClass().add("word");
+        word.setText(String.valueOf(c));
+        WGGUI.getWordBox().getChildren().add(word);
+    }
+    
+    public void removeRightGridIndex() {
+        WGGUI.getWordBox().getChildren().clear();
     }
 
     String getStringRepresentation(ArrayList<Character> list) {
@@ -276,7 +278,7 @@ public class BuzzWordController implements FileManager {
             initRecord();
             return;
         }
-        for (String str : solver.getCounter()) {
+        for (String str : BuzzWordSolverFinal.getCounter()) {
             if (str.equals(getStringRepresentation(letters).toLowerCase()) && !strings.contains(getStringRepresentation(letters).toLowerCase())) {
                 strings.add(getStringRepresentation(letters).toLowerCase());
                 Label wordlabel = new Label(getStringRepresentation(letters));
@@ -359,10 +361,7 @@ public class BuzzWordController implements FileManager {
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
         recordElement.add(j);
-        if (recordGridIndex(i, j).contains(recordElement)) {
-            return true;
-        }
-        return false;
+        return recordGridIndex(i, j).contains(recordElement);
     }
 
     public boolean checkVisitied(int i, int j) {
@@ -376,6 +375,20 @@ public class BuzzWordController implements FileManager {
         return false;
     }
 
+    public boolean checkKeyInput(KeyEvent event, int i, int j) {
+        Item keyInput1 = new Item(i, j, event.getCharacter());
+        Item keyInput2 = new Item(i, j-1, event.getCharacter());
+        Item keyInput3 = new Item(i, j+1, event.getCharacter());
+        Item keyInput4 = new Item(i-1, j, event.getCharacter());
+        Item keyInput5 = new Item(i+1, j, event.getCharacter());
+        Item keyInput6 = new Item(i-1, j-1, event.getCharacter());
+        Item keyInput7 = new Item(i+1, j-1, event.getCharacter());
+        Item keyInput8 = new Item(i-1, j+1, event.getCharacter());
+        Item keyInput9 = new Item(i+1, j+1, event.getCharacter());
+        keyInputTree = new ArrayList<>();
+        return false;
+    }
+
     public int changeTotalScore() {
         int total = 0;
         for (int i = 0; i < score.size(); i++) {
@@ -386,24 +399,21 @@ public class BuzzWordController implements FileManager {
 
     public void end(EventHandler filter) {
         timeline.stop();
-        wggui.getPrimaryScene().setOnKeyTyped(null);
-        wggui.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
+        WGGUI.getTimerLabel().textProperty().unbind();
+        WGGUI.getPrimaryScene().setOnKeyTyped(null);
+        WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
         System.out.println("Game Ended");
     }
 
-    public void setGameState(GameState gamestate) {
-        this.gamestate = gamestate;
-    }
-
     public void startTimer() {
-        timeline.play();
         setGameState(GameState.STARTED);
+        timeline.play();
     }
 
     public void pauseTimer() {
-        timeline.pause();
         setGameState(GameState.PAUSED);
+        timeline.pause();
     }
 
     public static void initTimer(Label timerLabel) {
@@ -424,6 +434,37 @@ public class BuzzWordController implements FileManager {
                 new KeyFrame(Duration.seconds(starttime + 1),
                         new KeyValue(timeSeconds, 0)));
 
+    }
+
+    public void initGameState() { setGameState(GameState.INITIALIZED); }
+
+    private void initGameData() {
+        gameData = new GameData();
+    }
+
+    public void initBuzzBoard() {
+        buzzBoard = new BuzzBoard();
+    }
+
+    //for key INPUT
+    class Item implements Comparable<Item>{
+        public final int x, y;
+        public final String prefix;
+
+        public Item(int row, int column, String prefix) {
+            this.x = row;
+            this.y = column;
+            this.prefix = prefix;
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            return prefix.charAt(0) - 'A';
+        }
+    }
+
+    public void setGameState(GameState gamestate) {
+        BuzzWordController.gamestate = gamestate;
     }
 
     public static void initScore() {

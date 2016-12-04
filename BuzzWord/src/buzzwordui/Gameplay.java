@@ -45,16 +45,15 @@ public class Gameplay extends WGGUI {
             e.printStackTrace();
         }
         initLetter();
+        setinitHighlight();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
 
     public void layoutGUI() {
-        //  timerLabel.textProperty().bind(valueProperty);
         levelLabel.setVisible(true);
         timeLabel.setVisible(true);
         timerLabel.setVisible(true);
         remainingLabel.setVisible(true);
-        wordLabel.setVisible(true);
         bottomPlayButton.setVisible(true);
         targetLable.setVisible(true);
         targetPointsLable.setVisible(true);
@@ -78,11 +77,11 @@ public class Gameplay extends WGGUI {
     }
 
     public void setinitHighlight() {
-        gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.92,1,1);");
-        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.92,1,1);");
+//        gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//        gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//        gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
     }
 
     public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines) {
@@ -111,19 +110,26 @@ public class Gameplay extends WGGUI {
                     totalScoreLabel.setText(controller.changeTotalScore() + "");
                     BuzzWordController.initVisited();
                     clearHighlight();
-                    if (timerLabel.equals("0") || controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())){
+                    controller.removeRightGridIndex();
+                    if (timerLabel.equals("0") || controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
                         controller.end(filter);
                     }
                 });
-                primaryScene.setOnKeyTyped(event -> {
-                    if (controller.getGamestate().equals(controller.getGamestate().STARTED)){
-
-                    }
-
-                });
-
             }
         }
+        primaryScene.setOnKeyTyped(event -> {
+            for (int i = 0; i < 4; i++){
+                for (int j =0; j < 4; j++){
+                    if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED) && event.getCharacter().matches("[a-z]")
+                            && event.getCharacter().equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
+                        if (controller.checkVisitied(i, j)) {
+                            gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                        }
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -168,7 +174,7 @@ public class Gameplay extends WGGUI {
     }
 
     public void setButtonEvent() {
-
+        getTimerLabel().setText("60");
         BuzzWordController.initTimer(timerLabel);
 
         bottomPlayButton.setOnMouseClicked(event -> {
