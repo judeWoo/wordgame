@@ -1,8 +1,6 @@
 package buzzwordui;
 
 import controller.BuzzWordController;
-import javafx.collections.ObservableList;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ui.WGGUI;

@@ -13,7 +13,6 @@ import wgtemplate.WGTemplate;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 /**
  * Created by Jude Hokyoon Woo on 11/6/2016.
@@ -22,6 +21,7 @@ public class Gameplay extends WGGUI {
 
     WGTemplate wgTemplate;
     BuzzWordController controller = new BuzzWordController();
+    int counter = 0; //for the count of keystroke
     EventHandler filter = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
@@ -80,8 +80,8 @@ public class Gameplay extends WGGUI {
 //        gameLetters[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
 //        gameLetters[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
 //        gameLetters[0][2].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
     }
 
     public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines) {
@@ -111,21 +111,36 @@ public class Gameplay extends WGGUI {
                     BuzzWordController.initVisited();
                     clearHighlight();
                     controller.removeRightGridIndex();
-                    if (timerLabel.equals("0") || controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
+                    if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
                         controller.end(filter);
                     }
                 });
             }
         }
         primaryScene.setOnKeyTyped(event -> {
+            clearHighlight();
             for (int i = 0; i < 4; i++){
                 for (int j =0; j < 4; j++){
+                    if (i==0 && j==0){
+                        counter = 0;
+                        controller.setSecondCounter(0);
+                    }
                     if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED) && event.getCharacter().matches("[a-z]")
                             && event.getCharacter().equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
-                        if (controller.checkVisitied(i, j)) {
-                            gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-                        }
+                        controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
+                        controller.keyEventHandler(i, j, BuzzWordController.getLetters().size());
+//                        if (controller.checkKeyInput(i, j)){
+//                            gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//                        }
+                        counter++;
                     }
+                }
+            }
+            for (int i =0; i<4; i++){
+                for (int j=0; j <4; j++){
+//                    if (controller.getHighlighted()[i][j]){
+//                        gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//                    }
                 }
             }
         });
@@ -175,7 +190,7 @@ public class Gameplay extends WGGUI {
 
     public void setButtonEvent() {
         getTimerLabel().setText("60");
-        BuzzWordController.initTimer(timerLabel);
+        controller.initTimer(timerLabel, filter);
 
         bottomPlayButton.setOnMouseClicked(event -> {
             showLines();
@@ -194,5 +209,6 @@ public class Gameplay extends WGGUI {
             bottomPlayButton.setVisible(true);
         });
     }
+
 
 }

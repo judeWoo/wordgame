@@ -80,7 +80,7 @@ public class BuzzWordSolverFinal {
             return;
         }
         String newWord = item.prefix + map[x][y]; //newWord is a letter (of a word) for the first time, and it gets longer.
-        // check whether cur.prefix is a valid prefix
+        /// / check whether cur.prefix is a valid prefix
         BuzzTrieNode findWord = dict.match(newWord);
         if (findWord == null) {
             // up to this position (x, y), the word don't exists

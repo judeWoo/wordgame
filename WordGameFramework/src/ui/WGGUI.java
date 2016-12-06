@@ -41,7 +41,7 @@ public class WGGUI implements WGStyle {
     protected StackPane leftPane;
     protected StackPane createProfilePane;
     protected Pane exitPane;
-    protected StackPane bottomPane;
+    protected static StackPane bottomPane;
     protected static Label timerLabel;
     protected static Label totalScoreLabel;
     protected static Scene primaryScene;     // the scene graph
@@ -608,6 +608,10 @@ public class WGGUI implements WGStyle {
         return primaryScene;
     }
 
+    public static Circle[][] getGameLetters() {
+        return gameLetters;
+    }
+
     public static ComboBox getSelectMode() {
         return selectMode;
     }
@@ -624,4 +628,7 @@ public class WGGUI implements WGStyle {
         return scoreRightBox;
     }
 
+    public static StackPane getBottomPane() {
+        return bottomPane;
+    }
 }
