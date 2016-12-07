@@ -13,6 +13,8 @@ import wgtemplate.WGTemplate;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jude Hokyoon Woo on 11/6/2016.
@@ -87,7 +89,6 @@ public class Gameplay extends WGGUI {
     public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines) {
         //Do not forget to erase primaryscene event!
         primaryScene.addEventFilter(MouseEvent.DRAG_DETECTED, filter);
-
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 int finalI = i;
@@ -123,29 +124,22 @@ public class Gameplay extends WGGUI {
                 for (int j =0; j < 4; j++){
                     if (i==0 && j==0){
                         counter = 0;
-                        controller.setSecondCounter(0);
                     }
                     if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED) && event.getCharacter().matches("[a-z]")
-                            && event.getCharacter().equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
+                            && event.getCharacter().equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())
+                            && controller.checkVisitied(i,j)) {
                         controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
-                        controller.keyEventHandler(i, j, BuzzWordController.getLetters().size());
-//                        if (controller.checkKeyInput(i, j)){
-//                            gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-//                        }
                         counter++;
                     }
                 }
             }
             for (int i =0; i<4; i++){
                 for (int j=0; j <4; j++){
-//                    if (controller.getHighlighted()[i][j]){
-//                        gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-//                    }
+                    boolean[][] visited = new boolean[4][4];
+                    controller.keyEventHandler(i, j,visited, "");
                 }
             }
         });
-
-
     }
 
     @Override
@@ -189,7 +183,7 @@ public class Gameplay extends WGGUI {
     }
 
     public void setButtonEvent() {
-        getTimerLabel().setText("60");
+        getTimerLabel().setText("120");
         controller.initTimer(timerLabel, filter);
 
         bottomPlayButton.setOnMouseClicked(event -> {

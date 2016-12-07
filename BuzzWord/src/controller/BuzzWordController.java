@@ -19,9 +19,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -40,8 +38,8 @@ public class BuzzWordController implements FileManager {
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
     private static ArrayList<Integer> score = new ArrayList<>();
-    private static boolean[][] highlight = new boolean[4][4];
-    private static int secondCounter;
+    private static ArrayList<ArrayList<Integer>> recorder = new ArrayList<>();
+
     public enum GameState {
         INITIALIZED,
         PAUSED,
@@ -233,9 +231,9 @@ public class BuzzWordController implements FileManager {
 
     public void checkGrid() {
         while (calTotalScore() < new LevelSelection(this).getTargetScore()) {
+            System.out.println(" Rebuilding...");
             initBuzzBoard();
             BuzzWordSolverFinal.start(buzzBoard);
-            System.out.println(" Rebuilding...");
             if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
                 System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
                 for (String str : BuzzWordSolverFinal.getCounter()) {
@@ -247,8 +245,9 @@ public class BuzzWordController implements FileManager {
         }
     }
 
+    //if key, use visited
     public void makeRightKeyGridIndex(char c, int counter) {
-        if (counter <= 0){
+        if (counter <= 0) {
             letters.add(c);
             Label word = new Label();
             word.getStyleClass().add("word");
@@ -264,7 +263,7 @@ public class BuzzWordController implements FileManager {
         word.setText(String.valueOf(c));
         WGGUI.getWordBox().getChildren().add(word);
     }
-    
+
     public void removeRightGridIndex() {
         WGGUI.getWordBox().getChildren().clear();
     }
@@ -408,7 +407,7 @@ public class BuzzWordController implements FileManager {
     }
 
     public void initTimer(Label timerLabel, EventHandler filter) {
-        Integer STARTTIME = 60; // can modify later;
+        Integer STARTTIME = 120; // can modify later;
         final Integer[] timeSeconds = {STARTTIME};
         // Configure the Label
         timerLabel.setText(timeSeconds[0].toString());
@@ -435,39 +434,47 @@ public class BuzzWordController implements FileManager {
 
     }
 
-    public boolean[][] keyEventHandler(int i, int j, int counter) {
-        if (counter == 0){
-            highlight[i][j] = true;
-            return highlight;
+    public void keyEventHandler(int i, int j, boolean[][] visited, String s) {
+        //grid is 4x4
+        if (i < 0 || j < 0 || i > 3 || j > 3) {
+            return;
+        } else if (visited[i][j] == true) {
+            return;
         }
-        if (counter >= 1){
-            int x1 = i;
-            int y1 = j-1;
-            int x2 = i;
-            int y2 = j+1;
-            int x3 = i-1;
-            int y3 = j-1;
-            int x4 = i+1;
-            int y4 = j+1;
-            int x5 = i+1;
-            int y5 = j-1;
-            int x6 = i-1;
-            int y6 = j+1;
-            int x7 = i+1;
-            int y7 = j;
-            int x8 = i-1;
-            int y8 = j;
-            if (y1 > 0){
-                if (highlight[x1][y1])
-                    highlight[i][j] = true;
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        String word = getStringRepresentation(letters); //user input
+        s = s + buzzBoard.getLetter(i, j); //add a letter on a grid which locates in (i,j)
+        if (word.contains(s)) {
+            recorder.add(recordElement);
+            if (word.equals(s)) {
+                for (ArrayList<Integer> list: recorder){
+                    for (int xy=0; xy < list.size(); xy+=2){
+                        WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                    }
+                }
+                recorder.clear();
+                return;
             }
-
+            visited[i][j] = true;
+            keyEventHandler(i, j - 1, visited, s);
+            keyEventHandler(i, j + 1, visited, s);
+            keyEventHandler(i - 1, j, visited, s);
+            keyEventHandler(i + 1, j, visited, s);
+            keyEventHandler(i + 1, j - 1, visited, s);
+            keyEventHandler(i + 1, j + 1, visited, s);
+            keyEventHandler(i - 1, j - 1, visited, s);
+            keyEventHandler(i - 1, j + 1, visited, s);
+            visited[i][j] = false;
+            recorder.remove(recordElement);
         }
-
-        return highlight;
+        return;
     }
 
-    public void initGameState() { setGameState(GameState.INITIALIZED); }
+    public void initGameState() {
+        setGameState(GameState.INITIALIZED);
+    }
 
     private void initGameData() {
         gameData = new GameData();
@@ -521,7 +528,7 @@ public class BuzzWordController implements FileManager {
         return gameLevel;
     }
 
-    public void setSecondCounter(int secondCounter) {
-        this.secondCounter = secondCounter;
+    public static ArrayList<ArrayList<Integer>> getRecorder() {
+        return recorder = new ArrayList<>();
     }
 }
