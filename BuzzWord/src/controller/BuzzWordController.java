@@ -100,7 +100,6 @@ public class BuzzWordController implements FileManager {
     @Override
     public int setTargetScore(String level) {
         gameLevel = new String(level);
-        initGameState();
         switch (level) {
             case "1":
                 return 30;
@@ -201,6 +200,7 @@ public class BuzzWordController implements FileManager {
     public void solveBuzzBoard() throws IOException, URISyntaxException {
         String mode = WGGUI.getSelectMode().getValue().toString();
         initBuzzBoard();
+        initGameState(); //start game state;
         switch (mode) {
             case "Famous People":
                 BuzzWordSolverFinal.setInputFile("words/Famous People.txt");
@@ -492,6 +492,8 @@ public class BuzzWordController implements FileManager {
         score = new ArrayList<>();
     }
 
+    public static void initRecorder() {recorder = new ArrayList<>();}
+
     public static void initVisited() {
         visitedArray = new ArrayList<>();
     }
@@ -529,6 +531,6 @@ public class BuzzWordController implements FileManager {
     }
 
     public static ArrayList<ArrayList<Integer>> getRecorder() {
-        return recorder = new ArrayList<>();
+        return recorder;
     }
 }

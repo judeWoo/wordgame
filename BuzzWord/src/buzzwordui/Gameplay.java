@@ -4,6 +4,7 @@ import controller.BuzzWordController;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -119,25 +120,41 @@ public class Gameplay extends WGGUI {
             }
         }
         primaryScene.setOnKeyTyped(event -> {
-            clearHighlight();
-            for (int i = 0; i < 4; i++){
-                for (int j =0; j < 4; j++){
-                    if (i==0 && j==0){
-                        counter = 0;
+            if (event.getCharacter().matches("[a-zA-z]")) {
+                String guess = event.getCharacter().toLowerCase();
+                System.out.println(guess);
+                clearHighlight();
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        if (i == 0 && j == 0) {
+                            counter = 0;
+                        }
+                        if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)
+                                && guess.equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
+                            controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
+                            counter++;
+                        }
                     }
-                    if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED) && event.getCharacter().matches("[a-z]")
-                            && event.getCharacter().equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())
-                            && controller.checkVisitied(i,j)) {
-                        controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
-                        counter++;
+                }
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        boolean[][] visited = new boolean[4][4];
+                        controller.keyEventHandler(i, j, visited, "");
                     }
                 }
             }
-            for (int i =0; i<4; i++){
-                for (int j=0; j <4; j++){
-                    boolean[][] visited = new boolean[4][4];
-                    controller.keyEventHandler(i, j,visited, "");
+        });
+        primaryScene.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)){
+                controller.checkRightGrid();
+                totalScoreLabel.setText(controller.changeTotalScore() + "");
+                BuzzWordController.initRecorder();
+                clearHighlight();
+                controller.removeRightGridIndex();
+                if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
+                    controller.end(filter);
                 }
+                System.out.println(controller.getGamestate());
             }
         });
     }
