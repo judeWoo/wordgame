@@ -449,6 +449,8 @@ public class BuzzWordController implements FileManager {
         if (word.contains(s)) {
             recorder.add(recordElement);
             if (word.equals(s)) {
+                //            int size = recorder.size();
+//            recorder.get(size-1); //former node
                 for (ArrayList<Integer> list: recorder){
                     for (int xy=0; xy < list.size(); xy+=2){
                         WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");

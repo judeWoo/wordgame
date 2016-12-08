@@ -102,9 +102,11 @@ public class Gameplay extends WGGUI {
 //                    gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
 //                });
                 gameLettersLabel[i][j].setOnMouseDragEntered(event -> {
-                    if (controller.checkMouseDrag(finalI, finalJ) && controller.checkVisitied(finalI, finalJ)) {
-                        controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
-                        gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                    if (controller.checkVisitied(finalI, finalJ)) {
+                        if (controller.checkMouseDrag(finalI, finalJ)) {
+                            controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
+                            gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                        }
                     }
                 });
                 primaryScene.setOnMouseDragReleased(event -> {
@@ -145,7 +147,7 @@ public class Gameplay extends WGGUI {
             }
         });
         primaryScene.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)){
+            if (event.getCode().equals(KeyCode.ENTER)) {
                 controller.checkRightGrid();
                 totalScoreLabel.setText(controller.changeTotalScore() + "");
                 BuzzWordController.initRecorder();
