@@ -360,17 +360,22 @@ public class BuzzWordController implements FileManager {
             if (record.contains(compareElement1) || record.contains(compareElement2) || record.contains(compareElement3)
                     || record.contains(compareElement4) || record.contains(compareElement5) ||
                     record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)) {
+                if (record.contains(compareElement1))
+                    WGGUI.gethLettersLines()[i][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement2))
+                    WGGUI.gethLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement3))
+                    WGGUI.getvLettersLines()[i-1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement4))
+                    WGGUI.getvLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement5))
+                    WGGUI.getdLLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 record.clear();
                 record.add(recordElement);
             }
             else{
                 //allows discontinued drag
-                for (int k = 0; k < 4; k++) {
-                    for (int l = 0; l < 4; l++) {
-                        WGGUI.getGameLetters()[k][l].setStyle(null);
-                        WGGUI.getGameLetters()[k][l].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
-                    }
-                }
+                clearHighlight();
                 record.clear();
                 record.add(recordElement);
                 removeRightGridIndex();
@@ -378,6 +383,37 @@ public class BuzzWordController implements FileManager {
             }
         }
         return;
+    }
+
+    public void clearHighlight(){
+        for (int k = 0; k < 4; k++) {
+            for (int l = 0; l < 4; l++) {
+                WGGUI.getGameLetters()[k][l].setStyle(null);
+                WGGUI.getGameLetters()[k][l].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j=0; j <4; j++){
+                WGGUI.getvLettersLines()[i][j].setStyle(null);
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j=0; j <3; j++){
+                WGGUI.gethLettersLines()[i][j].setStyle(null);
+            }
+        }
+        for (int i =0; i < 3; i++){
+            for (int j=0; j < 3; j++){
+                WGGUI.getdRLettersLines()[i][j].setStyle(null);
+            }
+        }
+
+        for (int i = 0; i < 4-1; i++){
+            for (int j=1; j < 4; j++){
+                WGGUI.getdLLettersLines()[i][j-1].setStyle(null);
+            }
+        }
+
     }
 
     public boolean checkMouseDrag(int i, int j) {

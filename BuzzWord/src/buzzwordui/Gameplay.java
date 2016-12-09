@@ -52,7 +52,6 @@ public class Gameplay extends WGGUI {
             e.printStackTrace();
         }
         initLetter();
-        setinitHighlight();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
 
@@ -209,6 +208,27 @@ public class Gameplay extends WGGUI {
             for (int j = 0; j < 4; j++) {
                 gameLetters[i][j].setStyle(null);
                 gameLetters[i][j].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j=0; j <4; j++){
+                vLettersLines[i][j].setStyle(null);
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            for (int j=0; j <3; j++){
+                hLettersLines[i][j].setStyle(null);
+            }
+        }
+        for (int i =0; i < 3; i++){
+            for (int j=0; j < 3; j++){
+                dRLettersLines[i][j].setStyle(null);
+            }
+        }
+
+        for (int i = 0; i < 4-1; i++){
+            for (int j=1; j < 4; j++){
+                dLLettersLines[i][j-1].setStyle(null);
             }
         }
     }

@@ -625,6 +625,22 @@ public class WGGUI implements WGStyle {
         }
     }
 
+    public static Line[][] gethLettersLines() {
+        return hLettersLines;
+    }
+
+    public static Line[][] getvLettersLines() {
+        return vLettersLines;
+    }
+
+    public static Line[][] getdRLettersLines() {
+        return dRLettersLines;
+    }
+
+    public static Line[][] getdLLettersLines() {
+        return dLLettersLines;
+    }
+
     public static Label getTimerLabel() {
         return timerLabel;
     }
