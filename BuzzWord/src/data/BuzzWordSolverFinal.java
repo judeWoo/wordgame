@@ -2,7 +2,6 @@ package data;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,7 +24,7 @@ public class BuzzWordSolverFinal {
         }
     }
 
-    private BuzzTrie buildTrie() {
+    public BuzzTrie buildTrie() {
         BuzzTrie trie = new BuzzTrie();
         beginFileReader();
         String line = null;
@@ -104,7 +103,7 @@ public class BuzzWordSolverFinal {
         visited[x][y] = false;
     }
 
-    public static void start(BuzzBoard boardFile) {
+    public void start(BuzzBoard boardFile, BuzzTrie dictionary) {
 //        String[] rows = "eela,elps,weut,korn".split(",");
         char[][] input = new char[4][4];
         for (int i = 0; i < 4; i++) {
@@ -113,16 +112,9 @@ public class BuzzWordSolverFinal {
             }
         }
 
-        BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
-        BuzzTrie dictionary = solver.buildTrie();
         // start finding words
-        Set<String> set = solver.findWords(input, dictionary);
+        Set<String> set = findWords(input, dictionary);
         counter = set;
-        // present the result
-//        System.out.println(set.size() + " words are found, they are: ");
-//        for (String str : set) {
-//            System.out.println(str);
-//        }
     }
 
     class Item {

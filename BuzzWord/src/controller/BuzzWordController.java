@@ -28,6 +28,8 @@ public class BuzzWordController implements FileManager {
 
     private Path workFile;
     private GameDataFile gameDataFile;
+    private BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
+    private BuzzTrie buzzTrie;
     private static GameState gamestate;   // the state of the game being shown in the workspace
     private static Timeline timeline;
     private static GameData gameData;
@@ -59,6 +61,7 @@ public class BuzzWordController implements FileManager {
 
             try {
                 if (save(targetPath)) {
+                    initGameState(); //start game state;
                     return true;
                 }
             } catch (IOException e) {
@@ -67,6 +70,7 @@ public class BuzzWordController implements FileManager {
         } else {
             try {
                 save(workFile);
+                initGameState(); //start game state;
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -82,6 +86,7 @@ public class BuzzWordController implements FileManager {
         if (targetPath != null) {
             try {
                 if (load(targetPath)) {
+                    initGameState(); //start game state;
                     return true;
                 }
             } catch (IOException e) {
@@ -200,7 +205,6 @@ public class BuzzWordController implements FileManager {
     public void solveBuzzBoard() throws IOException, URISyntaxException {
         String mode = WGGUI.getSelectMode().getValue().toString();
         initBuzzBoard();
-        initGameState(); //start game state;
         switch (mode) {
             case "Famous People":
                 BuzzWordSolverFinal.setInputFile("words/Famous People.txt");
@@ -215,7 +219,8 @@ public class BuzzWordController implements FileManager {
                 BuzzWordSolverFinal.setInputFile("words/English Dictionary.txt");
                 break;
         }
-        BuzzWordSolverFinal.start(buzzBoard);
+        buzzTrie = solver.buildTrie();
+        solver.start(buzzBoard, buzzTrie);
         if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
             System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
             for (String str : BuzzWordSolverFinal.getCounter()) {
@@ -233,7 +238,7 @@ public class BuzzWordController implements FileManager {
         while (calTotalScore() < new LevelSelection(this).getTargetScore()) {
             System.out.println(" Rebuilding...");
             initBuzzBoard();
-            BuzzWordSolverFinal.start(buzzBoard);
+            solver.start(buzzBoard, buzzTrie);
             if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
                 System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
                 for (String str : BuzzWordSolverFinal.getCounter()) {
@@ -266,6 +271,7 @@ public class BuzzWordController implements FileManager {
 
     public void removeRightGridIndex() {
         WGGUI.getWordBox().getChildren().clear();
+        visitedArray.clear();
     }
 
     private String getStringRepresentation(ArrayList<Character> list) {
@@ -318,7 +324,7 @@ public class BuzzWordController implements FileManager {
         initRecord();
     }
 
-    public ArrayList<ArrayList<Integer>> recordGridIndex(int i, int j) {
+    public void recordGridIndex(int i, int j) {
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
         recordElement.add(j);
@@ -356,15 +362,32 @@ public class BuzzWordController implements FileManager {
                 record.clear();
                 record.add(recordElement);
             }
+            else{
+                //allows discontinued drag
+                for (int k = 0; k < 4; k++) {
+                    for (int l = 0; l < 4; l++) {
+                        WGGUI.getGameLetters()[k][l].setStyle(null);
+                        WGGUI.getGameLetters()[k][l].setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );");
+                    }
+                }
+                record.clear();
+                record.add(recordElement);
+                removeRightGridIndex();
+                letters.clear();
+            }
         }
-        return record;
+        return;
     }
 
     public boolean checkMouseDrag(int i, int j) {
         ArrayList<Integer> recordElement = new ArrayList<>();
         recordElement.add(i);
         recordElement.add(j);
-        return recordGridIndex(i, j).contains(recordElement);
+        recordGridIndex(i, j);
+        if (record.contains(recordElement)){
+            return true;
+        }
+        return false;
     }
 
     public boolean checkVisitied(int i, int j) {
