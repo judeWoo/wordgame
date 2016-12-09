@@ -138,8 +138,10 @@ public class Gameplay extends WGGUI {
                             }
                             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)
                                     && guess.equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
-                                controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
-                                counter++;
+                                if (controller.checkKeyInput(i, j)) {
+                                    controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
+                                    counter++;
+                                }
                             }
                         }
                     }

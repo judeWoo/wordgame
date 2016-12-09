@@ -36,6 +36,7 @@ public class BuzzWordController implements FileManager {
     private static String gameLevel;
     private static BuzzBoard buzzBoard;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> keyRecord = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> visitedArray = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
@@ -385,6 +386,58 @@ public class BuzzWordController implements FileManager {
         recordElement.add(j);
         recordGridIndex(i, j);
         if (record.contains(recordElement)){
+            return true;
+        }
+        return false;
+    }
+
+    public void recordKeyGridIndex(int i, int j) {
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        if (keyRecord.isEmpty()) {
+            keyRecord.add(recordElement);
+        } else if (!keyRecord.isEmpty()) {
+            ArrayList<Integer> compareElement1 = new ArrayList<>();
+            ArrayList<Integer> compareElement2 = new ArrayList<>();
+            ArrayList<Integer> compareElement3 = new ArrayList<>();
+            ArrayList<Integer> compareElement4 = new ArrayList<>();
+            ArrayList<Integer> compareElement5 = new ArrayList<>();
+            ArrayList<Integer> compareElement6 = new ArrayList<>();
+            ArrayList<Integer> compareElement7 = new ArrayList<>();
+            ArrayList<Integer> compareElement8 = new ArrayList<>();
+            compareElement1.add(i);
+            compareElement1.add(j - 1);
+            compareElement2.add(i);
+            compareElement2.add(j + 1);
+            compareElement3.add(i - 1);
+            compareElement3.add(j);
+            compareElement4.add(i + 1);
+            compareElement4.add(j);
+            compareElement5.add(i + 1);
+            compareElement5.add(j - 1);
+            compareElement6.add(i + 1);
+            compareElement6.add(j + 1);
+            compareElement7.add(i - 1);
+            compareElement7.add(j - 1);
+            compareElement8.add(i - 1);
+            compareElement8.add(j + 1);
+
+            if (keyRecord.contains(compareElement1) || keyRecord.contains(compareElement2) || keyRecord.contains(compareElement3)
+                    || keyRecord.contains(compareElement4) || keyRecord.contains(compareElement5) ||
+                    keyRecord.contains(compareElement6) || keyRecord.contains(compareElement7) || keyRecord.contains(compareElement8)) {
+                keyRecord.clear();
+                keyRecord.add(recordElement);
+            }
+        }
+    }
+
+    public boolean checkKeyInput(int i, int j) {
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        recordKeyGridIndex(i, j);
+        if (keyRecord.contains(recordElement)){
             return true;
         }
         return false;
