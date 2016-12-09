@@ -79,6 +79,16 @@ public class BuzzBoard {
         }
     }
 
+    public BuzzBoard(String test) {
+        m =4;
+        n =4;
+        board = new char[][]{{'E', 'A', 'A', 'C'},
+                {'C', 'C', 'C', 'C'},
+                {'B', 'B', 'B', 'B'},
+                {'D', 'D', 'A', 'D'},
+        };
+    }
+
     /**
      * Initializes a random m-by-n board, according to the frequency
      * of letters in the English language.

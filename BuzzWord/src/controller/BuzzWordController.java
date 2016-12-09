@@ -558,6 +558,8 @@ public class BuzzWordController implements FileManager {
         buzzBoard = new BuzzBoard();
     }
 
+    public void initBuzzBoardTest() { buzzBoard = new BuzzBoard("Test");}
+
     public void setGameState(GameState gamestate) {
         BuzzWordController.gamestate = gamestate;
     }

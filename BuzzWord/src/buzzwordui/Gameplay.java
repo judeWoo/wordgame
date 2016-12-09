@@ -51,6 +51,7 @@ public class Gameplay extends WGGUI {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+//        controller.initBuzzBoardTest();
         initLetter();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
