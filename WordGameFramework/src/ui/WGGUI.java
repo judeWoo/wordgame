@@ -26,7 +26,6 @@ import java.io.IOException;
  */
 public class WGGUI implements WGStyle {
 
-    protected Stage primaryStage;     // the application window
     protected BorderPane appPane;          // the root node in the scene graph, to organize the containers
     protected StackPane basePane;          // base pane that merges the basic paintings.
     protected HBox baseBox;            //where appPane lies
@@ -41,6 +40,7 @@ public class WGGUI implements WGStyle {
     protected StackPane leftPane;
     protected StackPane createProfilePane;
     protected Pane exitPane;
+    protected static Stage primaryStage;     // the application window
     protected static StackPane bottomPane;
     protected static Label timerLabel;
     protected static Label totalScoreLabel;
@@ -80,6 +80,8 @@ public class WGGUI implements WGStyle {
     protected static Pane targetBoxPane;
     protected static Label targetLable;
     protected static Label targetPointsLable;
+    protected static Line exitLine1;
+    protected static Line exitLine2;
 
     private int appSpecificWindowWidth;  // optional parameter for window width that can be set by the application
     private int appSpecificWindowHeight; // optional parameter for window height that can be set by the application
@@ -407,44 +409,20 @@ public class WGGUI implements WGStyle {
 
     //change exit event for each pages
     public void makeExitButton() {
-        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
-        wgDialogSingleton.init(primaryStage);
-        Line exitLine1 = new Line();
+        exitLine1 = new Line();
         exitLine1.setStroke(Paint.valueOf("FFFFFF"));
         exitLine1.setStrokeWidth(10);
         exitLine1.setStartX(780);
         exitLine1.setStartY(15);
         exitLine1.setEndX(790);
         exitLine1.setEndY(25);
-        Line exitLine2 = new Line();
+        exitLine2 = new Line();
         exitLine2.setStroke(Paint.valueOf("FFFFFF"));
         exitLine2.setStartX(790);
         exitLine2.setStartY(15);
         exitLine2.setEndX(780);
         exitLine2.setEndY(25);
         exitLine2.setStrokeWidth(10);
-        exitLine1.setOnMouseClicked(event -> {
-            hideCircles();
-            hideLines();
-            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
-            { System.exit(0);}
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
-                showCircles();
-                showLines();
-            }
-        });
-        exitLine2.setOnMouseClicked(event -> {
-            hideCircles();
-            hideLines();
-            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
-            { System.exit(0);}
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
-                showCircles();
-                showLines();
-            }
-        });
         exitPane.getChildren().addAll(exitLine1, exitLine2);
     }
 
@@ -599,6 +577,17 @@ public class WGGUI implements WGStyle {
         for (int i = 0; i < 4; i++) {
             for (int j=0; j <3; j++){
                 hLettersLines[i][j].setVisible(false);
+            }
+        }
+        for (int i =0; i < 3; i++){
+            for (int j=0; j < 3; j++){
+                dRLettersLines[i][j].setVisible(true);
+            }
+        }
+
+        for (int i = 0; i < 4-1; i++){
+            for (int j=1; j < 4; j++){
+                dLLettersLines[i][j-1].setVisible(true);
             }
         }
     }
