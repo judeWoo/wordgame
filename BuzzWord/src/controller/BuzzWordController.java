@@ -391,6 +391,7 @@ public class BuzzWordController implements FileManager {
         WGGUI.getTimerLabel().textProperty().unbind();
         WGGUI.getBottomPane().setVisible(false);
         WGGUI.getPrimaryScene().setOnKeyTyped(null);
+        WGGUI.getPrimaryScene().setOnKeyPressed(null);
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
         System.out.println("Game Ended");
