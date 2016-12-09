@@ -625,6 +625,10 @@ public class WGGUI implements WGStyle {
         }
     }
 
+    public static Label[][] getGameLettersLabel() {
+        return gameLettersLabel;
+    }
+
     public static Line[][] gethLettersLines() {
         return hLettersLines;
     }

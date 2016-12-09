@@ -195,12 +195,6 @@ public class BuzzWordController implements FileManager {
         // set the work file as the file from which the game was loaded
         workFile = source;
         return true;
-
-        // notify the user that load was successful
-//        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-//        PropertyManager           props  = PropertyManager.getManager();
-//        dialog.show(props.getPropertyValue(LOAD_COMPLETED_TITLE), props.getPropertyValue(LOAD_COMPLETED_MESSAGE));
-//        setGameState(GameState.INITIALIZED_UNMODIFIED);
     }
 
     public void solveBuzzBoard() throws IOException, URISyntaxException {
@@ -369,7 +363,13 @@ public class BuzzWordController implements FileManager {
                 if (record.contains(compareElement4))
                     WGGUI.getvLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement5))
-                    WGGUI.getdLLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.getdLLettersLines()[i][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement6))
+                    WGGUI.getdRLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement7))
+                    WGGUI.getdRLettersLines()[i-1][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                if (record.contains(compareElement8))
+                    WGGUI.getdLLettersLines()[i-1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 record.clear();
                 record.add(recordElement);
             }
@@ -448,7 +448,10 @@ public class BuzzWordController implements FileManager {
 
     public void end(EventHandler filter) {
         timeline.stop();
-        WGGUI.getTimerLabel().textProperty().unbind();
+        clearHighlight();
+        initVisited();
+        removeEventHandler();
+        removeRightGridIndex();
         WGGUI.getBottomPane().setVisible(false);
         WGGUI.getPrimaryScene().setOnKeyTyped(null);
         WGGUI.getPrimaryScene().setOnKeyPressed(null);
@@ -533,6 +536,14 @@ public class BuzzWordController implements FileManager {
             recorder.remove(recordElement);
         }
         return;
+    }
+
+    public void removeEventHandler(){
+        for (int i=0; i < 4; i++){
+            for (int j=0; j <4; j++){
+                WGGUI.getGameLettersLabel()[i][j].setOnMouseDragEntered(null);
+            }
+        }
     }
 
     public void initGameState() {
