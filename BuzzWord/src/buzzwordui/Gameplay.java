@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import ui.WGDialogSingleton;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
 
@@ -43,6 +44,7 @@ public class Gameplay extends WGGUI {
         layoutGUI();
         reinitGrid();
         setButtonEvent();
+        setExitButtonEvent();
         try {
             controller.solveBuzzBoard();
             controller.checkGrid();
@@ -79,15 +81,15 @@ public class Gameplay extends WGGUI {
                 hLettersLines[i][j].setVisible(true);
             }
         }
-        for (int i =0; i < 3; i++){
-            for (int j=0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 dRLettersLines[i][j].setVisible(true);
             }
         }
 
-        for (int i = 0; i < 4-1; i++){
-            for (int j=1; j < 4; j++){
-                dLLettersLines[i][j-1].setVisible(true);
+        for (int i = 0; i < 4 - 1; i++) {
+            for (int j = 1; j < 4; j++) {
+                dLLettersLines[i][j - 1].setVisible(true);
             }
         }
     }
@@ -239,6 +241,44 @@ public class Gameplay extends WGGUI {
             pauseLabel.setVisible(true);
             pauseButtonPane.setVisible(false);
             bottomPlayButton.setVisible(true);
+        });
+    }
+
+    public void setExitButtonEvent() {
+        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
+        exitLine1.setOnMouseClicked(event -> {
+            if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
+                hideCircles();
+                hideLines();
+                controller.pauseTimer();
+                pauseLabel.setVisible(true);
+                pauseButtonPane.setVisible(false);
+                bottomPlayButton.setVisible(true);
+            }
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                System.exit(0);
+            }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+
+            }
+        });
+        exitLine2.setOnMouseClicked(event -> {
+            if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
+                hideCircles();
+                hideLines();
+                controller.pauseTimer();
+                pauseLabel.setVisible(true);
+                pauseButtonPane.setVisible(false);
+                bottomPlayButton.setVisible(true);
+            }
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                System.exit(0);
+            }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+
+            }
         });
     }
 

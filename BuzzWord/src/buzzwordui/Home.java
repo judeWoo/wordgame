@@ -27,7 +27,6 @@ public class Home extends WGGUI{
 
     public void layoutGUI(){
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
-        wgDialogSingleton.init(primaryStage);
         login.setVisible(true);
         home.setVisible(false);
         pauseLabel.setVisible(false);
@@ -57,25 +56,17 @@ public class Home extends WGGUI{
             }
         });
         exitLine1.setOnMouseClicked(event -> {
-            hideCircles();
-            hideLines();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
             { System.exit(0);}
             if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
-                showCircles();
-                showLines();
             }
         });
         exitLine2.setOnMouseClicked(event -> {
-            hideCircles();
-            hideLines();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
             { System.exit(0);}
             if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
-                showCircles();
-                showLines();
             }
         });
         if (userButton.getText() != ""){

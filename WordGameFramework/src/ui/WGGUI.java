@@ -409,6 +409,8 @@ public class WGGUI implements WGStyle {
 
     //change exit event for each pages
     public void makeExitButton() {
+        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
+        wgDialogSingleton.init(primaryStage);
         exitLine1 = new Line();
         exitLine1.setStroke(Paint.valueOf("FFFFFF"));
         exitLine1.setStrokeWidth(10);
@@ -581,13 +583,13 @@ public class WGGUI implements WGStyle {
         }
         for (int i =0; i < 3; i++){
             for (int j=0; j < 3; j++){
-                dRLettersLines[i][j].setVisible(true);
+                dRLettersLines[i][j].setVisible(false);
             }
         }
 
         for (int i = 0; i < 4-1; i++){
             for (int j=1; j < 4; j++){
-                dLLettersLines[i][j-1].setVisible(true);
+                dLLettersLines[i][j-1].setVisible(false);
             }
         }
     }

@@ -1,8 +1,10 @@
 package buzzwordui;
 
 import controller.BuzzWordController;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import ui.WGDialogSingleton;
 import ui.WGGUI;
 import wgtemplate.WGTemplate;
 
@@ -31,6 +33,7 @@ public class LevelSelection extends WGGUI{
     }
 
     public  void  layoutGUI(){
+        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
         home.setVisible(true);
         pauseLabel.setVisible(false);
         home.setOnMouseClicked(event -> {
@@ -78,6 +81,21 @@ public class LevelSelection extends WGGUI{
                 k++;
             }
         }
+        exitLine1.setOnMouseClicked(event -> {
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
+            { System.exit(0);}
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
+            }
+        });
+        exitLine2.setOnMouseClicked(event -> {
+            wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
+            { System.exit(0);}
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
+            }
+        });
+
         start.setVisible(false);
         selectMode.setVisible(false);
         modeLabel.setVisible(true);
