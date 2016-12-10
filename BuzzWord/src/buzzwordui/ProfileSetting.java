@@ -27,7 +27,7 @@ public class ProfileSetting {
     Label pw;
     Label title;
     Scene scene;
-    Stage stage;
+    static Stage stage;
     static PasswordField pwField;
     static TextField idField;
 
@@ -95,6 +95,5 @@ public class ProfileSetting {
         stage = new Stage();
         stage.setScene(scene);
         stage.showAndWait();
-
     }
 }

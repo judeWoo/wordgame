@@ -102,6 +102,7 @@ public class CreateProfile extends WGGUI {
                         createProfile.setVisible(false);
                         login.setVisible(false);
                         selectMode.setVisible(true);
+                        profileSetting.setVisible(true);
                         start.setVisible(true);
                         arrowPane.setVisible(true);
                         stage.close();

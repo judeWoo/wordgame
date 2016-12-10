@@ -110,6 +110,7 @@ public class LoginPage extends WGGUI {
                         userButton.setVisible(true);
                         login.setVisible(false);
                         selectMode.setVisible(true);
+                        profileSetting.setVisible(true);
                         start.setVisible(true);
                         arrowPane.setVisible(true);
                         stage.close();

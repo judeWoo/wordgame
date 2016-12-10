@@ -30,6 +30,9 @@ public class Home extends WGGUI{
         login.setVisible(true);
         home.setVisible(false);
         pauseLabel.setVisible(false);
+        profileSetting.setOnMouseClicked(event -> {
+            new ProfileSetting();
+        });
         createProfile.setOnMouseClicked(event -> {
             new CreateProfile();
         });
@@ -57,6 +60,9 @@ public class Home extends WGGUI{
         });
         exitLine1.setOnMouseClicked(event -> {
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+            if (ProfileSetting.stage.isShowing()){
+                ProfileSetting.stage.close();
+            }
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
             { System.exit(0);}
             if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
@@ -116,5 +122,6 @@ public class Home extends WGGUI{
         timeBoxPane.setVisible(false);
         wordBoxPane.setVisible(false);
         targetBoxPane.setVisible(false);
+        profileSetting.setVisible(false);
     }
 }
