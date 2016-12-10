@@ -171,6 +171,7 @@ public class Gameplay extends WGGUI {
                     controller.checkRightGrid();
                     totalScoreLabel.setText(controller.changeTotalScore() + "");
                     BuzzWordController.initRecorder();
+                    BuzzWordController.initRecord();
                     clearHighlight();
                     controller.removeRightGridIndex();
                     if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {

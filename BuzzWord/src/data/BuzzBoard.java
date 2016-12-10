@@ -82,10 +82,10 @@ public class BuzzBoard {
     public BuzzBoard(String test) {
         m =4;
         n =4;
-        board = new char[][]{{'E', 'A', 'A', 'C'},
-                {'C', 'C', 'C', 'C'},
-                {'B', 'B', 'B', 'B'},
-                {'D', 'D', 'A', 'D'},
+        board = new char[][]{{'N', 'A', 'E', 'E'},
+                {'E', 'B', 'E', 'E'},
+                {'D', 'C', 'D', 'E'},
+                {'E', 'E', 'E', 'E'},
         };
     }
 
