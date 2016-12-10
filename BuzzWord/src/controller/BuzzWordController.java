@@ -36,7 +36,7 @@ public class BuzzWordController implements FileManager {
     private static String gameLevel;
     private static BuzzBoard buzzBoard;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
-    private static ArrayList<ArrayList<Integer>> keyRecord = new ArrayList<>();
+    private static ArrayList<String> keyInputRecord = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> visitedArray = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
@@ -245,14 +245,19 @@ public class BuzzWordController implements FileManager {
         }
     }
 
-    //if key, use visited
-    public void makeRightKeyGridIndex(char c, int counter) {
+    public void addLetter (char c, int counter) {
         if (counter <= 0) {
-            letters.add(c);
             Label word = new Label();
             word.getStyleClass().add("word");
             word.setText(String.valueOf(c));
             WGGUI.getWordBox().getChildren().add(word);
+        }
+    }
+
+    //if key, use visited
+    public void makeRightKeyGridIndex(char c, int counter) {
+        if (counter <= 0) {
+            letters.add(c);
         }
     }
 
@@ -266,7 +271,6 @@ public class BuzzWordController implements FileManager {
 
     public void removeRightGridIndex() {
         WGGUI.getWordBox().getChildren().clear();
-        visitedArray.clear();
     }
 
     private String getStringRepresentation(ArrayList<Character> list) {
@@ -438,6 +442,20 @@ public class BuzzWordController implements FileManager {
         return false;
     }
 
+    public boolean checkKeyVisitied(int i, int j, int count) {
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        recordElement.add(i);
+        recordElement.add(j);
+        if (!visitedArray.contains(recordElement)) {
+            if (count <= 0) {
+                visitedArray.add(recordElement);
+                return true;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public int changeTotalScore() {
         int total = 0;
         for (int i = 0; i < score.size(); i++) {
@@ -498,7 +516,7 @@ public class BuzzWordController implements FileManager {
 
     }
 
-    public void keyEventHandler(int i, int j, boolean[][] visited, String s) {
+    public void keyEventHighlighter(int i, int j, boolean[][] visited, String s) {
         //grid is 4x4
         if (i < 0 || j < 0 || i > 3 || j > 3) {
             return;
@@ -513,8 +531,6 @@ public class BuzzWordController implements FileManager {
         if (word.contains(s)) {
             recorder.add(recordElement);
             if (word.equals(s)) {
-                //            int size = recorder.size();
-//            recorder.get(size-1); //former node
                 for (ArrayList<Integer> list: recorder){
                     for (int xy=0; xy < list.size(); xy+=2){
                         WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle(null);
@@ -527,19 +543,37 @@ public class BuzzWordController implements FileManager {
                 return;
             }
             visited[i][j] = true;
-            keyEventHandler(i, j - 1, visited, s);
-            keyEventHandler(i, j + 1, visited, s);
-            keyEventHandler(i - 1, j, visited, s);
-            keyEventHandler(i + 1, j, visited, s);
-            keyEventHandler(i + 1, j - 1, visited, s);
-            keyEventHandler(i + 1, j + 1, visited, s);
-            keyEventHandler(i - 1, j - 1, visited, s);
-            keyEventHandler(i - 1, j + 1, visited, s);
+            keyEventHighlighter(i, j - 1, visited, s);
+            keyEventHighlighter(i, j + 1, visited, s);
+            keyEventHighlighter(i - 1, j, visited, s);
+            keyEventHighlighter(i + 1, j, visited, s);
+            keyEventHighlighter(i + 1, j - 1, visited, s);
+            keyEventHighlighter(i + 1, j + 1, visited, s);
+            keyEventHighlighter(i - 1, j - 1, visited, s);
+            keyEventHighlighter(i - 1, j + 1, visited, s);
             visited[i][j] = false;
             recorder.remove(recordElement);
             record.remove(recordElement);
         }
-        return;
+        //Start from the beginning
+//        visitedArray.clear();
+//        clearHighlight();
+//        removeRightGridIndex();
+//        letters.clear();
+//        letters.add(buzzBoard.getLetter(i, j));
+//        addLetter(buzzBoard.getLetter(i, j), 0);
+//        record.clear();
+//        recorder.clear();
+//        recorder.add(recordElement);
+//        for (ArrayList<Integer> list: recorder){
+//            for (int xy=0; xy < list.size(); xy+=2){
+//                WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle(null);
+//                WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+//                recordGridIndex(list.get(xy), list.get(xy+1));
+//            }
+//        }
+//        record.clear();
+//        recorder.clear();
     }
 
     public void removeEventHandler(){

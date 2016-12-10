@@ -82,10 +82,10 @@ public class BuzzBoard {
     public BuzzBoard(String test) {
         m =4;
         n =4;
-        board = new char[][]{{'N', 'A', 'E', 'E'},
-                {'E', 'B', 'E', 'E'},
-                {'D', 'C', 'D', 'E'},
-                {'E', 'E', 'E', 'E'},
+        board = new char[][]{{'A', 'P', 'P', 'L'},
+                {'D', 'D', 'D', 'E'},
+                {'D', 'D', 'D', 'D'},
+                {'D', 'D', 'D', 'D'},
         };
     }
 
@@ -142,14 +142,14 @@ public class BuzzBoard {
      * @return a string representation of the board, replacing 'Q' with "Qu"
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(m + " " + n + "\n");
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 sb.append(board[i][j]);
                 if (board[i][j] == 'Q') sb.append("u ");
-                else sb.append("  ");
+//                else sb.append("  ");
             }
-            sb.append("\n");
+//            sb.append("\n");
         }
         return sb.toString().trim();
     }

@@ -45,13 +45,13 @@ public class Gameplay extends WGGUI {
         reinitGrid();
         setButtonEvent();
         setExitButtonEvent();
-        try {
-            controller.solveBuzzBoard();
-            controller.checkGrid();
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-//        controller.initBuzzBoardTest();
+//        try {
+//            controller.solveBuzzBoard();
+//            controller.checkGrid();
+//        } catch (IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+        controller.initBuzzBoardTest();
         initLetter();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
@@ -152,6 +152,21 @@ public class Gameplay extends WGGUI {
                             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)
                                     && guess.equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
                                 controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
+                                if (!controller.checkKeyVisitied(i, j, counter)){
+                                    String word = BuzzWordController.getBuzzBoard().toString();
+//                                    System.out.println(word);
+                                    if (word.indexOf(guess.toUpperCase(),
+                                            word.indexOf(guess.toUpperCase()) + 1) <= -1){
+                                        controller.getLetters().clear();
+                                        controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
+                                        controller.removeRightGridIndex();
+                                        BuzzWordController.initRecorder();
+                                        BuzzWordController.initRecord();
+                                        BuzzWordController.initVisited();
+                                        clearHighlight();
+                                    }
+                                }
+                                controller.addLetter(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
                                 counter++;
                             }
                         }
@@ -159,7 +174,7 @@ public class Gameplay extends WGGUI {
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
                             boolean[][] visited = new boolean[4][4];
-                            controller.keyEventHandler(i, j, visited, "");
+                            controller.keyEventHighlighter(i, j, visited, "");
                         }
                     }
                 }
@@ -172,6 +187,7 @@ public class Gameplay extends WGGUI {
                     totalScoreLabel.setText(controller.changeTotalScore() + "");
                     BuzzWordController.initRecorder();
                     BuzzWordController.initRecord();
+                    BuzzWordController.initVisited();
                     clearHighlight();
                     controller.removeRightGridIndex();
                     if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
