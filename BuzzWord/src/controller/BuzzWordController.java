@@ -555,25 +555,6 @@ public class BuzzWordController implements FileManager {
             recorder.remove(recordElement);
             record.remove(recordElement);
         }
-        //Start from the beginning
-//        visitedArray.clear();
-//        clearHighlight();
-//        removeRightGridIndex();
-//        letters.clear();
-//        letters.add(buzzBoard.getLetter(i, j));
-//        addLetter(buzzBoard.getLetter(i, j), 0);
-//        record.clear();
-//        recorder.clear();
-//        recorder.add(recordElement);
-//        for (ArrayList<Integer> list: recorder){
-//            for (int xy=0; xy < list.size(); xy+=2){
-//                WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle(null);
-//                WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-//                recordGridIndex(list.get(xy), list.get(xy+1));
-//            }
-//        }
-//        record.clear();
-//        recorder.clear();
     }
 
     public void removeEventHandler(){

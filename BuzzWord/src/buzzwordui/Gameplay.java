@@ -166,6 +166,7 @@ public class Gameplay extends WGGUI {
                                         clearHighlight();
                                     }
                                 }
+                                //Start from beginning
                                 controller.addLetter(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
                                 counter++;
                             }
