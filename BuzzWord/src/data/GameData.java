@@ -4,6 +4,10 @@ import buzzwordui.CreateProfile;
 import wgcomponents.WGData;
 import wgtemplate.WGTemplate;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
  */
@@ -15,6 +19,10 @@ public class GameData implements WGData {
     private int bModeLevel;
     private int cModeLevel;
     private int dModeLevel;
+    private ArrayList<Integer> aModeLevelandBest;
+    private ArrayList<Integer> bModeLevelandBest;
+    private ArrayList<Integer> cModeLevelandBest;
+    private ArrayList<Integer> dModeLevelandBest;
     public WGTemplate wgTemplate;
 
     public GameData(WGTemplate wgTemplate) {
@@ -40,6 +48,16 @@ public class GameData implements WGData {
         this.bModeLevel = 1;
         this.cModeLevel = 1;
         this.dModeLevel = 1;
+        this.aModeLevelandBest = new ArrayList<>();
+        this.bModeLevelandBest = new ArrayList<>();
+        this.cModeLevelandBest = new ArrayList<>();
+        this.dModeLevelandBest = new ArrayList<>();
+        for (int i =0; i < 8; i++) {
+            addAModeLevelandBest(0);
+            addBModeLevelandBest(0);
+            addCModeLevelandBest(0);
+            addDModeLevelandBest(0);
+        }
     }
 
     private String setPassWord() {
@@ -84,6 +102,10 @@ public class GameData implements WGData {
         this.bModeLevel = 1;
         this.cModeLevel = 1;
         this.dModeLevel = 1;
+        this.aModeLevelandBest = new ArrayList<>();
+        this.bModeLevelandBest = new ArrayList<>();
+        this.cModeLevelandBest = new ArrayList<>();
+        this.dModeLevelandBest = new ArrayList<>();
     }
 
     public String getUserID() {
@@ -108,5 +130,34 @@ public class GameData implements WGData {
 
     public int getdModeLevel() {
         return dModeLevel;
+    }
+
+    public ArrayList<Integer> getaModeLevelandBest() {
+        return aModeLevelandBest;
+    }
+
+    public ArrayList<Integer> getbModeLevelandBest() {
+        return bModeLevelandBest;
+    }
+
+    public ArrayList<Integer> getcModeLevelandBest() {
+        return cModeLevelandBest;
+    }
+
+    public ArrayList<Integer> getdModeLevelandBest() {
+        return dModeLevelandBest;
+    }
+
+    public void addAModeLevelandBest(int score){
+        aModeLevelandBest.add(score);
+    }
+    public void addBModeLevelandBest(int score){
+        bModeLevelandBest.add(score);
+    }
+    public void addCModeLevelandBest(int score){
+        cModeLevelandBest.add(score);
+    }
+    public void addDModeLevelandBest(int score){
+        dModeLevelandBest.add(score);
     }
 }

@@ -47,6 +47,7 @@ public class WGGUI implements WGStyle {
     protected static Scene primaryScene;     // the scene graph
     protected static Label pauseLabel;
     protected static Button userButton;
+    protected static Button profileSetting;
     protected static VBox scoreLeftBox;
     protected static VBox scoreRightBox;
     protected static VBox scoreBarPane;
@@ -255,6 +256,10 @@ public class WGGUI implements WGStyle {
         userButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         userButton.setVisible(false);
 
+        profileSetting = new Button("Profile Setting");
+        profileSetting.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        profileSetting.setVisible(false);
+
         arrowPane = new Pane();
         arrowPane.setMaxSize(Double.MAX_VALUE, 30);
         arrowPane.setVisible(false);
@@ -292,7 +297,7 @@ public class WGGUI implements WGStyle {
         Pane emptyPane = new Pane();
         emptyPane.setMinWidth(200);
 
-        leftBox.getChildren().addAll(createProfilePane, leftPane, start, emptyPane);
+        leftBox.getChildren().addAll(createProfilePane, leftPane, start, profileSetting, emptyPane);
 
         primaryScene = appSpecificWindowWidth < 1 || appSpecificWindowHeight < 1 ? new Scene(basePane)
                 : new Scene(basePane,
