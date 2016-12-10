@@ -165,16 +165,24 @@ public class Gameplay extends WGGUI {
                                         clearHighlight();
                                     }
                                 }
-                                //Where Random Input Comes IN
+                                //Where Random Input + Normal Input Comes In
                                 controller.addLetter(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
                                 counter++;
                             }
                         }
                     }
+                    BuzzWordController.getChecker().clear(); //checker has last letters of continuous letters
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
                             boolean[][] visited = new boolean[4][4];
                             controller.keyEventHighlighter(i, j, visited, "");
+                        }
+                    }
+                    for (int i =0; i <4; i++){
+                        for (int j=0; j<4; j++){
+                            if (controller.nearByChecker(i,j)){
+                                controller.initKeyHighlight();
+                            }
                         }
                     }
                 }

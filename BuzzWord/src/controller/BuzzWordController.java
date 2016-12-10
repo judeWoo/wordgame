@@ -536,6 +536,7 @@ public class BuzzWordController implements FileManager {
                         recordGridIndex(list.get(xy), list.get(xy + 1));
                     }
                 }
+                checker.add(recordElement);
                 recorder.remove(recordElement);
                 record.remove(recordElement);
                 return;
@@ -585,6 +586,43 @@ public class BuzzWordController implements FileManager {
         }
     }
 
+    public boolean nearByChecker(int i, int j) {
+        ArrayList<Integer> recordElement = new ArrayList<>();
+        ArrayList<Integer> compareElement1 = new ArrayList<>();
+        ArrayList<Integer> compareElement2 = new ArrayList<>();
+        ArrayList<Integer> compareElement3 = new ArrayList<>();
+        ArrayList<Integer> compareElement4 = new ArrayList<>();
+        ArrayList<Integer> compareElement5 = new ArrayList<>();
+        ArrayList<Integer> compareElement6 = new ArrayList<>();
+        ArrayList<Integer> compareElement7 = new ArrayList<>();
+        ArrayList<Integer> compareElement8 = new ArrayList<>();
+        compareElement1.add(i);
+        compareElement1.add(j - 1);
+        compareElement2.add(i);
+        compareElement2.add(j + 1);
+        compareElement3.add(i - 1);
+        compareElement3.add(j);
+        compareElement4.add(i + 1);
+        compareElement4.add(j);
+        compareElement5.add(i + 1);
+        compareElement5.add(j - 1);
+        compareElement6.add(i + 1);
+        compareElement6.add(j + 1);
+        compareElement7.add(i - 1);
+        compareElement7.add(j - 1);
+        compareElement8.add(i - 1);
+        compareElement8.add(j + 1);
+        if (checker.contains(recordElement) || checker.isEmpty()) {
+            if (record.contains(compareElement1) || record.contains(compareElement2) || record.contains(compareElement3)
+                    || record.contains(compareElement4) || record.contains(compareElement5) ||
+                    record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)
+                    ||record.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void initGameState() {
         setGameState(GameState.INITIALIZED);
     }
@@ -599,7 +637,7 @@ public class BuzzWordController implements FileManager {
 
     public void initBuzzBoardTest() {
         buzzBoard = new BuzzBoard("Test");
-    }
+    } //for the test of the algorithm
 
     public void setGameState(GameState gamestate) {
         BuzzWordController.gamestate = gamestate;
