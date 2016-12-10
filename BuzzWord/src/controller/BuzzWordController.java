@@ -304,10 +304,24 @@ public class BuzzWordController implements FileManager {
                     initLetters();
                     initRecord();
                     return;
-                } else if (getStringRepresentation(letters).length() >= 5) {
+                } else if (getStringRepresentation(letters).length() == 5) {
+                    scorelabel.setText("25");
+                    WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    score.add(25);
+                    initLetters();
+                    initRecord();
+                    return;
+                } else if (getStringRepresentation(letters).length() == 6) {
                     scorelabel.setText("30");
                     WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
                     score.add(30);
+                    initLetters();
+                    initRecord();
+                    return;
+                } else if (getStringRepresentation(letters).length() >= 7) {
+                    scorelabel.setText("35");
+                    WGGUI.getScoreRightBox().getChildren().addAll(scorelabel);
+                    score.add(35);
                     initLetters();
                     initRecord();
                     return;
