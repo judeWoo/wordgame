@@ -47,7 +47,7 @@ public class GameDataFile implements WGFile {
         JsonFactory jsonFactory = new JsonFactory();
 
         try {
-            JsonGenerator generator = jsonFactory.createGenerator(new File(to+"/"+ CreateProfile.getIdField().getText()+".json"), JsonEncoding.UTF8);
+            JsonGenerator generator = jsonFactory.createGenerator(new File(to+"/"+ userID+".json"), JsonEncoding.UTF8);
 
             generator.writeStartObject();
 
