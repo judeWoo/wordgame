@@ -19,7 +19,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Jude Hokyoon Woo on 11/17/2016.
@@ -36,12 +35,12 @@ public class BuzzWordController implements FileManager {
     private static String gameLevel;
     private static BuzzBoard buzzBoard;
     private static ArrayList<ArrayList<Integer>> record = new ArrayList<>();
-    private static ArrayList<String> keyInputRecord = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> visitedArray = new ArrayList<>();
     private static ArrayList<Character> letters = new ArrayList<>();
     private static ArrayList<String> strings = new ArrayList<>();
     private static ArrayList<Integer> score = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> recorder = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> checker = new ArrayList<>();
 
     public enum GameState {
         INITIALIZED,
@@ -245,7 +244,7 @@ public class BuzzWordController implements FileManager {
         }
     }
 
-    public void addLetter (char c, int counter) {
+    public void addLetter(char c, int counter) {
         if (counter <= 0) {
             Label word = new Label();
             word.getStyleClass().add("word");
@@ -359,25 +358,24 @@ public class BuzzWordController implements FileManager {
                     || record.contains(compareElement4) || record.contains(compareElement5) ||
                     record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)) {
                 if (record.contains(compareElement1))
-                    WGGUI.gethLettersLines()[i][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.gethLettersLines()[i][j - 1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement2))
                     WGGUI.gethLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement3))
-                    WGGUI.getvLettersLines()[i-1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.getvLettersLines()[i - 1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement4))
                     WGGUI.getvLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement5))
-                    WGGUI.getdLLettersLines()[i][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.getdLLettersLines()[i][j - 1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement6))
                     WGGUI.getdRLettersLines()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement7))
-                    WGGUI.getdRLettersLines()[i-1][j-1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.getdRLettersLines()[i - 1][j - 1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 if (record.contains(compareElement8))
-                    WGGUI.getdLLettersLines()[i-1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
+                    WGGUI.getdLLettersLines()[i - 1][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
                 record.clear();
                 record.add(recordElement);
-            }
-            else{
+            } else {
                 //allows discontinued drag
                 clearHighlight();
                 record.clear();
@@ -389,7 +387,7 @@ public class BuzzWordController implements FileManager {
         return;
     }
 
-    public void clearHighlight(){
+    public void clearHighlight() {
         for (int k = 0; k < 4; k++) {
             for (int l = 0; l < 4; l++) {
                 WGGUI.getGameLetters()[k][l].setStyle(null);
@@ -397,24 +395,24 @@ public class BuzzWordController implements FileManager {
             }
         }
         for (int i = 0; i < 3; i++) {
-            for (int j=0; j <4; j++){
+            for (int j = 0; j < 4; j++) {
                 WGGUI.getvLettersLines()[i][j].setStyle(null);
             }
         }
         for (int i = 0; i < 4; i++) {
-            for (int j=0; j <3; j++){
+            for (int j = 0; j < 3; j++) {
                 WGGUI.gethLettersLines()[i][j].setStyle(null);
             }
         }
-        for (int i =0; i < 3; i++){
-            for (int j=0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 WGGUI.getdRLettersLines()[i][j].setStyle(null);
             }
         }
 
-        for (int i = 0; i < 4-1; i++){
-            for (int j=1; j < 4; j++){
-                WGGUI.getdLLettersLines()[i][j-1].setStyle(null);
+        for (int i = 0; i < 4 - 1; i++) {
+            for (int j = 1; j < 4; j++) {
+                WGGUI.getdLLettersLines()[i][j - 1].setStyle(null);
             }
         }
 
@@ -425,7 +423,7 @@ public class BuzzWordController implements FileManager {
         recordElement.add(i);
         recordElement.add(j);
         recordGridIndex(i, j);
-        if (record.contains(recordElement)){
+        if (record.contains(recordElement)) {
             return true;
         }
         return false;
@@ -531,11 +529,11 @@ public class BuzzWordController implements FileManager {
         if (word.contains(s)) {
             recorder.add(recordElement);
             if (word.equals(s)) {
-                for (ArrayList<Integer> list: recorder){
-                    for (int xy=0; xy < list.size(); xy+=2){
-                        WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle(null);
-                        WGGUI.getGameLetters()[list.get(xy)][list.get(xy+1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
-                        recordGridIndex(list.get(xy), list.get(xy+1));
+                for (ArrayList<Integer> list : recorder) {
+                    for (int xy = 0; xy < list.size(); xy += 2) {
+                        WGGUI.getGameLetters()[list.get(xy)][list.get(xy + 1)].setStyle(null);
+                        WGGUI.getGameLetters()[list.get(xy)][list.get(xy + 1)].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                        recordGridIndex(list.get(xy), list.get(xy + 1));
                     }
                 }
                 recorder.remove(recordElement);
@@ -557,9 +555,31 @@ public class BuzzWordController implements FileManager {
         }
     }
 
-    public void removeEventHandler(){
-        for (int i=0; i < 4; i++){
-            for (int j=0; j <4; j++){
+    public void initKeyHighlight() {
+        //Clear all
+        int size = letters.size();
+        char startLetter = letters.get(size - 1);
+        letters.clear();
+        removeRightGridIndex();
+        recorder.clear();
+        record.clear();
+//        visitedArray.clear();
+        //Start new
+        letters.add(startLetter);
+        addLetter(startLetter, 0);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (startLetter == buzzBoard.getLetter(i, j)) {
+                    WGGUI.getGameLetters()[i][j].setStyle(null);
+                    WGGUI.getGameLetters()[i][j].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                }
+            }
+        }
+    }
+
+    public void removeEventHandler() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 WGGUI.getGameLettersLabel()[i][j].setOnMouseDragEntered(null);
             }
         }
@@ -577,7 +597,9 @@ public class BuzzWordController implements FileManager {
         buzzBoard = new BuzzBoard();
     }
 
-    public void initBuzzBoardTest() { buzzBoard = new BuzzBoard("Test");}
+    public void initBuzzBoardTest() {
+        buzzBoard = new BuzzBoard("Test");
+    }
 
     public void setGameState(GameState gamestate) {
         BuzzWordController.gamestate = gamestate;
@@ -587,7 +609,9 @@ public class BuzzWordController implements FileManager {
         score = new ArrayList<>();
     }
 
-    public static void initRecorder() {recorder = new ArrayList<>();}
+    public static void initRecorder() {
+        recorder = new ArrayList<>();
+    }
 
     public static void initVisited() {
         visitedArray = new ArrayList<>();
@@ -627,5 +651,9 @@ public class BuzzWordController implements FileManager {
 
     public static ArrayList<ArrayList<Integer>> getRecorder() {
         return recorder;
+    }
+
+    public static ArrayList<ArrayList<Integer>> getChecker() {
+        return checker;
     }
 }

@@ -45,13 +45,13 @@ public class Gameplay extends WGGUI {
         reinitGrid();
         setButtonEvent();
         setExitButtonEvent();
-//        try {
-//            controller.solveBuzzBoard();
-//            controller.checkGrid();
-//        } catch (IOException | URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-        controller.initBuzzBoardTest();
+        try {
+            controller.solveBuzzBoard();
+            controller.checkGrid();
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+//        controller.initBuzzBoardTest();
         initLetter();
         setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
     }
@@ -152,12 +152,11 @@ public class Gameplay extends WGGUI {
                             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)
                                     && guess.equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase())) {
                                 controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
-                                if (!controller.checkKeyVisitied(i, j, counter)){
+                                if (!controller.checkKeyVisitied(i, j, counter)) {
                                     String word = BuzzWordController.getBuzzBoard().toString();
-//                                    System.out.println(word);
                                     if (word.indexOf(guess.toUpperCase(),
-                                            word.indexOf(guess.toUpperCase()) + 1) <= -1){
-                                        controller.getLetters().clear();
+                                            word.indexOf(guess.toUpperCase()) + 1) <= -1) {
+                                        BuzzWordController.getLetters().clear();
                                         controller.makeRightKeyGridIndex(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
                                         controller.removeRightGridIndex();
                                         BuzzWordController.initRecorder();
@@ -166,7 +165,7 @@ public class Gameplay extends WGGUI {
                                         clearHighlight();
                                     }
                                 }
-                                //Start from beginning
+                                //Where Random Input Comes IN
                                 controller.addLetter(BuzzWordController.getBuzzBoard().getLetter(i, j), counter);
                                 counter++;
                             }
@@ -230,24 +229,24 @@ public class Gameplay extends WGGUI {
             }
         }
         for (int i = 0; i < 3; i++) {
-            for (int j=0; j <4; j++){
+            for (int j = 0; j < 4; j++) {
                 vLettersLines[i][j].setStyle(null);
             }
         }
         for (int i = 0; i < 4; i++) {
-            for (int j=0; j <3; j++){
+            for (int j = 0; j < 3; j++) {
                 hLettersLines[i][j].setStyle(null);
             }
         }
-        for (int i =0; i < 3; i++){
-            for (int j=0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 dRLettersLines[i][j].setStyle(null);
             }
         }
 
-        for (int i = 0; i < 4-1; i++){
-            for (int j=1; j < 4; j++){
-                dLLettersLines[i][j-1].setStyle(null);
+        for (int i = 0; i < 4 - 1; i++) {
+            for (int j = 1; j < 4; j++) {
+                dLLettersLines[i][j - 1].setStyle(null);
             }
         }
     }
@@ -295,10 +294,10 @@ public class Gameplay extends WGGUI {
                 bottomPlayButton.setVisible(true);
             }
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+            if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 System.exit(0);
             }
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+            if (WGDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
 
             }
         });
@@ -312,10 +311,10 @@ public class Gameplay extends WGGUI {
                 bottomPlayButton.setVisible(true);
             }
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+            if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 System.exit(0);
             }
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+            if (WGDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
 
             }
         });
