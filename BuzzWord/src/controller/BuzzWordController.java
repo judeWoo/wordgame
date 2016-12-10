@@ -30,6 +30,7 @@ public class BuzzWordController implements FileManager {
     private BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
     private BuzzTrie buzzTrie;
     private static GameState gamestate;   // the state of the game being shown in the workspace
+    private static LoginState loginState;
     private static Timeline timeline;
     private static GameData gameData;
     private static String gameLevel;
@@ -49,7 +50,78 @@ public class BuzzWordController implements FileManager {
         ENDED
     }
 
+    public enum LoginState {
+        LOGGED,
+        CREATED
+    }
+
     public BuzzWordController() {
+    }
+
+    public void savePersonalBest() throws IOException {
+        gameDataFile = new GameDataFile();
+        String mode = WGGUI.getSelectMode().getValue().toString();
+        Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
+        Path targetPath = appDirPath.resolve("saved");
+        int index = 0;
+        switch (gameLevel) {
+            case "1":
+                index = 0;
+                break;
+            case "2":
+                index = 1;
+                break;
+            case "3":
+                index = 2;
+                break;
+            case "4":
+                index = 3;
+                break;
+            case "5":
+                index = 4;
+                break;
+            case "6":
+                index = 5;
+                break;
+            case "7":
+                index = 6;
+                break;
+            case "8":
+                index = 7;
+                break;
+        }
+        switch (mode) {
+            case "Famous People":
+                if (changeTotalScore() > gameData.getdModeLevelandBest().get(index)){
+                    gameData.getdModeLevelandBest().set(index, changeTotalScore());
+                    gameDataFile.saveData(gameData, targetPath);
+                    return;
+                }
+                return;
+            case "Places":
+                if (changeTotalScore() > gameData.getbModeLevelandBest().get(index)){
+                    gameData.getbModeLevelandBest().set(index, changeTotalScore());
+                    gameDataFile.saveData(gameData, targetPath);
+                    return;
+                }
+                return;
+            case "Science":
+                if (changeTotalScore() > gameData.getcModeLevelandBest().get(index)){
+                    gameData.getcModeLevelandBest().set(index, changeTotalScore());
+                    gameDataFile.saveData(gameData, targetPath);
+                    return;
+                }
+                return;
+            case "English Dictionary":
+                if (changeTotalScore() > gameData.getaModeLevelandBest().get(index)){
+                    gameData.getaModeLevelandBest().set(index,changeTotalScore());
+                    gameDataFile.saveData(gameData, targetPath);
+                    return;
+                }
+                return;
+        }
+
+        return;
     }
 
     @Override
@@ -58,8 +130,9 @@ public class BuzzWordController implements FileManager {
         if (workFile == null) {
             Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
             Path targetPath = appDirPath.resolve("saved");
-
             try {
+                gameData.init(); //when create id
+                setLoginState(LoginState.CREATED);
                 if (save(targetPath)) {
                     initGameState(); //start game state;
                     return true;
@@ -69,6 +142,8 @@ public class BuzzWordController implements FileManager {
             }
         } else {
             try {
+                setLoginState(LoginState.CREATED);
+                gameData.init(); //when create id
                 save(workFile);
                 initGameState(); //start game state;
                 return true;
@@ -85,6 +160,7 @@ public class BuzzWordController implements FileManager {
         Path targetPath = appDirPath.resolve("saved");
         if (targetPath != null) {
             try {
+                setLoginState(LoginState.LOGGED);
                 if (load(targetPath)) {
                     initGameState(); //start game state;
                     return true;
@@ -129,21 +205,22 @@ public class BuzzWordController implements FileManager {
     @Override
     public void saveGameRequest() {
         String mode = WGGUI.getSelectMode().getValue().toString();
-        switch (mode) {
-            case "Famous People":
-                gameData.setdModeLevel(Integer.parseInt(gameLevel));
-                break;
-            case "Places":
-                gameData.setbModeLevel(Integer.parseInt(gameLevel));
-                break;
-            case "Science":
-                gameData.setcModeLevel(Integer.parseInt(gameLevel));
-                break;
-            case "English Dictionary":
-                gameData.setaModeLevel(Integer.parseInt(gameLevel));
-                break;
+        if (gameData.getaModeLevel()!=8 || gameData.getbModeLevel()!=8 || gameData.getcModeLevel()!=8 || gameData.getdModeLevel()!=8) {
+            switch (mode) {
+                case "Famous People":
+                    gameData.setdModeLevel(Integer.parseInt(gameLevel) + 1);
+                    break;
+                case "Places":
+                    gameData.setbModeLevel(Integer.parseInt(gameLevel) + 1);
+                    break;
+                case "Science":
+                    gameData.setcModeLevel(Integer.parseInt(gameLevel) + 1);
+                    break;
+                case "English Dictionary":
+                    gameData.setaModeLevel(Integer.parseInt(gameLevel) + 1);
+                    break;
+            }
         }
-
         if (workFile == null) {
             Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
             Path targetPath = appDirPath.resolve("saved");
@@ -487,6 +564,11 @@ public class BuzzWordController implements FileManager {
         WGGUI.getPrimaryScene().setOnKeyPressed(null);
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
+        try {
+            savePersonalBest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Game Ended");
     }
 
@@ -578,7 +660,7 @@ public class BuzzWordController implements FileManager {
         removeRightGridIndex();
         recorder.clear();
         record.clear();
-//        visitedArray.clear();
+        visitedArray.clear();
         //Start new
         letters.add(startLetter);
         addLetter(startLetter, 0);
@@ -635,6 +717,14 @@ public class BuzzWordController implements FileManager {
             }
         }
         return false;
+    }
+
+    public static LoginState getLoginState() {
+        return loginState;
+    }
+
+    public static void setLoginState(LoginState loginState) {
+        BuzzWordController.loginState = loginState;
     }
 
     public void initGameState() {

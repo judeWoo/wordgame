@@ -273,7 +273,7 @@ public class WGGUI implements WGStyle {
 
         selectMode = new ComboBox();
         selectMode.getItems().addAll(
-                "English Dictonary",
+                "English Dictionary",
                 "Places",
                 "Science",
                 "Famous People"

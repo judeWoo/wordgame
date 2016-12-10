@@ -15,6 +15,7 @@ public class GameData implements WGData {
 
     private String userID;
     private String passWord;
+    private String userName;
     private int aModeLevel;
     private int bModeLevel;
     private int cModeLevel;
@@ -159,5 +160,13 @@ public class GameData implements WGData {
     }
     public void addDModeLevelandBest(int score){
         dModeLevelandBest.add(score);
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
