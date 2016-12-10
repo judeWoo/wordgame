@@ -616,7 +616,7 @@ public class BuzzWordController implements FileManager {
             if (record.contains(compareElement1) || record.contains(compareElement2) || record.contains(compareElement3)
                     || record.contains(compareElement4) || record.contains(compareElement5) ||
                     record.contains(compareElement6) || record.contains(compareElement7) || record.contains(compareElement8)
-                    ||record.isEmpty()) {
+                    || record.isEmpty()) {
                 return true;
             }
         }
