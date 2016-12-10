@@ -131,6 +131,7 @@ public class Gameplay extends WGGUI {
                         clearHighlight();
                         controller.removeRightGridIndex();
                         if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
+                            controller.saveGameRequest();
                             controller.end(filter);
                         }
                         dragging.set(false);
@@ -199,6 +200,7 @@ public class Gameplay extends WGGUI {
                     clearHighlight();
                     controller.removeRightGridIndex();
                     if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
+                        controller.saveGameRequest();
                         controller.end(filter);
                     }
                     keyInputting.set(false);

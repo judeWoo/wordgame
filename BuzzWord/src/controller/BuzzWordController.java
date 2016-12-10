@@ -92,29 +92,32 @@ public class BuzzWordController implements FileManager {
         }
         switch (mode) {
             case "Famous People":
-                if (changeTotalScore() > gameData.getdModeLevelandBest().get(index)){
+                if (changeTotalScore() > gameData.getdModeLevelandBest().get(index)) {
                     gameData.getdModeLevelandBest().set(index, changeTotalScore());
                     gameDataFile.saveData(gameData, targetPath);
                     return;
                 }
                 return;
             case "Places":
-                if (changeTotalScore() > gameData.getbModeLevelandBest().get(index)){
+                if (changeTotalScore() > gameData.getbModeLevelandBest().get(index)) {
                     gameData.getbModeLevelandBest().set(index, changeTotalScore());
                     gameDataFile.saveData(gameData, targetPath);
                     return;
                 }
                 return;
             case "Science":
-                if (changeTotalScore() > gameData.getcModeLevelandBest().get(index)){
+                if (changeTotalScore() > gameData.getcModeLevelandBest().get(index)) {
                     gameData.getcModeLevelandBest().set(index, changeTotalScore());
                     gameDataFile.saveData(gameData, targetPath);
                     return;
                 }
                 return;
             case "English Dictionary":
-                if (changeTotalScore() > gameData.getaModeLevelandBest().get(index)){
-                    gameData.getaModeLevelandBest().set(index,changeTotalScore());
+                if (changeTotalScore() > gameData.getaModeLevelandBest().get(index)) {
+                    for (Integer integer : gameData.getaModeLevelandBest()){
+                        System.out.println(integer+",Before");
+                    }
+                    gameData.getaModeLevelandBest().set(index, changeTotalScore());
                     gameDataFile.saveData(gameData, targetPath);
                     return;
                 }
@@ -205,19 +208,23 @@ public class BuzzWordController implements FileManager {
     @Override
     public void saveGameRequest() {
         String mode = WGGUI.getSelectMode().getValue().toString();
-        if (gameData.getaModeLevel() <8 && gameData.getbModeLevel() <8 && gameData.getcModeLevel() <8 && gameData.getdModeLevel() <8) {
+        if (gameData.getaModeLevel() < 8 || gameData.getbModeLevel() < 8 || gameData.getcModeLevel() < 8 || gameData.getdModeLevel() < 8) {
             switch (mode) {
                 case "Famous People":
-                    gameData.setdModeLevel(Integer.parseInt(gameLevel) + 1);
+                    if (gameData.getdModeLevel() < 8)
+                        gameData.setdModeLevel(Integer.parseInt(gameLevel) + 1);
                     break;
                 case "Places":
-                    gameData.setbModeLevel(Integer.parseInt(gameLevel) + 1);
+                    if (gameData.getbModeLevel() < 8)
+                        gameData.setbModeLevel(Integer.parseInt(gameLevel) + 1);
                     break;
                 case "Science":
-                    gameData.setcModeLevel(Integer.parseInt(gameLevel) + 1);
+                    if (gameData.getcModeLevel() < 8)
+                        gameData.setcModeLevel(Integer.parseInt(gameLevel) + 1);
                     break;
                 case "English Dictionary":
-                    gameData.setaModeLevel(Integer.parseInt(gameLevel) + 1);
+                    if (gameData.getaModeLevel() <8)
+                        gameData.setaModeLevel(Integer.parseInt(gameLevel) + 1);
                     break;
             }
         }
@@ -545,7 +552,6 @@ public class BuzzWordController implements FileManager {
         WGGUI.getPrimaryScene().setOnKeyPressed(null);
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
-        saveGameRequest();
         try {
             savePersonalBest();
         } catch (IOException e) {

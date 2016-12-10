@@ -65,6 +65,7 @@ public class GameDataFile implements WGFile {
             generator.writeFieldName(A_MODE_LEVEL_SCORE);
             generator.writeStartArray(aModeLevelandBest.size());
             for (Integer best : aModeLevelandBest){
+                System.out.println(best);
                 generator.writeString(best.toString());
             }
             generator.writeEndArray();
@@ -137,22 +138,22 @@ public class GameDataFile implements WGFile {
                     case A_MODE_LEVEL_SCORE:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY)
-                            gamedata.addAModeLevelandBest(Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            gamedata.addAModeLevelandBest(Integer.parseInt(jsonParser.getText()));
                         break;
                     case B_MODE_LEVEL_SCORE:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY)
-                            gamedata.addBModeLevelandBest(Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            gamedata.addBModeLevelandBest(Integer.parseInt(jsonParser.getText()));
                         break;
                     case C_MODE_LEVEL_SCORE:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY)
-                            gamedata.addCModeLevelandBest(Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            gamedata.addCModeLevelandBest(Integer.parseInt(jsonParser.getText()));
                         break;
                     case D_MODE_LEVEL_SCORE:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY)
-                            gamedata.addDModeLevelandBest(Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            gamedata.addDModeLevelandBest(Integer.parseInt(jsonParser.getText()));
                         break;
                     default:
                         throw new JsonParseException(jsonParser, "Unable to load JSON data");
