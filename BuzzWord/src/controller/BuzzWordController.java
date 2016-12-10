@@ -205,7 +205,7 @@ public class BuzzWordController implements FileManager {
     @Override
     public void saveGameRequest() {
         String mode = WGGUI.getSelectMode().getValue().toString();
-        if (gameData.getaModeLevel()!=8 || gameData.getbModeLevel()!=8 || gameData.getcModeLevel()!=8 || gameData.getdModeLevel()!=8) {
+        if (gameData.getaModeLevel() <8 && gameData.getbModeLevel() <8 && gameData.getcModeLevel() <8 && gameData.getdModeLevel() <8) {
             switch (mode) {
                 case "Famous People":
                     gameData.setdModeLevel(Integer.parseInt(gameLevel) + 1);
@@ -219,25 +219,6 @@ public class BuzzWordController implements FileManager {
                 case "English Dictionary":
                     gameData.setaModeLevel(Integer.parseInt(gameLevel) + 1);
                     break;
-            }
-        }
-        if (workFile == null) {
-            Path appDirPath = Paths.get("BuzzWord").toAbsolutePath();
-            Path targetPath = appDirPath.resolve("saved");
-
-            try {
-                if (save(targetPath)) {
-                    return;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                save(workFile);
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -564,6 +545,7 @@ public class BuzzWordController implements FileManager {
         WGGUI.getPrimaryScene().setOnKeyPressed(null);
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
+        saveGameRequest();
         try {
             savePersonalBest();
         } catch (IOException e) {

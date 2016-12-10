@@ -43,8 +43,8 @@ public class GameData implements WGData {
     }
 
     public void init() {
-        this.userID = setUserID();
-        this.passWord = setPassWord();
+        this.userID = CreateProfile.getIdField().getText();
+        this.passWord = CreateProfile.getPwField().getText();
         this.aModeLevel = 1;
         this.bModeLevel = 1;
         this.cModeLevel = 1;
@@ -61,13 +61,6 @@ public class GameData implements WGData {
         }
     }
 
-    private String setPassWord() {
-        return new CreateProfile(GameData.this).getPwField().getText();
-    }
-
-    private String setUserID() {
-        return new CreateProfile(GameData.this).getIdField().getText();
-    }
 
     public GameData setUserID(String string) {
         this.userID = string;

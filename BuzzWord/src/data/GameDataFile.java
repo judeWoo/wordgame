@@ -52,7 +52,12 @@ public class GameDataFile implements WGFile {
             generator.writeStartObject();
 
             generator.writeStringField(USER_ID, userID);
-            generator.writeStringField(PASSWORD, Hash.md5(passWord));
+            if (passWord.length() > 20){
+                generator.writeStringField(PASSWORD, passWord);
+            }
+            else if (passWord.length() <= 20) {
+                generator.writeStringField(PASSWORD, Hash.md5(passWord));
+            }
             generator.writeStringField(A_MODE_MAX, aModeLevel.toString());
             generator.writeStringField(B_MODE_MAX, bModeLevel.toString());
             generator.writeStringField(C_MODE_MAX, cModeLevel.toString());
@@ -90,6 +95,7 @@ public class GameDataFile implements WGFile {
         }
     }
 
+    //Only for logging in
     @Override
     public void loadData(WGData data, Path from) throws IOException {
         GameData gamedata = (GameData) data;
