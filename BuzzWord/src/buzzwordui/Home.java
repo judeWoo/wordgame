@@ -51,6 +51,10 @@ public class Home extends WGGUI{
             selectMode.setValue(new String("Select Mode"));
             start.setVisible(false);
         });
+        helpButton.setOnMouseClicked(event -> {
+            helpButton.setDisable(true);
+            new HelpScreen();
+        });
         login.setOnMouseClicked(event -> {
             login.setDisable(true);
             createProfile.setDisable(true);
