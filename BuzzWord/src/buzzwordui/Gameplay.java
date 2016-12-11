@@ -353,18 +353,20 @@ public class Gameplay extends WGGUI {
             }
         });
         replayLevel.setOnMouseClicked(event -> {
-            if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
-                hideCircles();
-                hideLines();
-                controller.pauseTimer();
-                pauseLabel.setVisible(true);
-                pauseButtonPane.setVisible(false);
-                bottomPlayButton.setVisible(true);
-            }
+            hideCircles();
+            hideLines();
+            controller.pauseTimer();
+            pauseLabel.setVisible(true);
+            pauseButtonPane.setVisible(false);
+            bottomPlayButton.setVisible(true);
             controller.setGameState(BuzzWordController.GameState.INITIALIZED);
             BuzzWordController.initRecorder();
             BuzzWordController.initRecord();
             BuzzWordController.initVisited();
+            BuzzWordController.getStrings().clear();
+            BuzzWordController.initLetters();
+            BuzzWordController.initScore();
+            BuzzWordController.getChecker().clear();
             controller.initBuzzBoard();
             controller.removeRightGridIndex();
             totalScoreLabel.setText("0");
@@ -381,12 +383,12 @@ public class Gameplay extends WGGUI {
             }
             initLetter();
             setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
-            bottomPlayButton.setVisible(true);
+            bottomPane.setVisible(true);
         });
         startNextLevel.setOnMouseClicked(event -> {
             startNextLevel.setVisible(false);
             int currentlevel = Integer.parseInt(BuzzWordController.getGameLevel());
-            int nextLevel = currentlevel+1;
+            int nextLevel = currentlevel + 1;
             String nextLevelString = Integer.toString(nextLevel);
             LevelSelection.setTargetScore(controller.setTargetScore(nextLevelString));
             targetPointsLable.setText(controller.setTargetScore(nextLevelString) + " points");
