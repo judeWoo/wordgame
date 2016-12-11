@@ -40,6 +40,10 @@ public class WGGUI implements WGStyle {
     protected StackPane leftPane;
     protected StackPane createProfilePane;
     protected Pane exitPane;
+    protected StackPane startPane;
+    protected static Button replayLevel;
+    protected static Button helpButton;
+    protected static Button startNextLevel;
     protected static Stage primaryStage;     // the application window
     protected static StackPane bottomPane;
     protected static Label timerLabel;
@@ -260,6 +264,10 @@ public class WGGUI implements WGStyle {
         profileSetting.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         profileSetting.setVisible(false);
 
+        helpButton = new Button("Help");
+        helpButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        helpButton.setVisible(true);
+
         arrowPane = new Pane();
         arrowPane.setMaxSize(Double.MAX_VALUE, 30);
         arrowPane.setVisible(false);
@@ -286,6 +294,14 @@ public class WGGUI implements WGStyle {
         start.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         start.setVisible(false);
 
+        startNextLevel = new Button("Start Next Level");
+        startNextLevel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        startNextLevel.setVisible(false);
+
+        replayLevel = new Button("Replay");
+        replayLevel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        replayLevel.setVisible(false);
+
         home = new Button("Home");
         home.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         home.setVisible(false);
@@ -294,10 +310,14 @@ public class WGGUI implements WGStyle {
         leftPane.setMaxSize(Double.MAX_VALUE, 30);
         leftPane.getChildren().addAll(login, selectMode, home);
 
+        startPane = new StackPane();
+        startPane.setMaxSize(Double.MAX_VALUE, 30);
+        startPane.getChildren().addAll(start, startNextLevel, replayLevel);
+
         Pane emptyPane = new Pane();
         emptyPane.setMinWidth(200);
 
-        leftBox.getChildren().addAll(createProfilePane, leftPane, start, profileSetting, emptyPane);
+        leftBox.getChildren().addAll(createProfilePane, leftPane, startPane, profileSetting, helpButton, emptyPane);
 
         primaryScene = appSpecificWindowWidth < 1 || appSpecificWindowHeight < 1 ? new Scene(basePane)
                 : new Scene(basePane,
