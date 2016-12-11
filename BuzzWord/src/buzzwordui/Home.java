@@ -67,9 +67,11 @@ public class Home extends WGGUI{
             new LoginPage();
         });
         start.setOnMouseClicked(event -> {
+            controller = new BuzzWordController();
             if (selectMode.getValue().toString() != "Select Mode")
             {
                 modeLabel.setText(selectMode.getValue().toString());
+                controller.buildDictionary(selectMode.getValue().toString()); //make Dictionary
                 new LevelSelection();
             }
         });

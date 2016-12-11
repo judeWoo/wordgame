@@ -29,7 +29,7 @@ public class BuzzWordController implements FileManager {
     private Path workFile;
     private GameDataFile gameDataFile;
     private BuzzWordSolverFinal solver = new BuzzWordSolverFinal();
-    private BuzzTrie buzzTrie;
+    private static BuzzTrie buzzTrie;
     private static GameState gamestate;   // the state of the game being shown in the workspace
     private static LoginState loginState;
     private static Timeline timeline;
@@ -259,9 +259,7 @@ public class BuzzWordController implements FileManager {
         return true;
     }
 
-    public void solveBuzzBoard() throws IOException, URISyntaxException {
-        String mode = WGGUI.getSelectMode().getValue().toString();
-        initBuzzBoard();
+    public void buildDictionary(String mode) {
         switch (mode) {
             case "Famous People":
                 BuzzWordSolverFinal.setInputFile("words/Famous People.txt");
@@ -277,6 +275,11 @@ public class BuzzWordController implements FileManager {
                 break;
         }
         buzzTrie = solver.buildTrie();
+    }
+
+    public void solveBuzzBoard() throws IOException, URISyntaxException {
+//        String mode = WGGUI.getSelectMode().getValue().toString();
+        initBuzzBoard();
         solver.start(buzzBoard, buzzTrie);
         if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
             System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
