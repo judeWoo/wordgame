@@ -65,7 +65,6 @@ public class GameDataFile implements WGFile {
             generator.writeFieldName(A_MODE_LEVEL_SCORE);
             generator.writeStartArray(aModeLevelandBest.size());
             for (Integer best : aModeLevelandBest){
-                System.out.println(best);
                 generator.writeString(best.toString());
             }
             generator.writeEndArray();

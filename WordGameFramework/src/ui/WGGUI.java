@@ -256,7 +256,7 @@ public class WGGUI implements WGStyle {
         userButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         userButton.setVisible(false);
 
-        profileSetting = new Button("Profile Setting");
+        profileSetting = new Button("View/Edit Profile");
         profileSetting.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         profileSetting.setVisible(false);
 

@@ -113,11 +113,15 @@ public class LoginPage extends WGGUI {
                         profileSetting.setVisible(true);
                         start.setVisible(true);
                         arrowPane.setVisible(true);
+                        login.setDisable(false);
+                        createProfile.setDisable(false);
                         stage.close();
                     }
                 }
             }
             if (event.getCode().equals(KeyCode.ESCAPE)) {
+                login.setDisable(false);
+                createProfile.setDisable(false);
                 stage.close();
             }
         });
@@ -126,7 +130,6 @@ public class LoginPage extends WGGUI {
         stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
     }

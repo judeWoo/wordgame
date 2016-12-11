@@ -114,9 +114,6 @@ public class BuzzWordController implements FileManager {
                 return;
             case "English Dictionary":
                 if (changeTotalScore() > gameData.getaModeLevelandBest().get(index)) {
-                    for (Integer integer : gameData.getaModeLevelandBest()){
-                        System.out.println(integer+",Before");
-                    }
                     gameData.getaModeLevelandBest().set(index, changeTotalScore());
                     gameDataFile.saveData(gameData, targetPath);
                     return;

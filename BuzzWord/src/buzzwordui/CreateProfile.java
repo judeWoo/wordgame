@@ -95,7 +95,7 @@ public class CreateProfile extends WGGUI {
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                if (idField.getText().matches(".*[a-zA-Z]+.*")) {
+                if (idField.getText().matches(".*[a-zA-Z]+.*") && !pwField.getText().equals("")) {
                     if (controller.newGameProfileRequest()) {
                         userButton.setVisible(true);
                         userButton.setText(idField.getText());
@@ -105,11 +105,15 @@ public class CreateProfile extends WGGUI {
                         profileSetting.setVisible(true);
                         start.setVisible(true);
                         arrowPane.setVisible(true);
+                        createProfile.setDisable(false);
+                        login.setDisable(false);
                         stage.close();
                     }
                 }
             }
             if (event.getCode().equals(KeyCode.ESCAPE)) {
+                createProfile.setDisable(false);
+                login.setDisable(false);
                 stage.close();
             }
         });
@@ -117,7 +121,6 @@ public class CreateProfile extends WGGUI {
         stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
     }
