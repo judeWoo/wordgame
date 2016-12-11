@@ -22,6 +22,8 @@ import ui.WGGUI;
  * Created by Jude Hokyoon Woo on 12/10/2016.
  */
 public class PersonalBest extends WGGUI{
+
+
     StackPane root;
     VBox vBox;
     Label title;
@@ -31,8 +33,8 @@ public class PersonalBest extends WGGUI{
     Label possibleLetters;
     Button closeButton;
     Scene scene;
-    Stage stage;
     ScrollPane scrollPane;
+    static Stage stage;
 
     public PersonalBest() {
         layoutGUI();
@@ -91,9 +93,17 @@ public class PersonalBest extends WGGUI{
         });
 
         scene.getStylesheets().add("css/popup_style.css");
-        stage = new Stage();
+//        stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        PersonalBest.stage = stage;
     }
 }

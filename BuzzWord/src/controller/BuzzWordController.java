@@ -11,6 +11,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import ui.WGGUI;
 
@@ -571,6 +572,7 @@ public class BuzzWordController implements FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        PersonalBest.setStage(new Stage());
         new PersonalBest();
     }
 

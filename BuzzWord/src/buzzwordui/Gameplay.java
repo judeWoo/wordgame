@@ -364,6 +364,8 @@ public class Gameplay extends WGGUI {
                 pauseButtonPane.setVisible(false);
                 bottomPlayButton.setVisible(true);
             }
+            if (!PersonalBest.getStage().equals(null))
+                PersonalBest.getStage().close();
             helpButton.setDisable(true);
             new HelpScreen();
         });
@@ -408,6 +410,8 @@ public class Gameplay extends WGGUI {
     }
 
     public void initializer(){
+        if (!PersonalBest.getStage().equals(null))
+            PersonalBest.getStage().close();
         hideCircles();
         hideLines();
         controller.pauseTimer();
@@ -441,6 +445,8 @@ public class Gameplay extends WGGUI {
     }
 
     public void clearAll(){
+        if (!PersonalBest.getStage().equals(null))
+            PersonalBest.getStage().close();
         hideCircles();
         hideLines();
         controller.pauseTimer();

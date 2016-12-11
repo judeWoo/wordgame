@@ -39,6 +39,22 @@
     -fx-background-color: transparent;
 }
 
+.scroll-pane .scroll-bar:horizontal .increment-arrow {
+    -fx-opacity: 0;
+}
+
+.scroll-pane .scroll-bar:horizontal .decrement-arrow {
+    -fx-opacity: 0;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #FFFFFF;
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
 .button {
     -fx-padding: 8 15 15 15;
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
