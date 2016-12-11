@@ -79,7 +79,7 @@ public class PersonalBest extends WGGUI{
 
         root.getChildren().addAll(region, scrollPane);
 
-        scene = new Scene(root, 210, 400);
+        scene = new Scene(root, 215, 400);
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {

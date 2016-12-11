@@ -288,6 +288,7 @@ public class WGGUI implements WGStyle {
         );
         selectMode.setValue("Select Mode");
         selectMode.setMaxSize(Double.MAX_VALUE, 35);
+        selectMode.setPadding(new Insets(8));
         selectMode.setVisible(false);
 
         start = new Button("Start Playing");
