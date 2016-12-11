@@ -23,7 +23,6 @@ import ui.WGGUI;
  */
 public class PersonalBest extends WGGUI{
 
-
     StackPane root;
     VBox vBox;
     Label title;
@@ -31,10 +30,11 @@ public class PersonalBest extends WGGUI{
     Label levelAndMode;
     Label possibleHighScore;
     Label possibleLetters;
+    Label emptyLabel;
     Button closeButton;
     Scene scene;
     ScrollPane scrollPane;
-    static Stage stage;
+    static Stage stage  = new Stage();
 
     public PersonalBest() {
         layoutGUI();
@@ -43,7 +43,8 @@ public class PersonalBest extends WGGUI{
     public void layoutGUI() {
         BuzzWordController controller = new BuzzWordController();
         title = new Label("Game Just Ended..");
-
+        emptyLabel = new Label();
+        emptyLabel.setPrefSize(210, 10);
         personalBest = new Label("Your Personal Best:");
         levelAndMode = new Label(selectMode.getValue().toString()+" Level "+ BuzzWordController.getGameLevel()+": "
                 + BuzzWordController.getGameData().getaModeLevelandBest().get(Integer.parseInt(BuzzWordController.getGameLevel())-1));
@@ -72,11 +73,13 @@ public class PersonalBest extends WGGUI{
             stage.close();
         });
         vBox.getChildren().add(closeButton);
+        vBox.getChildren().add(emptyLabel);
 
         scrollPane = new ScrollPane();
         scrollPane.setMaxHeight(400);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setVvalue(0.0);
         scrollPane.setContent(vBox);
 
         root.getChildren().addAll(region, scrollPane);

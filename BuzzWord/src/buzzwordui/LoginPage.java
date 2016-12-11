@@ -30,7 +30,7 @@ public class LoginPage extends WGGUI {
     Label pw;
     Label title;
     Scene scene;
-    Stage stage;
+    static Stage stage = new Stage();
     static PasswordField pwField;
     static TextField idField;
 
@@ -127,10 +127,10 @@ public class LoginPage extends WGGUI {
         });
 
         scene.getStylesheets().add("css/popup_style.css");
-        stage = new Stage();
+//        stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.showAndWait();
+        stage.show();
 
     }
 
@@ -142,4 +142,11 @@ public class LoginPage extends WGGUI {
         return pwField;
     }
 
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        LoginPage.stage = stage;
+    }
 }

@@ -34,7 +34,7 @@ public class ProfileSetting extends WGGUI{
     Label title;
     Label instruction;
     Scene scene;
-    static Stage stage;
+    static Stage stage = new Stage();
     static PasswordField pwField;
     static TextField idField;
 
@@ -126,9 +126,17 @@ public class ProfileSetting extends WGGUI{
         });
 
         scene.getStylesheets().add("css/popup_style.css");
-        stage = new Stage();
+//        stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
-        stage.showAndWait();
+        stage.show();
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        ProfileSetting.stage = stage;
     }
 }

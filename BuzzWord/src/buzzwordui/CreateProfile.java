@@ -30,7 +30,7 @@ public class CreateProfile extends WGGUI {
     Label pw;
     Label title;
     Scene scene;
-    Stage stage;
+    static Stage stage = new Stage();
     static TextField idField;
     static PasswordField pwField;
 
@@ -118,10 +118,18 @@ public class CreateProfile extends WGGUI {
             }
         });
         scene.getStylesheets().add("css/popup_style.css");
-        stage = new Stage();
+//        stage = new Stage();
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.showAndWait();
+        stage.show();
 
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        CreateProfile.stage = stage;
     }
 }

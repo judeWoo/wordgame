@@ -23,7 +23,7 @@ public class HelpScreen extends WGGUI{
     Label instruction;
     Scene scene;
     ScrollPane scrollPane;
-    static Stage stage;
+    static Stage stage = new Stage();
 
     public HelpScreen() {
         layoutGUI();
@@ -79,9 +79,17 @@ public class HelpScreen extends WGGUI{
         });
 
         scene.getStylesheets().add("css/popup_style.css");
-        stage = new Stage();
+//        stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        HelpScreen.stage = stage;
     }
 }

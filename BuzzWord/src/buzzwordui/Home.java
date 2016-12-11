@@ -31,12 +31,15 @@ public class Home extends WGGUI{
         home.setVisible(false);
         pauseLabel.setVisible(false);
         profileSetting.setOnMouseClicked(event -> {
-            profileSetting.setDisable(true);
+            if (ProfileSetting.getStage().isShowing())
+                ProfileSetting.getStage().close();
+            ProfileSetting.setStage(new Stage());
             new ProfileSetting();
         });
         createProfile.setOnMouseClicked(event -> {
-            createProfile.setDisable(true);
-            login.setDisable(true);
+            if (CreateProfile.getStage().isShowing())
+                CreateProfile.getStage().close();
+            CreateProfile.setStage(new Stage());
             new CreateProfile();
         });
         arrowPane.setOnMouseClicked(event -> {
@@ -58,12 +61,15 @@ public class Home extends WGGUI{
             }
         });
         helpButton.setOnMouseClicked(event -> {
-            helpButton.setDisable(true);
+            if (HelpScreen.getStage().isShowing())
+                HelpScreen.getStage().close();
+            HelpScreen.setStage(new Stage());
             new HelpScreen();
         });
         login.setOnMouseClicked(event -> {
-            login.setDisable(true);
-            createProfile.setDisable(true);
+            if (LoginPage.getStage().isShowing())
+                LoginPage.getStage().close();
+            LoginPage.setStage(new Stage());
             new LoginPage();
         });
         start.setOnMouseClicked(event -> {
