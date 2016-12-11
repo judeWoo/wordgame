@@ -5,6 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -13,9 +16,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import wgcomponents.WGStyle;
 import wgtemplate.WGTemplate;
 
@@ -87,6 +88,16 @@ public class WGGUI implements WGStyle {
     protected static Label targetPointsLable;
     protected static Line exitLine1;
     protected static Line exitLine2;
+
+    protected final KeyCombination CREATE = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
+    protected final KeyCombination LOGINOUT = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
+    protected final KeyCombination START = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN);
+    protected final KeyCombination QUIT = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
+    protected final KeyCombination HOME = new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN);
+    protected final KeyCombination REPLAY = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
+    protected final KeyCombination NEXTPLAY = new KeyCodeCombination(KeyCode.PERIOD, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
+    protected final KeyCombination SAVE = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+
 
     private int appSpecificWindowWidth;  // optional parameter for window width that can be set by the application
     private int appSpecificWindowHeight; // optional parameter for window height that can be set by the application

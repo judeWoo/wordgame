@@ -19,6 +19,7 @@ public class Home extends WGGUI{
     public Home(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
         layoutGUI();
+        shortCutsSetting();
     }
 
     public Home(BuzzWordController buzzWordController){}
@@ -101,6 +102,7 @@ public class Home extends WGGUI{
             login.setVisible(false);
             selectMode.setVisible(true);
             start.setVisible(true);
+            profileSetting.setVisible(true);
         }
     }
 
@@ -132,6 +134,7 @@ public class Home extends WGGUI{
         hideLines();
         reinitGrid();
         initLetter();
+        shortCutsSetting();
         scoreBarPane.setVisible(false);
         levelLabel.setVisible(false);
         modeLabel.setVisible(false);
@@ -156,5 +159,69 @@ public class Home extends WGGUI{
             HelpScreen.getStage().close();
         if (LoginPage.getStage().isShowing())
             LoginPage.getStage().close();
+    }
+
+    public void shortCutsSetting() {
+        WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
+        primaryScene.setOnKeyPressed(event -> {
+            if (CREATE.match(event) && createProfile.isVisible()){
+                clearPopUps();
+                CreateProfile.setStage(new Stage());
+                new CreateProfile();
+            }
+            if (LOGINOUT.match(event) && arrowPane.isVisible()){
+                clearPopUps();
+                wgDialogSingleton.show("Log Out?", "Press Enter for LOG OUT OR Press ESC for go back.");
+                if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                    controller = new BuzzWordController();
+                    controller.logOutRequest();
+                    initGame();
+                    createProfile.setVisible(true);
+                    arrowPane.setVisible(false);
+                    userButton.setVisible(false);
+                    login.setVisible(true);
+                    selectMode.setVisible(false);
+                    selectMode.setValue(new String("Select Mode"));
+                    start.setVisible(false);
+                }
+                if (WGDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+                    //Do Nothing
+                }
+            }
+            if (LOGINOUT.match(event) && login.isVisible()){
+                clearPopUps();
+                LoginPage.setStage(new Stage());
+                new LoginPage();
+            }
+            if (START.match(event) && start.isVisible()){
+                clearPopUps();
+                controller = new BuzzWordController();
+                if (selectMode.getValue().toString() != "Select Mode")
+                {
+                    modeLabel.setText(selectMode.getValue().toString());
+                    controller.buildDictionary(selectMode.getValue().toString()); //make Dictionary
+                    new LevelSelection();
+                }
+            }
+            if (QUIT.match(event) && (exitLine1.isVisible() || exitLine2.isVisible())){
+                clearPopUps();
+                wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
+                if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
+                { System.exit(0);}
+                if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
+                    //Do Nothing
+                }
+            }
+            if (HOME.match(event) && home.isVisible()){
+                clearPopUps();
+                wgDialogSingleton.show("Back Home?", "Press Enter for Go Home OR Press ESC for cancel.");
+                if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                    new Home();
+                }
+                if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+                    //Do NOTHING
+                }
+            }
+        });
     }
 }

@@ -38,7 +38,7 @@ public class LevelSelection extends WGGUI {
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
         home.setVisible(true);
         pauseLabel.setVisible(false);
-        profileSetting.setVisible(false);
+//        profileSetting.setVisible(false);
         home.setOnMouseClicked(event -> {
             new Home(controller).clearPopUps();
             wgDialogSingleton.show("Back Home?", "Press Enter for Go Home OR Press ESC for cancel.");

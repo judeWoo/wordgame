@@ -326,6 +326,7 @@ public class Gameplay extends WGGUI {
             if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 clearAll();
                 removeAllEvent();
+                profileSetting.setVisible(false);
                 replayLevel.setVisible(false);
                 startNextLevel.setVisible(false);
                 controller.logOutRequest();
