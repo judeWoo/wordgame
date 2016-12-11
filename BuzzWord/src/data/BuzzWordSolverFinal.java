@@ -32,7 +32,7 @@ public class BuzzWordSolverFinal {
             while ((line = in.readLine()) != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
-                    if (word.length() >= 3) {
+                    if (word.length() >= 3 && word.chars().allMatch(Character::isLetter)) {
                         word = word.trim().toLowerCase();
                         trie.addWord(word);
                     }
