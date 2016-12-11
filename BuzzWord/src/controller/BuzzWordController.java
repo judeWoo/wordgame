@@ -690,6 +690,7 @@ public class BuzzWordController implements FileManager {
             for (int j = 0; j < 4; j++) {
                 WGGUI.getGameLettersLabel()[i][j].setOnMouseDragEntered(null);
                 WGGUI.getGameLettersLabel()[i][j].setOnMouseEntered(null);
+                WGGUI.getGameLettersLabel()[i][j].setOnMousePressed(null);
             }
         }
     }

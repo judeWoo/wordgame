@@ -107,6 +107,31 @@ public class Gameplay extends WGGUI {
             for (int j = 0; j < 4; j++) {
                 int finalI = i;
                 int finalJ = j;
+                gameLettersLabel[i][j].setOnMousePressed(event -> {
+                    if (!keyInputting.get()) {
+                        dragging.set(true);
+                        controller.checkRightGrid();
+                        totalScoreLabel.setText(controller.changeTotalScore() + "");
+                        BuzzWordController.initVisited();
+                        clearHighlight();
+                        controller.removeRightGridIndex();
+                        if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
+                            controller.saveGameRequest();
+                            controller.end(filter);
+                            if (!BuzzWordController.getGameLevel().equals("8")) {
+                                startNextLevel.setVisible(true);
+                            }
+                        }
+                        if (controller.checkVisitied(finalI, finalJ)) {
+                            if (controller.checkMouseDrag(finalI, finalJ)) {
+                                controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
+                                gameLetters[finalI][finalJ].setStyle(null);
+                                gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
+                            }
+                        }
+                        dragging.set(false);
+                    }
+                });
                 gameLettersLabel[i][j].setOnMouseEntered(event -> {
                     gameLettersLabel[finalI][finalJ].setCursor(Cursor.HAND);
                 });
@@ -116,6 +141,7 @@ public class Gameplay extends WGGUI {
                         if (controller.checkVisitied(finalI, finalJ)) {
                             if (controller.checkMouseDrag(finalI, finalJ)) {
                                 controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
+                                gameLetters[finalI][finalJ].setStyle(null);
                                 gameLetters[finalI][finalJ].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.8,1,1);");
                             }
                         }
