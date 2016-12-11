@@ -96,11 +96,6 @@ public class Gameplay extends WGGUI {
         }
     }
 
-//    public void setinitHighlight() {
-//        hLettersLines[0][0].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
-//        hLettersLines[0][1].setStyle("-fx-effect: dropshadow(gaussian, rgba(34,252,2,0.75), 20,0.7,1,1);");
-//    }
-
     public void setHightLight(Label[][] gameLettersLabel, Circle[][] gameLetters, Line[][] hLettersLines, Line[][] vLettersLines) {
         //Do not forget to erase primaryscene event!
         primaryScene.addEventFilter(MouseEvent.DRAG_DETECTED, filter);
@@ -274,7 +269,6 @@ public class Gameplay extends WGGUI {
     public void setButtonEvent() {
         getTimerLabel().setText("120");
         controller.initTimer(timerLabel, filter);
-
         bottomPlayButton.setOnMouseClicked(event -> {
             showLines();
             showCircles();
@@ -307,14 +301,10 @@ public class Gameplay extends WGGUI {
             }
             wgDialogSingleton.show("Back Home?", "Press Enter for Go Home OR Press ESC for cancel.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
-                BuzzWordController.initRecorder();
-                BuzzWordController.initRecord();
-                BuzzWordController.initVisited();
-                controller.initBuzzBoard();
-                controller.removeRightGridIndex();
-                totalScoreLabel.setText("0");
-                scoreLeftBox.getChildren().clear();
-                scoreRightBox.getChildren().clear();
+                clearAll();
+                replayLevel.setVisible(false);
+                startNextLevel.setVisible(false);
+                removeAllEvent();
                 new Home();
             }
             if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
@@ -332,15 +322,10 @@ public class Gameplay extends WGGUI {
             }
             wgDialogSingleton.show("Log Out?", "Press Enter for LOG OUT OR Press ESC for go back.");
             if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
-                BuzzWordController.initRecorder();
-                BuzzWordController.initRecord();
-                BuzzWordController.initVisited();
-                controller.initBuzzBoard();
-                controller.removeRightGridIndex();
-                totalScoreLabel.setText("0");
-                scoreLeftBox.getChildren().clear();
-                scoreRightBox.getChildren().clear();
-                controller = new BuzzWordController();
+                clearAll();
+                removeAllEvent();
+                replayLevel.setVisible(false);
+                startNextLevel.setVisible(false);
                 controller.logOutRequest();
                 createProfile.setVisible(true);
                 arrowPane.setVisible(false);
@@ -351,39 +336,13 @@ public class Gameplay extends WGGUI {
                 start.setVisible(false);
                 new Home();
             }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+                //Do NOTHING
+            }
         });
         replayLevel.setOnMouseClicked(event -> {
-            hideCircles();
-            hideLines();
-            controller.pauseTimer();
-            pauseLabel.setVisible(true);
-            pauseButtonPane.setVisible(false);
-            bottomPlayButton.setVisible(true);
-            controller.setGameState(BuzzWordController.GameState.INITIALIZED);
-            BuzzWordController.initRecorder();
-            BuzzWordController.initRecord();
-            BuzzWordController.initVisited();
-            BuzzWordController.getStrings().clear();
-            BuzzWordController.initLetters();
-            BuzzWordController.initScore();
-            BuzzWordController.getChecker().clear();
-            controller.initBuzzBoard();
-            controller.removeRightGridIndex();
-            totalScoreLabel.setText("0");
-            scoreLeftBox.getChildren().clear();
-            scoreRightBox.getChildren().clear();
-            layoutGUI();
-            setButtonEvent();
-            setExitButtonEvent();
-            try {
-                controller.solveBuzzBoard();
-                controller.checkGrid();
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
-            }
-            initLetter();
-            setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
-            bottomPane.setVisible(true);
+            startNextLevel.setVisible(false);
+            initializer();
         });
         startNextLevel.setOnMouseClicked(event -> {
             startNextLevel.setVisible(false);
@@ -393,27 +352,19 @@ public class Gameplay extends WGGUI {
             LevelSelection.setTargetScore(controller.setTargetScore(nextLevelString));
             targetPointsLable.setText(controller.setTargetScore(nextLevelString) + " points");
             levelLabel.setText("Level " + nextLevelString);
-            BuzzWordController.initRecorder();
-            BuzzWordController.initRecord();
-            BuzzWordController.initVisited();
-            controller.initBuzzBoard();
-            controller.removeRightGridIndex();
-            controller.setGameState(BuzzWordController.GameState.INITIALIZED);
-            totalScoreLabel.setText("0");
-            scoreLeftBox.getChildren().clear();
-            scoreRightBox.getChildren().clear();
-            layoutGUI();
-            setButtonEvent();
-            setExitButtonEvent();
-            try {
-                controller.solveBuzzBoard();
-                controller.checkGrid();
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
+            initializer();
+        });
+        helpButton.setOnMouseClicked(event -> {
+            if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
+                hideCircles();
+                hideLines();
+                controller.pauseTimer();
+                pauseLabel.setVisible(true);
+                pauseButtonPane.setVisible(false);
+                bottomPlayButton.setVisible(true);
             }
-            initLetter();
-            setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
-            bottomPlayButton.setVisible(true);
+            helpButton.setDisable(true);
+            new HelpScreen();
         });
     }
 
@@ -450,9 +401,77 @@ public class Gameplay extends WGGUI {
                 System.exit(0);
             }
             if (WGDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
-
+                //DO Nothing
             }
         });
+    }
+
+    public void initializer(){
+        hideCircles();
+        hideLines();
+        controller.pauseTimer();
+        controller.setGameState(BuzzWordController.GameState.INITIALIZED);
+        BuzzWordController.initRecorder();
+        BuzzWordController.initRecord();
+        BuzzWordController.initVisited();
+        BuzzWordController.getStrings().clear();
+        BuzzWordController.initLetters();
+        BuzzWordController.initScore();
+        BuzzWordController.getChecker().clear();
+        clearHighlight();
+        controller.removeRightGridIndex();
+        totalScoreLabel.setText("0");
+        scoreLeftBox.getChildren().clear();
+        scoreRightBox.getChildren().clear();
+        layoutGUI();
+        setButtonEvent();
+        setExitButtonEvent();
+        try {
+            controller.solveBuzzBoard();
+            controller.checkGrid();
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+        initLetter();
+        setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
+        bottomPane.setVisible(true);
+        pauseButtonPane.setVisible(false);
+        bottomPlayButton.setVisible(true);
+    }
+
+    public void clearAll(){
+        hideCircles();
+        hideLines();
+        controller.pauseTimer();
+        controller.setGameState(BuzzWordController.GameState.INITIALIZED);
+        BuzzWordController.initRecorder();
+        BuzzWordController.initRecord();
+        BuzzWordController.initVisited();
+        BuzzWordController.getStrings().clear();
+        BuzzWordController.initLetters();
+        BuzzWordController.initScore();
+        BuzzWordController.getChecker().clear();
+        clearHighlight();
+        controller.removeRightGridIndex();
+        totalScoreLabel.setText("0");
+        scoreLeftBox.getChildren().clear();
+        scoreRightBox.getChildren().clear();
+        layoutGUI();
+        setButtonEvent();
+        setExitButtonEvent();
+        initLetter();
+        setHightLight(gameLettersLabel, gameLetters, vLettersLines, hLettersLines);
+        bottomPane.setVisible(true);
+        pauseButtonPane.setVisible(false);
+        bottomPlayButton.setVisible(true);
+    }
+
+    public void removeAllEvent(){
+        controller.removeEventHandler();
+        WGGUI.getBottomPane().setVisible(false);
+        WGGUI.getPrimaryScene().setOnKeyTyped(null);
+        WGGUI.getPrimaryScene().setOnKeyPressed(null);
+        WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
     }
 
 }

@@ -554,6 +554,7 @@ public class BuzzWordController implements FileManager {
 
     public void end(EventHandler filter) {
         timeline.stop();
+        timeline.getKeyFrames().clear();
         clearHighlight();
         initVisited();
         removeEventHandler();
@@ -653,8 +654,12 @@ public class BuzzWordController implements FileManager {
 
     public void initKeyHighlight() {
         //Clear all
+        char startLetter= 'a'; //initialize
         int size = letters.size();
-        char startLetter = letters.get(size - 1);
+        if (letters.size() <= 0)
+            startLetter = letters.get(0);
+        else if (letters.size() > 0)
+            startLetter = letters.get(size - 1); //get the last character of letters.
         letters.clear();
         removeRightGridIndex();
         recorder.clear();
@@ -677,6 +682,7 @@ public class BuzzWordController implements FileManager {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 WGGUI.getGameLettersLabel()[i][j].setOnMouseDragEntered(null);
+                WGGUI.getGameLettersLabel()[i][j].setOnMouseEntered(null);
             }
         }
     }

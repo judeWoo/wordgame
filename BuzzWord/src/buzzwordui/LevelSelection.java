@@ -26,6 +26,7 @@ public class LevelSelection extends WGGUI {
     public LevelSelection() {
         layoutGUI();
         hideCircles();
+        bottomPane.setVisible(true);
     }
 
     //for controller
