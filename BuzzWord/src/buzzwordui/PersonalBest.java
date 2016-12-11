@@ -94,6 +94,6 @@ public class PersonalBest extends WGGUI{
         stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
-        stage.showAndWait();
+        stage.show();
     }
 }

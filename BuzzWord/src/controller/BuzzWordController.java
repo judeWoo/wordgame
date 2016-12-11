@@ -554,7 +554,6 @@ public class BuzzWordController implements FileManager {
 
     public void end(EventHandler filter) {
         timeline.stop();
-        timeline.getKeyFrames().clear();
         clearHighlight();
         initVisited();
         removeEventHandler();
