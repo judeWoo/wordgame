@@ -78,6 +78,7 @@ public class Home extends WGGUI{
             if (selectMode.getValue().toString() != "Select Mode")
             {
                 modeLabel.setText(selectMode.getValue().toString());
+                System.out.println("Reading Dictionary...");
                 controller.buildDictionary(selectMode.getValue().toString()); //make Dictionary
                 new LevelSelection();
             }

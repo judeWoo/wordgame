@@ -280,13 +280,14 @@ public class BuzzWordController implements FileManager {
 //        String mode = WGGUI.getSelectMode().getValue().toString();
         initBuzzBoard();
         solver.start(buzzBoard, buzzTrie);
-        if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
-            System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
-            for (String str : BuzzWordSolverFinal.getCounter()) {
-                System.out.println(str);
-            }
-            System.out.println("Total Score: " + calTotalScore());
-        }
+        //Active Follow Code to Reaveal Answers
+//        if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
+//            System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
+//            for (String str : BuzzWordSolverFinal.getCounter()) {
+//                System.out.println(str);
+//            }
+//            System.out.println("Total Score: " + calTotalScore());
+//        }
     }
 
     public int calTotalScore() {
@@ -308,17 +309,18 @@ public class BuzzWordController implements FileManager {
 
     public void checkGrid() {
         while (calTotalScore() < new LevelSelection(this).getTargetScore()) {
-            System.out.println(" Rebuilding...");
+            System.out.println(" Rebuilding The Grid...");
             initBuzzBoard();
             solver.start(buzzBoard, buzzTrie);
-            if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
-                System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
-                for (String str : BuzzWordSolverFinal.getCounter()) {
-                    System.out.println(str);
-                }
-                System.out.println("Total Score: " + calTotalScore());
-                break;
-            }
+            //Active follow codes for Answers
+//            if (calTotalScore() >= new LevelSelection(this).getTargetScore()) {
+//                System.out.println(BuzzWordSolverFinal.getCounter().size() + " words are found, they are: ");
+//                for (String str : BuzzWordSolverFinal.getCounter()) {
+//                    System.out.println(str);
+//                }
+//                System.out.println("Total Score: " + calTotalScore());
+//                break;
+//            }
         }
     }
 
