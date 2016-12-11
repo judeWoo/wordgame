@@ -21,6 +21,8 @@ public class Home extends WGGUI{
         layoutGUI();
     }
 
+    public Home(BuzzWordController buzzWordController){}
+
     public Home(){
         initGame();
     }
@@ -31,18 +33,17 @@ public class Home extends WGGUI{
         home.setVisible(false);
         pauseLabel.setVisible(false);
         profileSetting.setOnMouseClicked(event -> {
-            if (ProfileSetting.getStage().isShowing())
-                ProfileSetting.getStage().close();
+            clearPopUps();
             ProfileSetting.setStage(new Stage());
             new ProfileSetting();
         });
         createProfile.setOnMouseClicked(event -> {
-            if (CreateProfile.getStage().isShowing())
-                CreateProfile.getStage().close();
+            clearPopUps();
             CreateProfile.setStage(new Stage());
             new CreateProfile();
         });
         arrowPane.setOnMouseClicked(event -> {
+            clearPopUps();
             wgDialogSingleton.show("Log Out?", "Press Enter for LOG OUT OR Press ESC for go back.");
             if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 controller = new BuzzWordController();
@@ -61,18 +62,17 @@ public class Home extends WGGUI{
             }
         });
         helpButton.setOnMouseClicked(event -> {
-            if (HelpScreen.getStage().isShowing())
-                HelpScreen.getStage().close();
+            clearPopUps();
             HelpScreen.setStage(new Stage());
             new HelpScreen();
         });
         login.setOnMouseClicked(event -> {
-            if (LoginPage.getStage().isShowing())
-                LoginPage.getStage().close();
+            clearPopUps();
             LoginPage.setStage(new Stage());
             new LoginPage();
         });
         start.setOnMouseClicked(event -> {
+            clearPopUps();
             controller = new BuzzWordController();
             if (selectMode.getValue().toString() != "Select Mode")
             {
@@ -82,6 +82,7 @@ public class Home extends WGGUI{
             }
         });
         exitLine1.setOnMouseClicked(event -> {
+            clearPopUps();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
             { System.exit(0);}
@@ -89,6 +90,7 @@ public class Home extends WGGUI{
             }
         });
         exitLine2.setOnMouseClicked(event -> {
+            clearPopUps();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
             { System.exit(0);}
@@ -143,5 +145,16 @@ public class Home extends WGGUI{
         wordBoxPane.setVisible(false);
         targetBoxPane.setVisible(false);
         profileSetting.setVisible(false);
+    }
+
+    public void clearPopUps() {
+        if (ProfileSetting.getStage().isShowing())
+            ProfileSetting.getStage().close();
+        if (CreateProfile.getStage().isShowing())
+            CreateProfile.getStage().close();
+        if (HelpScreen.getStage().isShowing())
+            HelpScreen.getStage().close();
+        if (LoginPage.getStage().isShowing())
+            LoginPage.getStage().close();
     }
 }

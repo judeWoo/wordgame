@@ -40,6 +40,7 @@ public class LevelSelection extends WGGUI {
         pauseLabel.setVisible(false);
         profileSetting.setVisible(false);
         home.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             wgDialogSingleton.show("Back Home?", "Press Enter for Go Home OR Press ESC for cancel.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 new Home();
@@ -80,6 +81,7 @@ public class LevelSelection extends WGGUI {
                 if (k <= l) {
                     gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
                     gameLettersLabel[i][j].setOnMousePressed(event -> {
+                        new Home(controller).clearPopUps();
                         targetScore = controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText());
                         targetPointsLable.setText(controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText()) + " points");
                         levelLabel.setText("Level " + gameLettersLabel[finalI][finalJ].getText());
@@ -91,6 +93,7 @@ public class LevelSelection extends WGGUI {
             }
         }
         exitLine1.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 System.exit(0);
@@ -99,6 +102,7 @@ public class LevelSelection extends WGGUI {
             }
         });
         exitLine2.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
             if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
                 System.exit(0);

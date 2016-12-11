@@ -291,6 +291,7 @@ public class Gameplay extends WGGUI {
     public void setHelpHomeReplayNextEvent() {
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
         home.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
                 hideCircles();
                 hideLines();
@@ -312,6 +313,7 @@ public class Gameplay extends WGGUI {
             }
         });
         arrowPane.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
                 hideCircles();
                 hideLines();
@@ -342,10 +344,12 @@ public class Gameplay extends WGGUI {
             }
         });
         replayLevel.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             startNextLevel.setVisible(false);
             initializer();
         });
         startNextLevel.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             startNextLevel.setVisible(false);
             int currentlevel = Integer.parseInt(BuzzWordController.getGameLevel());
             int nextLevel = currentlevel + 1;
@@ -364,10 +368,9 @@ public class Gameplay extends WGGUI {
                 pauseButtonPane.setVisible(false);
                 bottomPlayButton.setVisible(true);
             }
+            new Home(controller).clearPopUps();
             if (PersonalBest.getStage().isShowing())
                 PersonalBest.getStage().close();
-            if (HelpScreen.getStage().isShowing())
-                HelpScreen.getStage().close();
             HelpScreen.setStage(new Stage());
             new HelpScreen();
         });
@@ -376,6 +379,7 @@ public class Gameplay extends WGGUI {
     public void setExitButtonEvent() {
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
         exitLine1.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
                 hideCircles();
                 hideLines();
@@ -393,6 +397,7 @@ public class Gameplay extends WGGUI {
             }
         });
         exitLine2.setOnMouseClicked(event -> {
+            new Home(controller).clearPopUps();
             if (controller.getGamestate().equals(BuzzWordController.GameState.STARTED)) {
                 hideCircles();
                 hideLines();
