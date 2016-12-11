@@ -48,7 +48,7 @@ public class ProfileSetting extends WGGUI{
         title = new Label("Profile Setting");
 
         instruction = new Label("To change, modify values of ID Field and PW Field and Press Enter.\n"
-                +"To exit, Press ESC.");
+                +"To NOT change, Just leave the values.\n"+"To exit, Press ESC.");
 
         root = new StackPane();
         root.setStyle("-fx-background-color: null;");
