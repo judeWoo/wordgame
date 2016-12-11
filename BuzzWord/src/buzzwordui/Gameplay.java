@@ -68,6 +68,7 @@ public class Gameplay extends WGGUI {
         timeBoxPane.setVisible(true);
         wordBoxPane.setVisible(true);
         targetBoxPane.setVisible(true);
+        replayLevel.setVisible(true);
     }
 
     public void showLines() {
@@ -133,6 +134,8 @@ public class Gameplay extends WGGUI {
                         if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
                             controller.saveGameRequest();
                             controller.end(filter);
+                            replayLevel.setVisible(false);
+                            startNextLevel.setVisible(true);
                         }
                         dragging.set(false);
                     }
@@ -201,6 +204,8 @@ public class Gameplay extends WGGUI {
                     controller.removeRightGridIndex();
                     if (controller.changeTotalScore() >= controller.setTargetScore(BuzzWordController.getGameLevel())) {
                         controller.saveGameRequest();
+                        startNextLevel.setVisible(true);
+                        replayLevel.setVisible(false);
                         controller.end(filter);
                     }
                     keyInputting.set(false);
