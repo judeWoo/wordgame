@@ -1,15 +1,13 @@
 package controller;
 
-import buzzwordui.CreateProfile;
-import buzzwordui.LevelSelection;
-import buzzwordui.LoginPage;
-import buzzwordui.PersonalBest;
+import buzzwordui.*;
 import data.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -56,7 +54,7 @@ public class BuzzWordController implements FileManager {
         LOGGED,
         CREATED
     }
-
+    //empty for uses
     public BuzzWordController() {
     }
 
@@ -565,6 +563,9 @@ public class BuzzWordController implements FileManager {
         WGGUI.getBottomPane().setVisible(false);
         WGGUI.getPrimaryScene().setOnKeyTyped(null);
         WGGUI.getPrimaryScene().setOnKeyPressed(null);
+        WGGUI.getPrimaryScene().setOnKeyPressed(event -> {
+                    new Gameplay(this).setKeyShortCuts(event);
+            });
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
         try {
