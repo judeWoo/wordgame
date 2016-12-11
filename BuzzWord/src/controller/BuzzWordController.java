@@ -3,6 +3,7 @@ package controller;
 import buzzwordui.CreateProfile;
 import buzzwordui.LevelSelection;
 import buzzwordui.LoginPage;
+import buzzwordui.PersonalBest;
 import data.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -287,7 +288,20 @@ public class BuzzWordController implements FileManager {
     }
 
     public int calTotalScore() {
-        return BuzzWordSolverFinal.getCounter().size() * 10;
+        int total = 0;
+        for (String str : BuzzWordSolverFinal.getCounter()) {
+            if (str.length() == 3)
+                total = total+10;
+            if (str.length() == 4)
+                total = total+20;
+            if (str.length() == 5)
+                total = total+25;
+            if (str.length() == 6)
+                total = total+30;
+            if (str.length() >= 7)
+                total = total+35;
+        }
+        return total;
     }
 
     public void checkGrid() {
@@ -554,7 +568,7 @@ public class BuzzWordController implements FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Game Ended");
+        PersonalBest personalBest = new PersonalBest();
     }
 
     public void startTimer() {
