@@ -334,6 +334,7 @@ public class Gameplay extends WGGUI {
                 selectMode.setVisible(false);
                 selectMode.setValue(new String("Select Mode"));
                 start.setVisible(false);
+                userButton.setText("");
                 new Home();
             }
             if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
