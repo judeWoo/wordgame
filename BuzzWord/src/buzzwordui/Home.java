@@ -163,13 +163,15 @@ public class Home extends WGGUI{
 
     public void shortCutsSetting() {
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
+        final int[] counter = {0};
         primaryScene.setOnKeyPressed(event -> {
             if (CREATE.match(event) && createProfile.isVisible()){
                 clearPopUps();
                 CreateProfile.setStage(new Stage());
                 new CreateProfile();
             }
-            if (LOGINOUT.match(event) && arrowPane.isVisible()){
+            if (LOGINOUT.match(event) && arrowPane.isVisible() && counter[0] == 0){
+                counter[0]++;
                 clearPopUps();
                 wgDialogSingleton.show("Log Out?", "Press Enter for LOG OUT OR Press ESC for go back.");
                 if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
@@ -188,7 +190,8 @@ public class Home extends WGGUI{
                     //Do Nothing
                 }
             }
-            if (LOGINOUT.match(event) && login.isVisible()){
+            if (LOGINOUT.match(event) && login.isVisible() && counter[0] == 0){
+                counter[0]++;
                 clearPopUps();
                 LoginPage.setStage(new Stage());
                 new LoginPage();
@@ -222,6 +225,7 @@ public class Home extends WGGUI{
                     //Do NOTHING
                 }
             }
+            counter[0] = 0; //initialize
         });
     }
 }
