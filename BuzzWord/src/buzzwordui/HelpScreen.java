@@ -1,5 +1,6 @@
 package buzzwordui;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -30,12 +31,18 @@ public class HelpScreen extends WGGUI{
 
     public void layoutGUI() {
 
-        title = new Label("Profile Setting");
+        title = new Label("Play Guide");
 
-        instruction = new Label("player can press the left-button of the mouse on a node in" +
-                "the letter grid, and\n drag it over other nodes one by one, thus forming a path in the grid.\n The path" +
-                "– nodes as well as edges – should be highlighted during dragging.\n Any path that does not form a" +
-                "cycle should be considered valid for this case,\n even if it does not form a valid word.\n");
+        instruction = new Label("Press the left-button of the mouse on a node in the letter grid.");
+        Label guide1 = new Label("Drag it over other nodes one by one, thus forming a path in the grid.");
+        Label guide2 = new Label("The path-nodes as well as edges–will be highlighted during dragging.");
+        Label guide3 = new Label("Any path that does not form a"+" cycle is not considered as valid.");
+        Label guide4 = new Label("By Mouse:");
+        Label guide5 = new Label("By Keyboard:");
+        Label guide6 = new Label("Simply type a sequence of letters instead of using " +"the mouse.");
+        Label guide7 = new Label("This game is created by Jude Hokyoon Woo. December 10, 2016.");
+        Label guide8 = new Label("With regard to CSE 219.");
+        Label guide9 = new Label("Enjoy the Game.");
 
         root = new StackPane();
         root.setStyle("-fx-background-color: null;");
@@ -46,8 +53,9 @@ public class HelpScreen extends WGGUI{
 
         vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
-        vBox.getChildren().addAll(title, instruction);
+        vBox.setSpacing(15);
+        vBox.setPadding(new Insets(8));
+        vBox.getChildren().addAll(title, guide4, instruction, guide1, guide2, guide3, guide5, guide6, guide7, guide8, guide9);
 
         scrollPane = new ScrollPane();
         scrollPane.setMaxHeight(250);
@@ -57,7 +65,7 @@ public class HelpScreen extends WGGUI{
 
         root.getChildren().addAll(region, scrollPane);
 
-        scene = new Scene(root, 500, 250);
+        scene = new Scene(root, 450, 250);
         scene.setFill(Color.TRANSPARENT);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {

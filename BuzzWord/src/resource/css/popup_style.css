@@ -24,13 +24,11 @@
 }
 
 .scroll-pane .scroll-bar:vertical .increment-arrow {
-    -fx-background-color: transparent;
+    -fx-opacity: 0;
 }
 
-
-
 .scroll-pane .scroll-bar:vertical .decrement-arrow {
-    -fx-background-color: transparent;
+    -fx-opacity: 0;
 }
 
 .scroll-pane .scroll-bar:vertical .thumb {
