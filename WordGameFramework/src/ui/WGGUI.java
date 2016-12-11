@@ -313,12 +313,12 @@ public class WGGUI implements WGStyle {
 
         startPane = new StackPane();
         startPane.setMaxSize(Double.MAX_VALUE, 30);
-        startPane.getChildren().addAll(start, startNextLevel, replayLevel);
+        startPane.getChildren().addAll(start, startNextLevel);
 
         Pane emptyPane = new Pane();
         emptyPane.setMinWidth(200);
 
-        leftBox.getChildren().addAll(createProfilePane, leftPane, startPane, profileSetting, helpButton, emptyPane);
+        leftBox.getChildren().addAll(createProfilePane, leftPane, startPane, profileSetting, replayLevel, helpButton, emptyPane);
 
         primaryScene = appSpecificWindowWidth < 1 || appSpecificWindowHeight < 1 ? new Scene(basePane)
                 : new Scene(basePane,

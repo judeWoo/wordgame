@@ -40,16 +40,22 @@ public class Home extends WGGUI{
             new CreateProfile();
         });
         arrowPane.setOnMouseClicked(event -> {
-            controller = new BuzzWordController();
-            controller.logOutRequest();
-            initGame();
-            createProfile.setVisible(true);
-            arrowPane.setVisible(false);
-            userButton.setVisible(false);
-            login.setVisible(true);
-            selectMode.setVisible(false);
-            selectMode.setValue(new String("Select Mode"));
-            start.setVisible(false);
+            wgDialogSingleton.show("Log Out?", "Press Enter for LOG OUT OR Press ESC for go back.");
+            if (WGDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                controller = new BuzzWordController();
+                controller.logOutRequest();
+                initGame();
+                createProfile.setVisible(true);
+                arrowPane.setVisible(false);
+                userButton.setVisible(false);
+                login.setVisible(true);
+                selectMode.setVisible(false);
+                selectMode.setValue(new String("Select Mode"));
+                start.setVisible(false);
+            }
+            if (WGDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+                //Do Nothing
+            }
         });
         helpButton.setOnMouseClicked(event -> {
             helpButton.setDisable(true);

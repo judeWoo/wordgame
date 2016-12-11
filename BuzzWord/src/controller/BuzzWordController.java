@@ -568,7 +568,7 @@ public class BuzzWordController implements FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PersonalBest personalBest = new PersonalBest();
+        new PersonalBest();
     }
 
     public void startTimer() {

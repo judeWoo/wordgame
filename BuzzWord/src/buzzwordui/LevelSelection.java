@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Jude Hokyoon Woo on 11/9/2016.
  */
-public class LevelSelection extends WGGUI{
+public class LevelSelection extends WGGUI {
 
     BuzzWordController controller = new BuzzWordController();
     public static int targetScore;
@@ -22,29 +22,36 @@ public class LevelSelection extends WGGUI{
     public LevelSelection(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
     }
-    public LevelSelection(){
+
+    public LevelSelection() {
         layoutGUI();
         hideCircles();
     }
 
     //for controller
-    public LevelSelection(BuzzWordController controller){
+    public LevelSelection(BuzzWordController controller) {
 
     }
 
-    public  void  layoutGUI(){
+    public void layoutGUI() {
         WGDialogSingleton wgDialogSingleton = WGDialogSingleton.getSingleton();
         home.setVisible(true);
         pauseLabel.setVisible(false);
         profileSetting.setVisible(false);
         home.setOnMouseClicked(event -> {
-            new Home();
+            wgDialogSingleton.show("Back Home?", "Press Enter for Go Home OR Press ESC for cancel.");
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                new Home();
+            }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
+                //Do NOTHING
+            }
         });
         int k = 1;
         int l = 0;
-        for (int i = 0; i<selectMode.getItems().size(); i++){
+        for (int i = 0; i < selectMode.getItems().size(); i++) {
             if (selectMode.getItems().get(i) == selectMode.getValue()) {
-                switch (i){
+                switch (i) {
                     case 0:
                         l = controller.getGameData().getaModeLevel();
                         i = selectMode.getItems().size();
@@ -65,35 +72,37 @@ public class LevelSelection extends WGGUI{
 
             }
         }
-        for (int i=0; i<2; i++){
-            for (int j=0; j<4; j++){
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 4; j++) {
                 int finalJ = j;
                 int finalI = i;
-                if (k <= l){
+                if (k <= l) {
                     gameLetters[i][j].setFill(Paint.valueOf("#FFFFFF"));
                     gameLettersLabel[i][j].setOnMousePressed(event -> {
                         targetScore = controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText());
-                        targetPointsLable.setText(controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText())+" points");
-                        levelLabel.setText("Level "+gameLettersLabel[finalI][finalJ].getText());
+                        targetPointsLable.setText(controller.setTargetScore(gameLettersLabel[finalI][finalJ].getText()) + " points");
+                        levelLabel.setText("Level " + gameLettersLabel[finalI][finalJ].getText());
                         new Gameplay();
                     });
                 }
-                gameLettersLabel[i][j].setText(""+k);
+                gameLettersLabel[i][j].setText("" + k);
                 k++;
             }
         }
         exitLine1.setOnMouseClicked(event -> {
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
-            { System.exit(0);}
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                System.exit(0);
+            }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
             }
         });
         exitLine2.setOnMouseClicked(event -> {
             wgDialogSingleton.show("Exit?", "Press Enter for exit OR Press ESC for go back.");
-            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection()))
-            { System.exit(0);}
-            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())){
+            if (wgDialogSingleton.YES.equals(wgDialogSingleton.getSelection())) {
+                System.exit(0);
+            }
+            if (wgDialogSingleton.NO.equals(wgDialogSingleton.getSelection())) {
             }
         });
 
@@ -103,9 +112,9 @@ public class LevelSelection extends WGGUI{
     }
 
     @Override
-    public void hideCircles(){
-        for (int i=2; i<4; i++){
-            for (int j=0; j<4; j++){
+    public void hideCircles() {
+        for (int i = 2; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 gameLetters[i][j].setVisible(false);
                 gameLettersLabel[i][j].setVisible(false);
             }
@@ -114,5 +123,9 @@ public class LevelSelection extends WGGUI{
 
     public static int getTargetScore() {
         return targetScore;
+    }
+
+    public static void setTargetScore(int targetScore) {
+        LevelSelection.targetScore = targetScore;
     }
 }
