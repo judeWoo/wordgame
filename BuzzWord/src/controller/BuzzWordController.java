@@ -570,6 +570,9 @@ public class BuzzWordController implements FileManager {
             });
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
         setGameState(GameState.ENDED);
+        new Gameplay(this).setDragging(false);
+        new Gameplay(this).setKeyInputting(false);
+        new Gameplay(this).setBlocker(0);
         try {
             savePersonalBest();
         } catch (IOException e) {

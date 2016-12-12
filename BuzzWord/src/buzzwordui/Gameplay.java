@@ -33,8 +33,9 @@ public class Gameplay extends WGGUI {
             primaryScene.startFullDrag();
         }
     };
-    private BooleanProperty dragging = new ReadOnlyBooleanWrapper(false);
-    private BooleanProperty keyInputting = new ReadOnlyBooleanWrapper(false);
+    private static BooleanProperty dragging = new ReadOnlyBooleanWrapper(false);
+    private static BooleanProperty keyInputting = new ReadOnlyBooleanWrapper(false);
+    private static int blocker = 0;
 
     public Gameplay(Stage primaryStage, String applicationTitle, WGTemplate appTemplate, int appSpecificWindowWidth, int appSpecificWindowHeight) throws IOException, InstantiationException {
         super(primaryStage, applicationTitle, appTemplate, appSpecificWindowWidth, appSpecificWindowHeight);
@@ -138,6 +139,7 @@ public class Gameplay extends WGGUI {
                 gameLettersLabel[i][j].setOnMouseDragEntered(event -> {
                     if (!keyInputting.get()) {
                         dragging.set(true);
+                        blocker = 0;
                         if (controller.checkVisitied(finalI, finalJ)) {
                             if (controller.checkMouseDrag(finalI, finalJ)) {
                                 controller.makeRightGridIndex(BuzzWordController.getBuzzBoard().getLetter(finalI, finalJ));
@@ -148,7 +150,7 @@ public class Gameplay extends WGGUI {
                     }
                 });
                 primaryScene.setOnMouseDragReleased(event -> {
-                    if (!keyInputting.get()) {
+                    if (!keyInputting.get() && blocker == 0) {
                         controller.checkRightGrid();
                         totalScoreLabel.setText(controller.changeTotalScore() + "");
                         BuzzWordController.initVisited();
@@ -167,6 +169,7 @@ public class Gameplay extends WGGUI {
             }
         }
         primaryScene.setOnKeyTyped(event -> {
+            blocker++;
             if (!dragging.get()) {
                 if (event.getCharacter().matches("[a-zA-z]")) {
                     keyInputting.set(true);
@@ -624,4 +627,35 @@ public class Gameplay extends WGGUI {
         WGGUI.getPrimaryScene().removeEventFilter(MouseEvent.DRAG_DETECTED, filter);
     }
 
+    public boolean isDragging() {
+        return dragging.get();
+    }
+
+    public BooleanProperty draggingProperty() {
+        return dragging;
+    }
+
+    public void setDragging(boolean dragging) {
+        this.dragging.set(dragging);
+    }
+
+    public boolean isKeyInputting() {
+        return keyInputting.get();
+    }
+
+    public BooleanProperty keyInputtingProperty() {
+        return keyInputting;
+    }
+
+    public void setKeyInputting(boolean keyInputting) {
+        this.keyInputting.set(keyInputting);
+    }
+
+    public int getBlocker() {
+        return blocker;
+    }
+
+    public void setBlocker(int blocker) {
+        this.blocker = blocker;
+    }
 }
