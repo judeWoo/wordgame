@@ -209,7 +209,8 @@ public class Gameplay extends WGGUI {
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
                             if (controller.nearByChecker(i, j)) {
-                                controller.initKeyHighlight();
+                                if (guess.equals(Character.toString(BuzzWordController.getBuzzBoard().getLetter(i, j)).toLowerCase()))
+                                    controller.initKeyHighlight();
                             }
                         }
                     }

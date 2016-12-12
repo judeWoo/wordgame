@@ -661,12 +661,8 @@ public class BuzzWordController implements FileManager {
 
     public void initKeyHighlight() {
         //Clear all
-        char startLetter= 'a'; //initialize
         int size = letters.size();
-        if (letters.size() <= 0)
-            startLetter = letters.get(0);
-        else if (letters.size() > 0)
-            startLetter = letters.get(size - 1); //get the last character of letters.
+        char startLetter = letters.get(size - 1); //get the last character of letters.
         letters.clear();
         removeRightGridIndex();
         recorder.clear();
