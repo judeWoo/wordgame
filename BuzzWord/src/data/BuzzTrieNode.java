@@ -3,6 +3,7 @@ package data;
 /**
  * Created by Jude Hokyoon Woo on 11/28/2016.
  */
+//Based on http://www.shuati123.com/blog/2014/08/29/Boggle-solver/
 public class BuzzTrieNode {
         private BuzzTrieNode[] children;
         private boolean isWord = false;
